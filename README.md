@@ -4,6 +4,10 @@ currently only supporting Windows clients.
 
 Work in Progress...
 
+```
+go get -u github.com/lu4p/ToRat
+```
+This will output a few error messages nothing to worry about.
 ## Features
 - ToRAT communicates over reverse tcp with tls over tor with the server
 - Nice Server Shell
