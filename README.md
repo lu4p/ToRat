@@ -1,4 +1,4 @@
-# ToRAT
+# ToRat
 A Remote Administation tool written in Go using Tor as its transport mechanism
 currently only supporting Windows clients.
 
