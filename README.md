@@ -4,10 +4,9 @@ currently only supporting Windows clients.
 
 Work in Progress...
 
-```
-go get -u github.com/lu4p/ToRat
-```
-This will output a few error messages nothing to worry about.
+## Setup
+[How to setup](https://github.com/lu4p/ToRAT/wiki/Setup)
+
 ## Features
 - ToRAT communicates over reverse tcp with tls over tor with the server
 - Nice Server Shell
@@ -31,9 +30,6 @@ This will output a few error messages nothing to worry about.
 - embedded Tor https://godoc.org/github.com/cretz/bine/process/embedded
 - Cat with support for .docx .pptx .od* .pdf 
 - Fileless Persistence https://github.com/ewhitehats/InvisiblePersistence
-
-## Setup
-[How to setup](https://github.com/lu4p/ToRAT/wiki/Setup)
 
 ## Screenshots
 [Screenshot wiki]()
