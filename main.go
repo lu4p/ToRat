@@ -4,3 +4,6 @@ import(
   "github.com/lu4p/ToRat_server"
   "github.com/lu4p/genCert"
 )
+
+func ToRat(){
+}
