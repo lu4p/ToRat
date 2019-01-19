@@ -5,5 +5,5 @@ import(
   "github.com/lu4p/genCert"
 )
 
-func ToRat(){
+func main(){
 }
