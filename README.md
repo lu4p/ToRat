@@ -7,6 +7,15 @@ Work in Progress...
 ## Setup
 [How to setup](https://github.com/lu4p/ToRAT/wiki/Setup)
 
+## Repository
+The important parts live in
+
+Client https://github.com/lu4p/ToRat_client
+
+Server https://github.com/lu4p/ToRat_server
+
+TLS certificate generator https://github.com/lu4p/genCert
+
 ## Features
 - ToRAT communicates over reverse tcp with tls over tor with the server
 - Nice Server Shell
