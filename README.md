@@ -26,22 +26,18 @@ TLS certificate generator https://github.com/lu4p/genCert
 - Multiple Persistence methods (User, Admin)
 - reverse shell
 - Screenshot
-- Keylogger
 - Unique Hostname for every client
-- give clients a custom persitent Name
-- Cat to view texfiles from client
+- give clients a custom alias
+- Cat to view textfiles from client
 - shred for destroying files
 
 ## Upcoming Features
 - Cross Platform Client (Android, MacOs, Windows, Linux)
-- Sync of logs
 - Transport without Tor
 - embedded Tor https://godoc.org/github.com/cretz/bine/process/embedded
 - Cat with support for .docx .pptx .od* .pdf 
 - Fileless Persistence https://github.com/ewhitehats/InvisiblePersistence
 
-## Screenshots
-[Screenshot wiki]()
 ## DISCLAIMER
 USE FOR EDUCATIONAL PURPOSES ONLY
 
