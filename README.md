@@ -37,6 +37,7 @@ TLS certificate generator https://github.com/lu4p/genCert
 - embedded Tor https://godoc.org/github.com/cretz/bine/process/embedded
 - Cat with support for .docx .pptx .od* .pdf 
 - Fileless Persistence https://github.com/ewhitehats/InvisiblePersistence
+- + TODO TAGS
 
 ## DISCLAIMER
 USE FOR EDUCATIONAL PURPOSES ONLY
