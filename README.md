@@ -48,4 +48,3 @@ USE FOR EDUCATIONAL PURPOSES ONLY
 - Modern Cli https://github.com/abiosoft/ishell 
 - Colored Prints https://github.com/fatih/color 
 - Screenshot libary https://github.com/vova616/screenshot
-- Keylogger for Windows https://github.com/kindlyfire/go-keylogger
