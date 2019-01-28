@@ -16,7 +16,7 @@ Server https://github.com/lu4p/ToRat_server
 
 TLS certificate generator https://github.com/lu4p/genCert
 
-## Features
+## Current Features
 - ToRAT communicates over reverse tcp with tls over tor with the server
 - Nice Server Shell
   - Tabcomplete for commands, filenames, directories
