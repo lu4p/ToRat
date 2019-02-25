@@ -1,6 +1,6 @@
 # ToRat
-A Remote Administration tool written in Go using Tor as its transport mechanism
-currently only supporting Windows clients.
+A Cross Platform Remote Administration tool written in Go using Tor as its transport mechanism
+currently supporting Windows, Linux, MacOS clients.
 
 Work in Progress...
 
