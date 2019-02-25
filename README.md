@@ -17,6 +17,7 @@ Server https://github.com/lu4p/ToRat_server
 TLS certificate generator https://github.com/lu4p/genCert
 
 ## Current Features
+<<<<<<< HEAD
 - the ToRAT_client communicates over TCP(with TLS) proxied through Tor with the ToRat_server (hidden service)
 	- [x] anonymity of client and server
 	- [x] end-to-end encryption
@@ -73,6 +74,28 @@ else  | the command will be executed in a native shell on the client
 - [ ] Cat with support for .docx .pptx .od* .pdf files
 - [ ] File-less Persistence on Windows https://github.com/ewhitehats/InvisiblePersistence
 - [ ] ASCII-Art Welcome Message in server shell
+=======
+- ToRAT communicates over reverse tcp with tls over tor with the server
+- Nice Server Shell
+  - Tabcomplete for commands, filenames, directories
+  - Arrow Key selection of clients
+  - colored
+- Multiple User Account Control Bypasses (Privilege escalation)
+- Multiple Persistence methods (User, Admin)
+- reverse shell
+- Screenshot
+- Unique Hostname for every client
+- give clients a custom alias
+- Cat to view textfiles from client
+- shred for destroying files
+
+## Upcoming Features
+- Cross Platform Client (Android, MacOs, Windows, Linux)
+- Transport without Tor
+- embedded Tor https://godoc.org/github.com/cretz/bine/process/embedded
+- Cat with support for .docx .pptx .od* .pdf 
+- Fileless Persistence https://github.com/ewhitehats/InvisiblePersistence
+>>>>>>> 17b801d7c4fc5a49531b727bf60bc788064289b3
 
 ## DISCLAIMER
 USE FOR EDUCATIONAL PURPOSES ONLY
