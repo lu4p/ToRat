@@ -58,7 +58,7 @@ Command | Info
 **ls** | list the content of the working directory of the client
 **shred** | delete files/ directories unrecoverable
 **screen** | take a Screenshot of the client
-**cat** | view Textfiles from the client
+**cat** | view Textfiles from the client including .docx, .rtf, .odt
 **alias** | give the client a custom alias
 **down** | download a file from the client
 **up** | upload a file to the client
@@ -70,7 +70,7 @@ else  | the command will be executed in a native shell on the client
 ## Upcoming Features
 - [ ] Persistence and privilege escalation for Linux and Mac OS
 - [ ] Support for Android and iOS
-- [ ] Cat with support for .docx .pptx .od* .pdf files
+- [ ] Cat with support for .pdf files
 - [ ] File-less Persistence on Windows https://github.com/ewhitehats/InvisiblePersistence
 - [ ] ASCII-Art Welcome Message in server shell
 
