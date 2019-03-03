@@ -1,5 +1,5 @@
 # ToRat
-![License](https://img.shields.io/github/license/lu4p/ToRat.svg)
+<a href="https://unlicense.org/">![License](https://img.shields.io/github/license/lu4p/ToRat.svg)</a>
 
 A Cross Platform Remote Administration tool written in Go using Tor as its transport mechanism
 currently supporting Windows, Linux, MacOS clients.
