@@ -71,7 +71,7 @@ else  | the command will be executed in a native shell on the client
 - [ ] Persistence and privilege escalation for Linux and Mac OS
 - [ ] Support for Android and iOS
 - [ ] Cat with support for .pdf files
-- [ ] [File-less Persistence on Windows]https://github.com/ewhitehats/InvisiblePersistence)
+- [ ] [File-less Persistence on Windows](https://github.com/ewhitehats/InvisiblePersistence)
 - [ ] ASCII-Art Welcome Message in server shell
 
 
