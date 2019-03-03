@@ -79,9 +79,9 @@ else  | the command will be executed in a native shell on the client
 USE FOR EDUCATIONAL PURPOSES ONLY
 
 ## Credits
-- Tor https://www.torproject.org/
-- Tor controller libary https://github.com/cretz/bine
-- Python Uacbypass and Persistence Techniques https://github.com/rootm0s/WinPwnage
-- Modern Cli https://github.com/abiosoft/ishell
-- Colored Prints https://github.com/fatih/color
-- Screenshot libary https://github.com/vova616/screenshot
+- [Tor](https://www.torproject.org/)
+- [Tor controller libary](https://github.com/cretz/bine)
+- [Python Uacbypass and Persistence Techniques](https://github.com/rootm0s/WinPwnage)
+- [Modern Cli](https://github.com/abiosoft/ishell)
+- [Colored Prints](https://github.com/fatih/color)
+- [Screenshot libary](https://github.com/vova616/screenshot)
