@@ -10,11 +10,11 @@ Work in Progress...
 ## Repository
 The important parts live in
 
-Client https://github.com/lu4p/ToRat_client
+[Client](https://github.com/lu4p/ToRat_client)
 
-Server https://github.com/lu4p/ToRat_server
+[Server](https://github.com/lu4p/ToRat_server)
 
-TLS certificate generator https://github.com/lu4p/genCert
+[TLS certificate generator](https://github.com/lu4p/genCert)
 
 ## Current Features
 - the ToRAT_client communicates over TCP(with TLS) proxied through Tor with the ToRat_server (hidden service)
@@ -71,7 +71,7 @@ else  | the command will be executed in a native shell on the client
 - [ ] Persistence and privilege escalation for Linux and Mac OS
 - [ ] Support for Android and iOS
 - [ ] Cat with support for .pdf files
-- [ ] File-less Persistence on Windows https://github.com/ewhitehats/InvisiblePersistence
+- [ ] [File-less Persistence on Windows]https://github.com/ewhitehats/InvisiblePersistence)
 - [ ] ASCII-Art Welcome Message in server shell
 
 
