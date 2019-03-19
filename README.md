@@ -59,6 +59,7 @@ Command | Info
 **cd** | change the working directory of the client
 **ls** | list the content of the working directory of the client
 **shred** | delete files/ directories unrecoverable
+**shredremove** | same as shred + removes the shredded files
 **screen** | take a Screenshot of the client
 **cat** | view Textfiles from the client including .docx, .rtf, .odt
 **alias** | give the client a custom alias
