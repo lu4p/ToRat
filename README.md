@@ -82,7 +82,7 @@ else  | the command will be executed in a native shell on the client
 USE FOR EDUCATIONAL PURPOSES ONLY
 
 ## Contribution
-All Contributions are welcome you don't need to be an expert at Go to contribute.
+All contributions are welcome you don't need to be an expert at Go to contribute.
 
 ## Credits
 - [Tor](https://www.torproject.org/)
