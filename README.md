@@ -26,6 +26,8 @@ The important parts live in
 - Windows:
 	- Multiple User Account Control Bypasses (Privilege escalation)
 	- Multiple Persistence methods (User, Admin)
+- Linux:
+	- Multiple Persistence methods (User, Admin)
 - optional transport without Tor
 	- [x] smaller binary
 	- [ ] anonymity of client and server
@@ -71,7 +73,8 @@ Command | Info
 else  | the command will be executed in a native shell on the client
 
 ## Upcoming Features
-- [ ] Persistence and privilege escalation for Linux and Mac OS
+- [ ] Privilege escalation for Linux
+- [ ] Persistence and privilege escalation for Mac OS
 - [ ] Support for Android and iOS
 - [ ] Cat with support for .pdf files
 - [ ] [File-less Persistence on Windows](https://github.com/ewhitehats/InvisiblePersistence)
