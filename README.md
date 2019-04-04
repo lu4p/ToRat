@@ -26,7 +26,7 @@ The important parts live in
 	- Multiple Persistence methods (User, Admin)
 - Linux:
 	- Multiple Persistence methods (User, Admin)
-- optional transport without Tor
+- optional transport without Tor e.g. Use Tor2Web, a DNS Hostname or public/ local IP
 	- [x] smaller binary
 	- [ ] anonymity of client and server
 - embedded Tor
