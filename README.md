@@ -36,6 +36,7 @@ The important parts live in
 
 ### Server Shell
 - Supports multiple connections
+- Welcome Banner
 - Colored Output
 - Tab-Completion of:
   - Commands
@@ -76,7 +77,6 @@ else  | the command will be executed in a native shell on the client
 - [ ] Support for Android and iOS
 - [ ] Cat with support for .pdf files
 - [ ] [File-less Persistence on Windows](https://github.com/ewhitehats/InvisiblePersistence)
-- [ ] ASCII-Art Welcome Message in server shell
 
 
 ## DISCLAIMER
