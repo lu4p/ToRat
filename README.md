@@ -4,8 +4,6 @@
 A Cross Platform Remote Administration tool written in Go using Tor as its transport mechanism
 currently supporting Windows, Linux, MacOS clients.
 
-Work in Progress...
-
 ## Setup
 [How to setup](https://github.com/lu4p/ToRAT/wiki/Setup)
 
