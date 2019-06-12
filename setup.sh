@@ -1,8 +1,8 @@
 sudo apt install golang-go tor -y
 
-go get -u github.com/lu4p/ToRat_client
-go get -u github.com/lu4p/ToRat_server
-go get -u github.com/lu4p/genCert
+go get -u -v github.com/lu4p/ToRat_client
+go get -u -v github.com/lu4p/ToRat_server
+go get -u -v github.com/lu4p/genCert
 
 sudo tee -a /etc/tor/torrc <<EOF
 HiddenServiceDir /var/lib/tor/torat/
