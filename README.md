@@ -33,6 +33,7 @@ The important parts live in
 - Unique persistent ID for every client
 	- give a client an Alias
 	- all Downloads from client get saved to ./$ID/$filename
+- sqlite for storing information about the connected clients
 
 ### Server Shell
 - Supports multiple connections
@@ -75,7 +76,6 @@ else  | the command will be executed in a native shell on the client
 - [ ] Privilege escalation for Linux
 - [ ] Persistence and privilege escalation for Mac OS
 - [ ] Support for Android and iOS
-- [ ] Cat with support for .pdf files
 - [ ] [File-less Persistence on Windows](https://github.com/ewhitehats/InvisiblePersistence)
 
 
