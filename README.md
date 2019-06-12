@@ -33,7 +33,7 @@ The important parts live in
 - Unique persistent ID for every client
 	- give a client an Alias
 	- all Downloads from client get saved to ./$ID/$filename
-- sqlite for storing information about the connected clients
+- sqlite via gorm for storing information about the clients
 
 ### Server Shell
 - Supports multiple connections
