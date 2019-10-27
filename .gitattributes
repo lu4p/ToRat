@@ -1,2 +1,2 @@
-*.sh linguist-detectable=false
+setup.sh linguist-detectable=false
 test/* linguist-vendored
