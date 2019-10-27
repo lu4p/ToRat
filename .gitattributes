@@ -1,0 +1,2 @@
+*.sh linguist-detectable=false
+test/* linguist-vendored
