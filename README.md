@@ -20,6 +20,8 @@ The important parts live in
 
 [TLS certificate generator](https://github.com/lu4p/genCert)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/genCert)](https://goreportcard.com/report/github.com/lu4p/genCert)
+[![CircleCI](https://circleci.com/gh/lu4p/genCert.svg?style=svg)](https://circleci.com/gh/lu4p/genCert)
+
 
 ## Current Features
 - the ToRAT_client communicates over TCP(with TLS) proxied through Tor with the ToRat_server (hidden service)
