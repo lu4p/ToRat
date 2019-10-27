@@ -16,6 +16,8 @@ The important parts live in
 
 [Server](https://github.com/lu4p/ToRat_server)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/ToRat_server)](https://goreportcard.com/report/github.com/lu4p/ToRat_server)
+[![CircleCI](https://circleci.com/gh/lu4p/ToRat_server.svg?style=svg)](https://circleci.com/gh/lu4p/ToRat_server)
+
 
 [TLS certificate generator](https://github.com/lu4p/genCert)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/genCert)](https://goreportcard.com/report/github.com/lu4p/genCert)
