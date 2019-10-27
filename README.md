@@ -11,7 +11,8 @@ currently supporting Windows, Linux, MacOS clients.
 The important parts live in
 
 [Client](https://github.com/lu4p/ToRat_client)
-[![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/ToRat_client)](https://goreportcard.com/report/github.com/lu4p/ToRat_client)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/ToRat_client)](https://goreportcard.com/report/github.com/lu4p/ToRat_client
+[![CircleCI](https://circleci.com/gh/lu4p/ToRat_client.svg?style=svg)](https://circleci.com/gh/lu4p/ToRat_client)
 
 [Server](https://github.com/lu4p/ToRat_server)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/ToRat_server)](https://goreportcard.com/report/github.com/lu4p/ToRat_server)
