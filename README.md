@@ -64,7 +64,7 @@ Command | Info
 **shred** | delete files/ directories unrecoverable
 **shredremove** | same as shred + removes the shredded files
 **screen** | take a Screenshot of the client
-**cat** | view Textfiles from the client including .docx, .rtf, .odt
+**cat** | view Textfiles from the client including .docx, .rtf, .pdf, .odt
 **alias** | give the client a custom alias
 **down** | download a file from the client
 **up** | upload a file to the client
