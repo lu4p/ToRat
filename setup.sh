@@ -1,8 +1,8 @@
 sudo apt install golang-go tor -y
 
-go get -u -v github.com/lu4p/ToRat_client
-go get -u -v github.com/lu4p/ToRat_server
-go get -u -v github.com/lu4p/genCert
+git clone https://github.com/lu4p/ToRat_client.git
+git clone https://github.com/lu4p/ToRat_server.git
+git clone https://github.com/lu4p/genCert.git
 
 sudo tee -a /etc/tor/torrc <<EOF
 HiddenServiceDir /var/lib/tor/torat/
@@ -14,10 +14,11 @@ sudo systemctl restart tor
 
 hostname=$(sudo cat /var/lib/tor/torat/hostname)
 
-cd ~/go/src/github.com/lu4p/genCert/
+cd ./genCert
 go run genCert.go --ca --host $hostname
-cp *.pem ~/go/src/github.com/lu4p/ToRat_server
-cert=$(cat ~/go/src/github.com/lu4p/ToRat_server/cert.pem)
+cp *.pem ../ToRat_server
+cd ..
+cert=$(cat ./ToRat_server/cert.pem)
 
 conf=$(cat << EOF
 package client
@@ -41,8 +42,8 @@ var (
 EOF
 )
 
-rm ~/go/src/github.com/lu4p/ToRat_client/client/conf.go -f
-tee -a ~/go/src/github.com/lu4p/ToRat_client/client/conf.go<<EOF
+rm ./ToRat_client/client/conf.go -f
+tee -a ./ToRat_client/client/conf.go<<EOF
 ${conf}
 
 EOF
