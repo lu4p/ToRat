@@ -83,7 +83,7 @@ else  | the command will be executed in a native shell on the client
 ## Upcoming Features
 - [ ] Privilege escalation for Linux
 - [ ] Persistence and privilege escalation for Mac OS
-- [ ] Support for Android and iOS
+- [ ] Support for Android and iOS needs fix of https://github.com/ipsn/go-libtor/issues/12
 - [ ] [File-less Persistence on Windows](https://github.com/ewhitehats/InvisiblePersistence)
 
 
