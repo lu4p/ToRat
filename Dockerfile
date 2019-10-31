@@ -16,5 +16,6 @@ RUN cd /go/src/github.com/cretz/tor-static && unzip -o tor-static-windows-amd64.
 RUN /go/bin/xgo --targets=windows/amd64 --ldflags '-s -w -H windowsgui' github.com/lu4p/ToRat_client
 
 RUN mv /build/ToRat_client-windows-4.0-amd64.exe /dist/client
+RUN mkdir /dist_ext
 
-CMD (tor -f /torrc&) && cd /dist/server/ && ./ToRat_server
+CMD (tor -f /torrc&) && cp /dist /dist_ext -rf && cd /dist/server/ && ./ToRat_server
