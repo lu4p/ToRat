@@ -1,6 +1,6 @@
 FROM lu4p/torat-pre
 
-COPY setup_docker.sh /ToRat
+COPY setup_docker.sh /
 RUN ./setup_docker.sh && rm ./setup_docker.sh
 RUN mkdir -p /dist/server && mkdir -p /dist/client
 
