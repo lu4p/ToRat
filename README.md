@@ -1,10 +1,10 @@
 # <img src="./ToRat_Logo.png" width="180px"> 
 <a href="https://unlicense.org/">![License](https://img.shields.io/github/license/lu4p/ToRat.svg)</a>
 
-Name | Status
---- | ---
-torat-pre | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat-pre)
-torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat)
+Name | Status | Pulls
+--- | --- | ---
+torat-pre | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat-pre) | ![Docker Pulls](https://img.shields.io/docker/pulls/lu4p/torat-pre)
+torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat) | -
 
 A Cross Platform Remote Administration tool written in Go using Tor as its transport mechanism
 currently supporting Windows, Linux, MacOS clients.
