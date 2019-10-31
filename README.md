@@ -11,7 +11,7 @@ Name | Status | Pulls
 torat-pre | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat-pre) | ![Docker Pulls](https://img.shields.io/docker/pulls/lu4p/torat-pre)
 torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat) | This image should not be pulled!
 
-## How to use ToRat
+## How to
 [How to use Docker Image](https://github.com/lu4p/ToRat/wiki/Use-Docker-Image)
 
 ## Repository
