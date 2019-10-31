@@ -12,7 +12,7 @@ torat-pre | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/bui
 torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat) | This image should not be pulled!
 
 ## How to
-[How to use Docker Image](https://github.com/lu4p/ToRat/wiki/Use-Docker-Image)
+[How to use Docker Image](https://github.com/lu4p/ToRat/wiki/How-to-use-Docker-Image)
 
 ## Repository
 The important parts live in
