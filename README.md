@@ -1,13 +1,15 @@
 # <img src="./ToRat_Logo.png" width="180px"> 
 <a href="https://unlicense.org/">![License](https://img.shields.io/github/license/lu4p/ToRat.svg)</a>
 
+A Cross Platform Remote Administration tool written in Go using Tor as its transport mechanism
+currently supporting Windows, Linux, MacOS clients.
+
+## Docker Images Build Status
+
 Name | Status | Pulls
 --- | --- | ---
 torat-pre | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat-pre) | ![Docker Pulls](https://img.shields.io/docker/pulls/lu4p/torat-pre)
 torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat) | This image should not be pulled!
-
-A Cross Platform Remote Administration tool written in Go using Tor as its transport mechanism
-currently supporting Windows, Linux, MacOS clients.
 
 ## Setup
 [How to setup](https://github.com/lu4p/ToRAT/wiki/Setup)
@@ -81,7 +83,7 @@ else  | the command will be executed in a native shell on the client
 ## Upcoming Features
 - [ ] Privilege escalation for Linux
 - [ ] Persistence and privilege escalation for Mac OS
-- [ ] Support for Android and iOS
+- [ ] Support for Android and iOS needs fix of https://github.com/ipsn/go-libtor/issues/12
 - [ ] [File-less Persistence on Windows](https://github.com/ewhitehats/InvisiblePersistence)
 
 
