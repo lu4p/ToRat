@@ -4,7 +4,7 @@
 Name | Status | Pulls
 --- | --- | ---
 torat-pre | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat-pre) | ![Docker Pulls](https://img.shields.io/docker/pulls/lu4p/torat-pre)
-torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat) | -
+torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat) | This image should not be pulled!
 
 A Cross Platform Remote Administration tool written in Go using Tor as its transport mechanism
 currently supporting Windows, Linux, MacOS clients.
