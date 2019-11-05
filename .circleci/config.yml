@@ -9,6 +9,6 @@ jobs:
       - image: circleci/golang:1.13
 
     steps:
-      - run: git clone github.com/lu4p/ToRat .
+      - run: git clone https://github.com/lu4p/ToRat.git .
       - run: go build github.com/lu4p/ToRat/cmd/server
       - run: go build -tags notor github.com/lu4p/ToRat/cmd/client
