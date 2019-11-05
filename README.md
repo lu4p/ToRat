@@ -1,5 +1,7 @@
 # <img src="./ToRat_Logo.png" width="180px"> 
-<a href="https://unlicense.org/">![License](https://img.shields.io/github/license/lu4p/ToRat.svg)</a>
+[![License](https://img.shields.io/github/license/lu4p/ToRat.svg)](https://unlicense.org/)
+[![CircleCI](https://circleci.com/gh/lu4p/ToRat.svg?style=svg)](https://circleci.com/gh/lu4p/ToRat)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/ToRat)](https://goreportcard.com/report/github.com/lu4p/ToRat)
 
 A Cross Platform Remote Administration tool written in Go using Tor as its transport mechanism
 currently supporting Windows, Linux, MacOS clients.
@@ -13,16 +15,6 @@ torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/l
 
 ## How to
 [How to use Docker Image](https://github.com/lu4p/ToRat/wiki/How-to-use-Docker-Image)
-
-## Repository
-The important parts live in
-
-Repo | Go Report | Build status
---- | --- | ---
-[Client](https://github.com/lu4p/ToRat_client) | [![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/ToRat_client)](https://goreportcard.com/report/github.com/lu4p/ToRat_client) | [![CircleCI](https://circleci.com/gh/lu4p/ToRat_client.svg?style=svg)](https://circleci.com/gh/lu4p/ToRat_client)
-[Server](https://github.com/lu4p/ToRat_server) | [![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/ToRat_server)](https://goreportcard.com/report/github.com/lu4p/ToRat_server) | [![CircleCI](https://circleci.com/gh/lu4p/ToRat_server.svg?style=svg)](https://circleci.com/gh/lu4p/ToRat_server)
-[TLS certificate generator](https://github.com/lu4p/genCert) | [![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/genCert)](https://goreportcard.com/report/github.com/lu4p/genCert) | [![CircleCI](https://circleci.com/gh/lu4p/genCert.svg?style=svg)](https://circleci.com/gh/lu4p/genCert)
-
 
 ## Current Features
 - the ToRAT_client communicates over TCP(with TLS) proxied through Tor with the ToRat_server (hidden service)
