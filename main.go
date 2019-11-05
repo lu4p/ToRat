@@ -1,7 +1,5 @@
 package main
 
-// This file is soley for making this a go project cloneable via go get
-
 func main() {
 	println("Please read the documentation you should not run this.")
 	println()

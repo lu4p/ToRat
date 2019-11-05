@@ -1,0 +1,14 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version
+      - image: circleci/golang:1.13
+
+    steps:
+      - run: git clone github.com/lu4p/ToRat .
+      - run: go build github.com/lu4p/ToRat/cmd/server
+      - run: go build -tags notor github.com/lu4p/ToRat/cmd/client

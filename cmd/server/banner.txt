@@ -1,0 +1,22 @@
+{{.AnsiColor.BrightBlue}}
+Welcome to
+{{.AnsiColor.BrightRed}}
+
+TTTTTTTTTTTTTTTTTTTTTTT              RRRRRRRRRRRRRRRRR                             tttt
+T:::::::::::::::::::::T              R::::::::::::::::R                         ttt:::t
+T:::::::::::::::::::::T              R::::::RRRRRR:::::R                        t:::::t
+T:::::TT:::::::TT:::::T              RR:::::R     R:::::R                       t:::::t
+TTTTTT  T:::::T  TTTTTTooooooooooo     R::::R     R:::::R  aaaaaaaaaaaaa  ttttttt:::::ttttttt
+        T:::::T      oo:::::::::::oo   R::::R     R:::::R  a::::::::::::a t:::::::::::::::::t
+        T:::::T     o:::::::::::::::o  R::::RRRRRR:::::R   aaaaaaaaa:::::at:::::::::::::::::t
+        T:::::T     o:::::ooooo:::::o  R:::::::::::::RR             a::::atttttt:::::::tttttt
+        T:::::T     o::::o     o::::o  R::::RRRRRR:::::R     aaaaaaa:::::a      t:::::t
+        T:::::T     o::::o     o::::o  R::::R     R:::::R  aa::::::::::::a      t:::::t
+        T:::::T     o::::o     o::::o  R::::R     R:::::R a::::aaaa::::::a      t:::::t
+        T:::::T     o::::o     o::::o  R::::R     R:::::Ra::::a    a:::::a      t:::::t    tttttt
+      TT:::::::TT   o:::::ooooo:::::oRR:::::R     R:::::Ra::::a    a:::::a      t::::::tttt:::::t
+      T:::::::::T   o:::::::::::::::oR::::::R     R:::::Ra:::::aaaa::::::a      tt::::::::::::::t
+      T:::::::::T    oo:::::::::::oo R::::::R     R:::::R a::::::::::aa:::a       tt:::::::::::tt
+      TTTTTTTTTTT      ooooooooooo   RRRRRRRR     RRRRRRR  aaaaaaaaaa  aaaa         ttttttttttt
+
+{{ .AnsiColor.Default }}

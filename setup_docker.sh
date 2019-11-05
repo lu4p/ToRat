@@ -16,13 +16,13 @@ hostname=$(cat /torat_hs/hostname) || die "Could not read Hostname from /var/lib
 
 cd /go/src/github.com/lu4p/genCert || die "Could not cd ./genCert"
 go run genCert.go --ca --host $hostname || die "Could not generate tls certificate"
-mv *.pem /dist/server || die "Could not copy *.pem to /go/src/github.com/lu4p/ToRat_server"
-cert=$(cat /go/src/github.com/lu4p/ToRat_server/cert.pem) || die "Could not read /go/src/github.com/lu4p/ToRat_server/cert.pem"
+mv *.pem /dist/server || die "Could not copy *.pem to /dist/server/cert.pem"
+cert=$(cat /dist/server/cert.pem) || die "Could not read /dist/server/cert.pem"
 
 conf=$(cat << EOF
 package client
 
-import "github.com/lu4p/ToRat_client/crypto"
+import "github.com/lu4p/ToRat/torat_client/crypto"
 
 const (
 	// serverDomain needs to be changed to your address
@@ -41,8 +41,8 @@ var (
 EOF
 )
 
-rm /go/src/github.com/lu4p/ToRat_client/client/conf.go -f || die "Could not remove /go/src/github.com/lu4p/ToRat_client/client/conf.go"
-tee -a /go/src/github.com/lu4p/ToRat_client/client/conf.go<<EOF
+rm /go/src/github.com/lu4p/ToRat/torat_client/conf.go -f || die "Could not remove /go/src/github.com/lu4p/ToRat/torat_client/conf.go"
+tee -a /go/src/github.com/lu4p/ToRat/torat_client/conf.go<<EOF
 ${conf}
 
 EOF
