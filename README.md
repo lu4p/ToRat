@@ -51,6 +51,7 @@ Command | Info
 **list** |  list all connected clients
 **alias** |  Select client to give an alias
 **cd** |  change the working directory of the server
+**help** |  lists possible commands with usage info
 **exit** | exit the server
 
 #### Shell after selection of a client
@@ -71,6 +72,7 @@ Command | Info
 **up** | upload a file to the client
 **escape** | escape a command and run it in a native shell on the client
 **reconnect** | tell the client to reconnect
+**help** |  lists possible commands with usage info
 **exit** | background current session an return to main shell
 else  | the command will be executed in a native shell on the client
 
