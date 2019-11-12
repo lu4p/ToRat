@@ -17,4 +17,4 @@ RUN go get -v github.com/BurntSushi/xgb && \
     go get -v golang.org/x/net/proxy
 RUN go get -v github.com/lu4p/genCert
 RUN go get github.com/karalabe/xgo
-
+RUN apt-get install -y upx 
