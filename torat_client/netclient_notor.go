@@ -1,4 +1,4 @@
-// +build notor
+// +build !tor
 
 package client
 
@@ -36,8 +36,7 @@ func NetClient() {
 			time.Sleep(10 * time.Second)
 			continue
 		}
-		c := new(connection)
-		c.Conn = conn
-		c.shell()
+
+		RPC(conn)
 	}
 }

