@@ -17,7 +17,9 @@ torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/l
 [How to use Docker Image](https://github.com/lu4p/ToRat/wiki/How-to-use-Docker-Image)
 
 ## Current Features
-- the ToRAT_client communicates over TCP(with TLS) proxied through Tor with the ToRat_server (hidden service)
+- RPC (Remote procedure Call) based communication for easy addition of new functionallity
+- Automatic upx leads to client binaries of ~7MB with embedded Tor
+- the ToRAT_client communicates over TLS encrypted RPC proxied through Tor with the ToRat_server (hidden service)
 	- [x] anonymity of client and server
 	- [x] end-to-end encryption
 - Cross Platform reverse shell (Windows, Linux, Mac OS)
@@ -27,7 +29,7 @@ torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/l
 - Linux:
 	- Multiple Persistence methods (User, Admin)
 - optional transport without Tor e.g. Use Tor2Web, a DNS Hostname or public/ local IP
-	- [x] smaller binary
+	- [x] smaller binary ~4MB upx'ed
 	- [ ] anonymity of client and server
 - embedded Tor
 - Unique persistent ID for every client
@@ -49,6 +51,7 @@ Command | Info
 **list** |  list all connected clients
 **alias** |  Select client to give an alias
 **cd** |  change the working directory of the server
+**help** |  lists possible commands with usage info
 **exit** | exit the server
 
 #### Shell after selection of a client
@@ -69,6 +72,7 @@ Command | Info
 **up** | upload a file to the client
 **escape** | escape a command and run it in a native shell on the client
 **reconnect** | tell the client to reconnect
+**help** |  lists possible commands with usage info
 **exit** | background current session an return to main shell
 else  | the command will be executed in a native shell on the client
 
@@ -92,3 +96,8 @@ All contributions are welcome you don't need to be an expert in Go to contribute
 - [Modern Cli](https://github.com/abiosoft/ishell)
 - [Colored Prints](https://github.com/fatih/color)
 - [Screenshot libary](https://github.com/vova616/screenshot)
+- [TLS Certificate generator](https://github.com/lu4p/genCert)
+- [Shred library](https://github.com/lu4p/genCert)
+- [Extract Text from Documents](https://github.com/lu4p/cat)
+- [RPC](https://golang.org/pkg/net/rpc/)
+- [UPX](https://upx.github.io/)
