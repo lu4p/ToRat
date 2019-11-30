@@ -72,11 +72,11 @@ func Shell() {
 	shell.AddCmd(&ishell.Cmd{
 		Name: "cd",
 		Func: func(c *ishell.Context) {
-			os.Chdir(strings.Join(c.Args, " "))
-			cwd, err := os.Getwd()
+			err := os.Chdir(strings.Join(c.Args, " "))
 			if err != nil {
 				log.Fatalln("Could not change directory:", err)
 			}
+			cwd, _ := os.Getwd()
 
 			shell.SetPrompt(blue(cwd) + "$ ")
 
@@ -256,9 +256,8 @@ func (client *activeClient) Upload(c *ishell.Context) {
 		Perm:    info.Mode(),
 	}
 
-	var r error
-	client.RPC.Call("API.RecvFile", f, &r)
-	if r != nil {
+	err = client.RPC.Call("API.RecvFile", f, &void)
+	if err != nil {
 		c.ProgressBar().Final(red("[!] Upload failed"))
 		c.ProgressBar().Stop()
 	}
@@ -267,10 +266,8 @@ func (client *activeClient) Upload(c *ishell.Context) {
 
 }
 
-func (client *activeClient) Ping(c *ishell.Context) {
-	var r string
-
-	client.RPC.Call("API.Ping", void, &r)
+func (client *activeClient) Ping(c *ishell.Context) error {
+	return client.RPC.Call("API.Ping", void, &void)
 }
 
 func (client *activeClient) Screen(c *ishell.Context) {
@@ -307,8 +304,11 @@ func (client *activeClient) Reconnect(c *ishell.Context) {
 func (client *activeClient) Cat(c *ishell.Context) {
 	path := strings.Join(c.Args, " ")
 	var r string
-	client.RPC.Call("API.Cat", path, &r)
-	println(r)
+	err := client.RPC.Call("API.Cat", path, &r)
+	if err != nil {
+		c.Println(err)
+	}
+	c.Println(r)
 }
 
 func (client *activeClient) Cd(c *ishell.Context) {

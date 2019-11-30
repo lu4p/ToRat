@@ -34,6 +34,7 @@ func PersistAdmin(path string) {
 func PersistUser(path string) {
 	xdg(path, false)
 	crontab(path)
+	kdePlasma(path)
 }
 
 func crontab(path string) {
