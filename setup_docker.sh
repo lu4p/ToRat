@@ -41,8 +41,8 @@ var (
 EOF
 )
 
-rm /go/src/github.com/lu4p/ToRat/torat_client/conf.go -f || die "Could not remove /go/src/github.com/lu4p/ToRat/torat_client/conf.go"
-tee -a /go/src/github.com/lu4p/ToRat/torat_client/conf.go<<EOF
+rm /ToRat/torat_client/conf.go -f || die "Could not remove /ToRat/torat_client/conf.go"
+tee -a /ToRat/torat_client/conf.go<<EOF
 ${conf}
 
 EOF
