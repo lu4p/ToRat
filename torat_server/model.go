@@ -3,12 +3,10 @@ package server
 import (
 	"net/rpc"
 
-	"github.com/jinzhu/gorm"
 	"github.com/lu4p/ToRat/models"
 )
 
 type Client struct {
-	gorm.Model
 	Hostname string
 	Name     string
 	Path     string
