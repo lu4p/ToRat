@@ -12,7 +12,7 @@ currently supporting Windows, Linux, MacOS clients.
 
 ## Current Features
 - RPC (Remote procedure Call) based communication for easy addition of new functionallity
-- Automatic upx leads to client binaries of ~7MB with embedded Tor
+- Automatic upx leads to client binaries of ~10MB with embedded Tor
 - the ToRAT_client communicates over TLS encrypted RPC proxied through Tor with the ToRat_server (hidden service)
 	- [x] anonymity of client and server
 	- [x] end-to-end encryption
@@ -23,7 +23,7 @@ currently supporting Windows, Linux, MacOS clients.
 - Linux:
 	- Multiple Persistence methods (User, Admin)
 - optional transport without Tor e.g. Use Tor2Web, a DNS Hostname or public/ local IP
-	- [x] smaller binary ~4MB upx'ed
+	- [x] smaller binary ~7MB upx'ed
 	- [ ] anonymity of client and server
 - embedded Tor
 - Unique persistent ID for every client
