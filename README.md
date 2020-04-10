@@ -10,6 +10,8 @@ currently supporting Windows, Linux, MacOS clients.
 ## How to
 [How to use ToRat](https://github.com/lu4p/ToRat/wiki/How-to-use-the-ToRat-Docker-Image)
 
+[![asciicast](https://asciinema.org/a/318533.svg)](https://asciinema.org/a/318533)
+
 ## Current Features
 - RPC (Remote procedure Call) based communication for easy addition of new functionallity
 - Automatic upx leads to client binaries of ~10MB with embedded Tor
