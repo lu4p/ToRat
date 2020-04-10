@@ -70,7 +70,7 @@ Command | Info
 **escape** | escape a command and run it in a native shell on the client
 **reconnect** | tell the client to reconnect
 **help** |  lists possible commands with usage info
-**exit** | background current session an return to main shell
+**exit** | background current session and return to main shell
 else  | the command will be executed in a native shell on the client
 
 ## Upcoming Features
