@@ -8,7 +8,7 @@ A Cross Platform Remote Administration tool written in Go using Tor as its trans
 currently supporting Windows, Linux, MacOS clients.
 
 ## How to
-[How to use Docker Image](https://github.com/lu4p/ToRat/wiki/How-to-use-Docker-Image)
+[How to use the Docker Image](https://github.com/lu4p/ToRat/wiki/How-to-use-Docker-Image)
 
 ## Current Features
 - RPC (Remote procedure Call) based communication for easy addition of new functionallity
