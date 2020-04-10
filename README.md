@@ -10,8 +10,6 @@ currently supporting Windows, Linux, MacOS clients.
 ## How to
 [How to use ToRat](https://github.com/lu4p/ToRat/wiki/How-to-use-the-ToRat-Docker-Image)
 
-<script id="asciicast-318533" src="https://asciinema.org/a/318533.js" async></script>
-
 [![asciicast](https://asciinema.org/a/318533.svg)](https://asciinema.org/a/318533)
 
 ## Current Features
