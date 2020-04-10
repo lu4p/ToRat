@@ -2,16 +2,10 @@
 [![License](https://img.shields.io/github/license/lu4p/ToRat.svg)](https://unlicense.org/)
 [![CircleCI](https://circleci.com/gh/lu4p/ToRat.svg?style=svg)](https://circleci.com/gh/lu4p/ToRat)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/ToRat)](https://goreportcard.com/report/github.com/lu4p/ToRat)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat)
 
 A Cross Platform Remote Administration tool written in Go using Tor as its transport mechanism
 currently supporting Windows, Linux, MacOS clients.
-
-## Docker Images Build Status
-
-Name | Status | Pulls
---- | --- | ---
-torat-pre | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat-pre) | ![Docker Pulls](https://img.shields.io/docker/pulls/lu4p/torat-pre)
-torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat) | This image should not be pulled!
 
 ## How to
 [How to use Docker Image](https://github.com/lu4p/ToRat/wiki/How-to-use-Docker-Image)
