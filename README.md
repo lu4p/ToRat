@@ -11,7 +11,7 @@ currently supporting Windows, Linux, MacOS clients.
 [How to use ToRat](https://github.com/lu4p/ToRat/wiki/How-to-use-the-ToRat-Docker-Image)
 
 ## Preview
-[![asciicast](https://asciinema.org/a/318534.svg)](https://asciinema.org/a/318534)
+<a href="https://asciinema.org/a/318534" target="_blank"><img src="https://asciinema.org/a/318534.svg" /></a>
 
 ## Current Features
 - RPC (Remote procedure Call) based communication for easy addition of new functionallity
