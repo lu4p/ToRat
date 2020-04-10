@@ -1,4 +1,4 @@
-# <img src="./ToRat_Logo.png" width="180px"> 
+# <a href="https://github.com/lu4p/ToRat" target="_blank"> <img src="./ToRat_Logo.png" width="180px"></a>
 [![License](https://img.shields.io/github/license/lu4p/ToRat.svg)](https://unlicense.org/)
 [![CircleCI](https://circleci.com/gh/lu4p/ToRat.svg?style=svg)](https://circleci.com/gh/lu4p/ToRat)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/ToRat)](https://goreportcard.com/report/github.com/lu4p/ToRat)
