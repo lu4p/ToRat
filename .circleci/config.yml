@@ -6,9 +6,10 @@ jobs:
   build:
     docker:
       # specify the version
-      - image: circleci/golang:1.13
+      - image: circleci/golang:1.14
 
     steps:
       - run: git clone https://github.com/lu4p/ToRat.git .
+      - run: go mod download -x
       - run: go build github.com/lu4p/ToRat/cmd/server
-      - run: go build -tags notor github.com/lu4p/ToRat/cmd/client
+      - run: go build github.com/lu4p/ToRat/cmd/client
