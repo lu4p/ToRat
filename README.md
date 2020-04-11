@@ -1,24 +1,21 @@
-# <img src="./ToRat_Logo.png" width="180px"> 
+# <a href="https://github.com/lu4p/ToRat" target="_blank"> <img src="./ToRat_Logo.png" width="180px"></a>
 [![License](https://img.shields.io/github/license/lu4p/ToRat.svg)](https://unlicense.org/)
 [![CircleCI](https://circleci.com/gh/lu4p/ToRat.svg?style=svg)](https://circleci.com/gh/lu4p/ToRat)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lu4p/ToRat)](https://goreportcard.com/report/github.com/lu4p/ToRat)
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat)](https://hub.docker.com/repository/docker/lu4p/torat)
 
 A Cross Platform Remote Administration tool written in Go using Tor as its transport mechanism
 currently supporting Windows, Linux, MacOS clients.
 
-## Docker Images Build Status
-
-Name | Status | Pulls
---- | --- | ---
-torat-pre | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat-pre) | ![Docker Pulls](https://img.shields.io/docker/pulls/lu4p/torat-pre)
-torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lu4p/torat) | This image should not be pulled!
-
 ## How to
-[How to use Docker Image](https://github.com/lu4p/ToRat/wiki/How-to-use-Docker-Image)
+[How to use ToRat](https://github.com/lu4p/ToRat/wiki/How-to-use-the-ToRat-Docker-Image)
+
+## Preview
+<a href="https://asciinema.org/a/318534" target="_blank"><img src="https://asciinema.org/a/318534.svg" /></a>
 
 ## Current Features
 - RPC (Remote procedure Call) based communication for easy addition of new functionallity
-- Automatic upx leads to client binaries of ~7MB with embedded Tor
+- Automatic upx leads to client binaries of ~10MB with embedded Tor
 - the ToRAT_client communicates over TLS encrypted RPC proxied through Tor with the ToRat_server (hidden service)
 	- [x] anonymity of client and server
 	- [x] end-to-end encryption
@@ -29,7 +26,7 @@ torat | ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/l
 - Linux:
 	- Multiple Persistence methods (User, Admin)
 - optional transport without Tor e.g. Use Tor2Web, a DNS Hostname or public/ local IP
-	- [x] smaller binary ~4MB upx'ed
+	- [x] smaller binary ~7MB upx'ed
 	- [ ] anonymity of client and server
 - embedded Tor
 - Unique persistent ID for every client
@@ -73,7 +70,7 @@ Command | Info
 **escape** | escape a command and run it in a native shell on the client
 **reconnect** | tell the client to reconnect
 **help** |  lists possible commands with usage info
-**exit** | background current session an return to main shell
+**exit** | background current session and return to main shell
 else  | the command will be executed in a native shell on the client
 
 ## Upcoming Features
