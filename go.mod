@@ -14,7 +14,7 @@ require (
 	github.com/flynn-archive/go-shlex v0.0.0-20150515145356-3f9db97f8568 // indirect
 	github.com/jinzhu/gorm v1.9.12
 	github.com/lu4p/cat v0.1.3
-	github.com/lu4p/go-escalate v0.0.0-20191031030341-c82d04470d88
+	github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff
 	github.com/lu4p/shred v0.0.0-20200410184319-3ecd4307a332
 	github.com/mattn/go-colorable v0.1.6 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
