@@ -5,7 +5,9 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 
 	"github.com/lu4p/shred"
@@ -91,7 +93,42 @@ func Shell() {
 		},
 		Help: "exit the server",
 	})
+	shell.NotFound(runCommand)
+
 	shell.Run()
+}
+
+func runCommand(c *ishell.Context) {
+	command := strings.Join(c.Args, " ")
+
+	var osshell string
+	if command == "" {
+		c.Println("Error: No command to execute!")
+		return
+	}
+	var osshellargs []string
+	if runtime.GOOS == "linux" {
+		osshell = "/bin/sh"
+		osshellargs = []string{"-c", command}
+	} else if runtime.GOOS == "windows" {
+		osshell = "cmd"
+		osshellargs = []string{"/C", command}
+	} else if runtime.GOOS == "darwin" {
+		// TODO: Add right strings for Mac OSX
+		osshell = ""
+		osshellargs = []string{"", command}
+	}
+	execcmd := exec.Command(osshell, osshellargs...)
+	cmdout, err := execcmd.Output()
+	if err != nil {
+		c.Println(err)
+		return
+	} else if cmdout == nil {
+		c.Println("no output!")
+		return
+	}
+
+	c.Println(string(cmdout))
 }
 
 func (client activeClient) shellClient() {
