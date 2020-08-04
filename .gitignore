@@ -1,5 +1,6 @@
 /dist
 /cmd/client/client
 /cmd/server/server
+/cmd/client/debug
 
 *.exe

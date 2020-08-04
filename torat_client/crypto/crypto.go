@@ -28,13 +28,12 @@ func CertToPubKey(certPEM string) (*rsa.PublicKey, error) {
 // GenRandString generate a random string
 func GenRandString() string {
 	all := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-	length := 16
-	byte := make([]byte, length)
-	for i := 0; i < length; i++ {
+	b := make([]byte, 16)
+	for i := range b {
 		num := mathrand.Intn(len(all))
-		byte[i] = all[num]
+		b[i] = all[num]
 	}
-	return string(byte)
+	return string(b)
 }
 
 // SetHostname Sets the Hostname of the machine to a
