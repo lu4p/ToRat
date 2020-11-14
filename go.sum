@@ -36,6 +36,8 @@ github.com/flynn-archive/go-shlex v0.0.0-20150515145356-3f9db97f8568 h1:BMXYYRWT
 github.com/flynn-archive/go-shlex v0.0.0-20150515145356-3f9db97f8568/go.mod h1:rZfgFAXFS/z/lEd6LJmf9HVZ1LkgYiHx5pHhV5DR16M=
 github.com/gabriel-vasile/mimetype v1.1.0 h1:+ahX+MvQPFve4kO9Qjjxf3j49i0ACdV236kJlOCRAnU=
 github.com/gabriel-vasile/mimetype v1.1.0/go.mod h1:6CDPel/o/3/s4+bp6kIbsWATq8pmgOisOPG40CJa6To=
+github.com/gabriel-vasile/mimetype v1.1.1 h1:qbN9MPuRf3bstHu9zkI9jDWNfH//9+9kHxr9oRBBBOA=
+github.com/gabriel-vasile/mimetype v1.1.1/go.mod h1:6CDPel/o/3/s4+bp6kIbsWATq8pmgOisOPG40CJa6To=
 github.com/go-sql-driver/mysql v1.5.0 h1:ozyZYNQW3x3HtqT1jira07DN2PArx2v7/mN66gGcHOs=
 github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
 github.com/golang-sql/civil v0.0.0-20190719163853-cb61b32ac6fe h1:lXe2qZdvpiX5WZkZR4hgp4KJVfY3nMkvmwbVkpv1rVY=
@@ -62,6 +64,8 @@ github.com/lib/pq v1.1.1 h1:sJZmqHoEaY7f+NPP8pgLB/WxulyR3fewgCM2qaSlBb4=
 github.com/lib/pq v1.1.1/go.mod h1:5WUZQaWbwv1U+lTReE5YruASi9Al49XbQIvNi/34Woo=
 github.com/lu4p/cat v0.1.3 h1:Cj/hx6chU8Twh0j1wnwJK0elLSEoAy9j62d+ATkxLt4=
 github.com/lu4p/cat v0.1.3/go.mod h1:L8MVB9+LFZpiJdAQe6T6qhKcAZtxuRp/Se4TvjYoZDw=
+github.com/lu4p/cat v0.1.5 h1:s51Bp/ns3u6n+hjjL2F77ySY6j/GD5SJG/t6Ok4Y1S0=
+github.com/lu4p/cat v0.1.5/go.mod h1:G3YRyjSvBipqMBRZ2uLf1oRL3/eGGmuZf96m95Y4jRQ=
 github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff h1:X5uKHG56mUo723TzAljeuHG/354GynJZt1qf1ZWhiEo=
 github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff/go.mod h1:Iyfvxe8Bv2dq0BMTnYKgBCy3h5Vl6Z9+9kG50NErf74=
 github.com/lu4p/shred v0.0.0-20200621213840-2196c07092c2 h1:V7uu735YEPEqWrcXH5fUbdqYs29/zmxZMf03zv1GHao=
