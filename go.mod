@@ -13,7 +13,7 @@ require (
 	github.com/fatih/color v1.10.0
 	github.com/flynn-archive/go-shlex v0.0.0-20150515145356-3f9db97f8568 // indirect
 	github.com/jinzhu/gorm v1.9.16
-	github.com/lu4p/cat v0.1.3
+	github.com/lu4p/cat v0.1.5
 	github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff
 	github.com/lu4p/shred v0.0.0-20200621213840-2196c07092c2
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
