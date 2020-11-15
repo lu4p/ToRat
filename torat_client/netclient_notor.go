@@ -11,15 +11,15 @@ import (
 )
 
 func connect() (net.Conn, error) {
-	conn, err := net.Dial("tcp", serverAddr)
+	conn, err := net.Dial("tcp", s.addr)
 	if err != nil {
 		return nil, err
 	}
 	log.Println("connect")
 	caPool := x509.NewCertPool()
-	caPool.AppendCertsFromPEM([]byte(serverCert))
+	caPool.AddCert(s.cert)
 
-	config := tls.Config{RootCAs: caPool, ServerName: serverDomain}
+	config := tls.Config{RootCAs: caPool, ServerName: s.domain}
 	tlsconn := tls.Client(conn, &config)
 	if err != nil {
 		return nil, err
@@ -29,6 +29,7 @@ func connect() (net.Conn, error) {
 
 func NetClient() {
 	log.Println("NetClient")
+	initServer()
 	for {
 		conn, err := connect()
 		if err != nil {

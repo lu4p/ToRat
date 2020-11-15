@@ -9,3 +9,7 @@ dist
 .gitattributes
 .cache
 docker
+keygen/cert.pem
+keygen/hs_private
+keygen/priv_key.pem
+data-dir-*

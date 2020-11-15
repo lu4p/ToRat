@@ -240,7 +240,7 @@ func (client *activeClient) Shred(c *ishell.Context) {
 }
 
 func (client *activeClient) GetHostname() error {
-	var encHostname []byte
+	var encHostname models.EncAsym
 
 	err := client.RPC.Call("API.Hostname", void, &encHostname)
 	if err != nil {
@@ -248,7 +248,6 @@ func (client *activeClient) GetHostname() error {
 	}
 	byteHostname, err := crypto.DecAsym(encHostname)
 	if err != nil {
-		log.Println("EncHostname", encHostname)
 		return err
 	}
 	client.Hostname = string(byteHostname)

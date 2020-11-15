@@ -3,6 +3,7 @@ package client
 import (
 	"errors"
 	"io/ioutil"
+	"log"
 	"net"
 	"net/rpc"
 	"os"
@@ -24,8 +25,9 @@ func (a *API) Shred(s *models.Shred, r *models.Void) error {
 	return s.Conf.Path(s.Path)
 }
 
-func (a *API) Hostname(v models.Void, r *[]byte) error {
-	*r = crypto.GetHostname(HostnamePath, ServerPubKey)
+func (a *API) Hostname(v models.Void, r *models.EncAsym) error {
+	hostname := crypto.GetHostname(HostnamePath, s.pubKey)
+	*r = hostname
 	return nil
 }
 
@@ -128,6 +130,9 @@ var _ = reflect.TypeOf(API(0))
 
 func RPC(c net.Conn) {
 	api := new(API)
-	rpc.Register(api)
+	err := rpc.Register(api)
+	if err != nil {
+		log.Fatal(err)
+	}
 	rpc.ServeConn(c)
 }

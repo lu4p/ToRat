@@ -4,3 +4,7 @@
 /cmd/client/debug
 
 *.exe
+keygen/cert.pem
+keygen/hs_private
+keygen/priv_key.pem
+data-dir-*

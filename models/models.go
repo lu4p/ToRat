@@ -2,8 +2,19 @@ package models
 
 import (
 	"os"
+	"reflect"
 
 	"github.com/lu4p/shred"
+)
+
+// Make sure Models are never garbled.
+var (
+	_ = reflect.TypeOf(Void(0))
+	_ = reflect.TypeOf(Cmd{})
+	_ = reflect.TypeOf(Shred{})
+	_ = reflect.TypeOf(File{})
+	_ = reflect.TypeOf(Dir{})
+	_ = reflect.TypeOf(EncAsym{})
 )
 
 type Void int
@@ -27,4 +38,9 @@ type File struct {
 type Dir struct {
 	Path  string
 	Files []string
+}
+
+type EncAsym struct {
+	EncAesKey []byte
+	EncData   []byte
 }

