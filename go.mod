@@ -14,7 +14,7 @@ require (
 	github.com/fatih/color v1.10.0
 	github.com/flynn-archive/go-shlex v0.0.0-20150515145356-3f9db97f8568 // indirect
 	github.com/kr/text v0.2.0 // indirect
-	github.com/lu4p/binclude v0.0.0-20201115221258-7cf967cad6bc
+	github.com/lu4p/binclude v0.0.0-20201116021656-faff47dc6f9c
 	github.com/lu4p/cat v0.1.5
 	github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff
 	github.com/lu4p/shred v0.0.0-20200621213840-2196c07092c2
