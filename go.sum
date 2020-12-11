@@ -42,6 +42,8 @@ github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff h1:X5uKHG56mUo723
 github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff/go.mod h1:Iyfvxe8Bv2dq0BMTnYKgBCy3h5Vl6Z9+9kG50NErf74=
 github.com/lu4p/shred v0.0.0-20200621213840-2196c07092c2 h1:V7uu735YEPEqWrcXH5fUbdqYs29/zmxZMf03zv1GHao=
 github.com/lu4p/shred v0.0.0-20200621213840-2196c07092c2/go.mod h1:b9Lo/QliQpqn8QoOtPhEJB9pdqvJ1dE+ztcoJhsDT3Q=
+github.com/lu4p/shred v0.0.0-20201211173428-0347b645d724 h1:nLJRUakdvy2j7JsefrtAUqGRbfJUKKqRu/3BCRA9mIQ=
+github.com/lu4p/shred v0.0.0-20201211173428-0347b645d724/go.mod h1:6b1kEKx7IPBboPSTnoJZE5sbSDjcNkHHO3Hii8TU8XY=
 github.com/mattn/go-colorable v0.1.4 h1:snbPLB8fVfU9iwbbo30TPtbLRzwWu6aJS6Xh4eaaviA=
 github.com/mattn/go-colorable v0.1.4/go.mod h1:U0ppj6V5qS13XJ6of8GYAs25YV2eR4EVcfRqFIhoBtE=
 github.com/mattn/go-colorable v0.1.8 h1:c1ghPdyEDarC70ftn0y+A/Ee++9zz8ljHG1b13eJ0s8=

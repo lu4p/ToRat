@@ -17,7 +17,7 @@ require (
 	github.com/lu4p/binclude v0.0.0-20201116021656-faff47dc6f9c
 	github.com/lu4p/cat v0.1.5
 	github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff
-	github.com/lu4p/shred v0.0.0-20200621213840-2196c07092c2
+	github.com/lu4p/shred v0.0.0-20201211173428-0347b645d724
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/stretchr/testify v1.6.1 // indirect
