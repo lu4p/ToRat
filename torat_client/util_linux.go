@@ -6,7 +6,7 @@ import (
 
 // GetVer gets the major version of the current installed linux
 func GetVer() (int, error) {
-	return 0, errors.New("Could not get Ver")
+	return 0, errors.New("could not get Version")
 }
 
 // CheckElevate checks whether the current process has administrator

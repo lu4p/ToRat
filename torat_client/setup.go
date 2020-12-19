@@ -34,7 +34,7 @@ func Elevate() error {
 	log.Println("Elevate")
 	err := copyExecuteable()
 	if err != nil {
-		return errors.New("Copy failed")
+		return errors.New("copy failed")
 	}
 	return escalate.Escalate(PathExe)
 }

@@ -42,7 +42,7 @@ func Start() error {
 
 	tlsConfig := tls.Config{Certificates: []tls.Certificate{cert}}
 
-	t, err := tor.Start(nil, nil)
+	t, err := tor.Start(context.Background(), nil)
 	if err != nil {
 		return err
 	}

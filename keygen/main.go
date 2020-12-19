@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"crypto/ed25519"
 	"crypto/rand"
 	"crypto/rsa"
@@ -29,16 +30,20 @@ func mainErr() error {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	t, err := tor.Start(nil, nil)
+	t, err := tor.Start(context.Background(), nil)
 	if err != nil {
-		return fmt.Errorf("Unable to start Tor: %v", err)
+		return fmt.Errorf("unable to start Tor: %v", err)
 	}
 	defer t.Close()
 
-	onion, err := t.Listen(nil, &tor.ListenConf{
+	onion, err := t.Listen(context.Background(), &tor.ListenConf{
 		RemotePorts: []int{80},
 		Key:         hsPriv,
 	})
+	if err != nil {
+		return err
+	}
+
 	log.Println(onion.ID + ".onion")
 
 	defer onion.Close()
@@ -53,7 +58,7 @@ func mainErr() error {
 	}
 
 	serialNumberLimit := new(big.Int).Lsh(big.NewInt(1), 128)
-	serialNumber, err := rand.Int(rand.Reader, serialNumberLimit)
+	serialNumber, _ := rand.Int(rand.Reader, serialNumberLimit)
 
 	template := x509.Certificate{
 		IsCA:                  true,

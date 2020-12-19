@@ -10,18 +10,21 @@ import (
 )
 
 // Take takes a screenshot and returns it as byte slice
-func Take() []byte {
+func Take() ([]byte, error) {
 	img, err := screenshot.CaptureScreen()
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
+
 	buf := new(bytes.Buffer)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
+
 	err = png.Encode(buf, img)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	return buf.Bytes()
+
+	return buf.Bytes(), nil
 }

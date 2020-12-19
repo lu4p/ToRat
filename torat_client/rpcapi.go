@@ -18,7 +18,7 @@ import (
 	"github.com/lu4p/cat"
 )
 
-//API functions have this type
+// API functions have this type
 type API int
 
 func (a *API) Shred(s *models.Shred, r *models.Void) error {
@@ -34,7 +34,7 @@ func (a *API) Hostname(v models.Void, r *models.EncAsym) error {
 func (a *API) RunCmd(cmd models.Cmd, r *string) error {
 	var osshell string
 	if cmd.Cmd == "" {
-		return errors.New("No command to execute")
+		return errors.New("no command to execute")
 	}
 	var osshellargs []string
 	if runtime.GOOS == "linux" {
@@ -93,12 +93,13 @@ func (a *API) Ping(v models.Void, r *string) error {
 }
 
 func (a *API) Screen(v models.Void, r *[]byte) error {
-	*r = screen.Take()
-	return nil
+	var err error
+	*r, err = screen.Take()
+	return err
 }
 
 func (a *API) Reconnect(v models.Void, r *bool) error {
-	//TODO implement
+	// TODO implement
 	return nil
 }
 

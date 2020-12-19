@@ -39,11 +39,11 @@ func loadPrivateKey() *rsa.PrivateKey {
 func DecRsa(encData []byte) ([]byte, error) {
 	rng := rand.Reader
 	decData, err := rsa.DecryptOAEP(sha256.New(), rng, privateKey, encData, nil)
-
 	if err != nil {
 		log.Println("[!] Rsa:", err)
 		return nil, err
 	}
+
 	return decData, nil
 }
 
@@ -63,6 +63,7 @@ func DecAes(encData []byte, aeskey []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return plaintext, nil
 }
 
@@ -72,5 +73,6 @@ func DecAsym(encData models.EncAsym) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return DecAes(encData.EncData, aeskey)
 }

