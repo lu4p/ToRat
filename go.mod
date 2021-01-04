@@ -10,7 +10,7 @@ require (
 	github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1 // indirect
 	github.com/cretz/bine v0.1.1-0.20200124154328-f9f678b84cca
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/dimiro1/banner v1.0.0
+	github.com/dimiro1/banner v1.1.0
 	github.com/fatih/color v1.10.0
 	github.com/flynn-archive/go-shlex v0.0.0-20150515145356-3f9db97f8568 // indirect
 	github.com/kr/text v0.2.0 // indirect
