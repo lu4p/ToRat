@@ -40,6 +40,8 @@ github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
 github.com/kr/text v0.2.0/go.mod h1:eLer722TekiGuMkidMxC/pM04lWEeraHUUmBw8l2grE=
 github.com/lu4p/binclude v0.0.0-20201219025532-e943140c1a3f h1:+FxTEhz8r/TIgjXvh9z238fHEhqS4UExn+Ss7DOsIMo=
 github.com/lu4p/binclude v0.0.0-20201219025532-e943140c1a3f/go.mod h1:K7L7WHwHAxLWsy1FMIPlw4Qp2ABI7iJV4BNZkKL5sqI=
+github.com/lu4p/binclude v0.0.0-20210120005053-e3b154b9aa7d h1:B5mKEKW9KGJnR8MBSpeN0CDOn+2C0PBFnRnUtbCWjEA=
+github.com/lu4p/binclude v0.0.0-20210120005053-e3b154b9aa7d/go.mod h1:GZ2eEZtUmVnUnNyAEjcmpTwvt8YRgcU7pYiLp1eSnsM=
 github.com/lu4p/cat v0.1.5 h1:s51Bp/ns3u6n+hjjL2F77ySY6j/GD5SJG/t6Ok4Y1S0=
 github.com/lu4p/cat v0.1.5/go.mod h1:G3YRyjSvBipqMBRZ2uLf1oRL3/eGGmuZf96m95Y4jRQ=
 github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff h1:X5uKHG56mUo723TzAljeuHG/354GynJZt1qf1ZWhiEo=
@@ -64,6 +66,7 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rogpeppe/go-internal v1.6.2 h1:aIihoIOHCiLZHxyoNQ+ABL4NKhFTgKLBdMLyEAh98m0=
 github.com/rogpeppe/go-internal v1.6.2/go.mod h1:xXDCJY+GAPziupqXw64V24skbSoqbTEfhy4qGm1nDQc=
+github.com/rogpeppe/go-internal v1.7.0/go.mod h1:xXDCJY+GAPziupqXw64V24skbSoqbTEfhy4qGm1nDQc=
 github.com/stretchr/objx v0.1.0 h1:4G4v2dO3VZwixGIRoQ5Lfboy6nUhCyYzaqnIAPPhYs4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.6.1 h1:hDPOHmpOpP40lSULcqw7IrRb/u7w6RpDC9399XyoNd0=
