@@ -61,7 +61,7 @@ func Start() error {
 	if err != nil {
 		return err
 	}
-	log.Println("Onion service running:", service.ID+".onoin")
+	log.Println("Onion service running:", service.ID+".onion")
 
 	for {
 		conn, err := service.Accept()
