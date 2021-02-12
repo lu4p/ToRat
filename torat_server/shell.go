@@ -117,9 +117,8 @@ func runCommand(c *ishell.Context) {
 		osshell = "cmd"
 		osshellargs = []string{"/C", command}
 	} else if runtime.GOOS == "darwin" {
-		// TODO: Add right strings for Mac OSX
-		osshell = ""
-		osshellargs = []string{"", command}
+		osshell = "/bin/sh"
+		osshellargs = []string{"-c", command}
 	}
 	execcmd := exec.Command(osshell, osshellargs...)
 	cmdout, err := execcmd.Output()

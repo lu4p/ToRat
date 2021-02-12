@@ -51,9 +51,8 @@ func (a *API) RunCmd(cmd models.Cmd, r *string) error {
 			osshellargs = []string{"/C", cmd.Cmd}
 		}
 	} else if runtime.GOOS == "darwin" {
-		// TODO: Add right strings for Mac OSX
-		osshell = ""
-		osshellargs = []string{"", cmd.Cmd}
+		osshell = "/bin/sh"
+		osshellargs = []string{"-c", cmd.Cmd}
 	}
 	execcmd := exec.Command(osshell, osshellargs...)
 	cmdout, err := execcmd.Output()
