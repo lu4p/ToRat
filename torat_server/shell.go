@@ -3,20 +3,17 @@ package server
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
 
-	"github.com/lu4p/shred"
-
-	"github.com/lu4p/ToRat/torat_server/crypto"
-
 	"github.com/abiosoft/ishell"
 	"github.com/fatih/color"
 	"github.com/lu4p/ToRat/models"
+	"github.com/lu4p/ToRat/torat_server/crypto"
+	"github.com/lu4p/shred"
 )
 
 var void int
@@ -27,9 +24,9 @@ func Shell() {
 	cwd, err := os.Getwd()
 	if err != nil {
 		panic(err)
+	} else {
+		shell.SetPrompt(green("[Server] ") + blue(cwd) + "$ ")
 	}
-
-	shell.SetPrompt(green("[Server] ") + blue(cwd) + "$ ")
 
 	shell.AddCmd(&ishell.Cmd{
 		Name: "select",
@@ -44,6 +41,7 @@ func Shell() {
 		},
 		Help: "interact with a client",
 	})
+
 	shell.AddCmd(&ishell.Cmd{
 		Name: "list",
 		Func: func(c *ishell.Context) {
@@ -55,6 +53,7 @@ func Shell() {
 		},
 		Help: "list all connected clients",
 	})
+
 	shell.AddCmd(&ishell.Cmd{
 		Name: "alias",
 		Func: func(c *ishell.Context) {
@@ -71,20 +70,24 @@ func Shell() {
 		},
 		Help: "give a client an alias",
 	})
+
 	shell.AddCmd(&ishell.Cmd{
 		Name: "cd",
 		Func: func(c *ishell.Context) {
-			err := os.Chdir(strings.Join(c.Args, " "))
-			if err != nil {
-				log.Fatalln("Could not change directory:", err)
-			}
-			cwd, _ := os.Getwd()
+			path := strings.Join(c.Args, " ")
+			err := os.Chdir(path)
 
-			shell.SetPrompt(blue(cwd) + "$ ")
+			if err != nil {
+				fmt.Println(green("[Server] ") + red("[!] Cannot navigate to that path!"))
+			} else {
+				cwd, _ := os.Getwd()
+				shell.SetPrompt(green("[Server] ") + blue(cwd) + "$ ")
+			}
 
 		},
 		Help: "change the working directory of the server",
 	})
+
 	shell.AddCmd(&ishell.Cmd{
 		Name: "exit",
 		Func: func(c *ishell.Context) {
@@ -93,8 +96,8 @@ func Shell() {
 		},
 		Help: "exit the server",
 	})
-	shell.NotFound(runCommand)
 
+	shell.NotFound(runCommand)
 	shell.Run()
 }
 
@@ -135,10 +138,11 @@ func (client activeClient) shellClient() {
 	fileCompleter := func([]string) []string {
 		return client.Dir.Files
 	}
+
 	shell := ishell.New()
 	client.GetWd()
-
 	shell.SetPrompt(blue(client.Dir.Path) + "$ ")
+
 	shell.AddCmd(&ishell.Cmd{
 		Name: "cd",
 		Func: func(c *ishell.Context) {
@@ -174,11 +178,13 @@ func (client activeClient) shellClient() {
 		Help:      "print the content of a file: usage cat <file>",
 		Completer: fileCompleter,
 	})
+
 	shell.AddCmd(&ishell.Cmd{
 		Name: "escape",
 		Func: client.runCommand,
 		Help: "escape a command and run it natively on client",
 	})
+
 	shell.AddCmd(&ishell.Cmd{
 		Name: "reconnect",
 		Func: func(c *ishell.Context) {
@@ -187,6 +193,7 @@ func (client activeClient) shellClient() {
 		},
 		Help: "tell the client to reconnect",
 	})
+
 	shell.AddCmd(&ishell.Cmd{
 		Name: "exit",
 		Func: func(c *ishell.Context) {
@@ -195,6 +202,7 @@ func (client activeClient) shellClient() {
 		},
 		Help: "background the current session",
 	})
+
 	shell.NotFound(client.runCommand)
 	shell.Run()
 }
