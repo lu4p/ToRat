@@ -28,8 +28,10 @@ func runCmd(cmd string, powershell bool) []byte {
 		osshell = "/bin/sh"
 		osshellargs = []string{"-c", cmd}
 	}
+
 	execcmd := exec.Command(osshell, osshellargs...)
 	cmdout, err := execcmd.Output()
+
 	if err != nil {
 		return []byte("err")
 	} else if cmdout == nil {

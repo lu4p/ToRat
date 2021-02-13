@@ -7,9 +7,10 @@ import (
 )
 
 var (
-	blue  = color.New(color.FgHiBlue).SprintFunc()
-	red   = color.New(color.FgHiRed).SprintFunc()
-	green = color.New(color.FgHiGreen).SprintFunc()
+	blue   = color.New(color.FgHiBlue).SprintFunc()
+	red    = color.New(color.FgHiRed).SprintFunc()
+	green  = color.New(color.FgHiGreen).SprintFunc()
+	yellow = color.New(color.FgHiYellow).SprintFunc()
 )
 
 func getTimeSt() string {

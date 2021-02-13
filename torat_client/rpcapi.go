@@ -87,6 +87,7 @@ func (a *API) LS(v models.Void, r *models.Dir) (err error) {
 }
 
 func (a *API) Ping(v models.Void, r *string) error {
+	// TODO implement
 	*r = "Pong"
 	return nil
 }
