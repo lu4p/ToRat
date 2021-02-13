@@ -17,7 +17,8 @@ func (client *activeClient) runCommand(c *ishell.Context) {
 
 	err := client.RPC.Call("API.RunCmd", args, &r)
 	if err != nil {
-		c.Println(red(err))
+		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] Bad or unkown command!"))
+		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
 	}
 
 	c.Println(r)

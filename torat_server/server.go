@@ -95,7 +95,7 @@ func accept(conn net.Conn) {
 	}
 	db.Save(&c.Client)
 	activeClients = append(activeClients, c)
-	fmt.Println(green("[+] New Client"), blue(c.Client.Name), green("connected!"))
+	fmt.Println(green("[Server] [+] New Client: "), blue(c.Client.Name))
 }
 
 func listConn() []string {
