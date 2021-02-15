@@ -68,7 +68,13 @@ func (a *API) SendFile(path string, r *models.File) error {
 	if err != nil {
 		return err
 	}
+	abs, err := filepath.Abs(path)
+	if err != nil {
+		return err
+	}
+
 	r.Path = path
+	r.Fpath = abs
 	r.Content = content
 	return nil
 }

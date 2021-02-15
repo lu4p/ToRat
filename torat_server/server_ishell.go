@@ -66,7 +66,7 @@ func Shell() {
 			name := c.ReadLine()
 			client := activeClients[choice]
 
-			// ISSUE #173
+			// TODO: ISSUE #173
 			client.Client.Name = name
 			db.Save(&client.Client)
 
