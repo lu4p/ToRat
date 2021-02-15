@@ -31,6 +31,7 @@ type Shred struct {
 
 type File struct {
 	Path    string
+	Fpath   string
 	Perm    os.FileMode
 	Content []byte
 }
