@@ -14,7 +14,7 @@ import (
 
 var void int
 
-// SERVER SIDE INTERACTIVE SHELL MENU
+// Server side interactive shell menu
 func Shell() {
 	shell := ishell.New()
 	cwd, err := os.Getwd()
@@ -25,7 +25,7 @@ func Shell() {
 	}
 	shell.SetPrompt(green("[Server] ") + blue(cwd) + "$ ")
 
-	// SELECT CLIENT
+	// Select client
 	shell.AddCmd(&ishell.Cmd{
 		Name: "select",
 		Func: func(c *ishell.Context) {
@@ -40,7 +40,7 @@ func Shell() {
 		Help: "interact with a client",
 	})
 
-	// LIST CLIENTS
+	// List clients
 	shell.AddCmd(&ishell.Cmd{
 		Name: "list",
 		Func: func(c *ishell.Context) {
@@ -53,7 +53,7 @@ func Shell() {
 		Help: "list all connected clients",
 	})
 
-	// SET ALIAS
+	// Set client alias
 	shell.AddCmd(&ishell.Cmd{
 		Name: "alias",
 		Func: func(c *ishell.Context) {
@@ -74,7 +74,7 @@ func Shell() {
 		Help: "give a client an alias",
 	})
 
-	// CHANGE DIRECTORY
+	// Change directory
 	shell.AddCmd(&ishell.Cmd{
 		Name: "cd",
 		Func: func(c *ishell.Context) {
@@ -93,7 +93,7 @@ func Shell() {
 		Help: "change the working directory of the server",
 	})
 
-	// EXIT THE SERVER
+	// Exit the server
 	shell.AddCmd(&ishell.Cmd{
 		Name: "exit",
 		Func: func(c *ishell.Context) {
@@ -108,7 +108,7 @@ func Shell() {
 	shell.Run()
 }
 
-// SERVER SIDE SHELL COMMAND
+// Server side shell command
 func runCommand(c *ishell.Context) {
 	var osshell string
 	var osshellargs []string
@@ -140,8 +140,7 @@ func runCommand(c *ishell.Context) {
 	}
 }
 
-// GET HOSTNAME OF CLIENT
-// TODO: Is this used? Where?
+// Get hostname of client
 func (client *activeClient) GetHostname() error {
 	var encHostname models.EncAsym
 

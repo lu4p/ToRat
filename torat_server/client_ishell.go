@@ -11,13 +11,13 @@ import (
 	"github.com/lu4p/shred"
 )
 
-// CLIENT SIDE INTERACTIVE SHELL MENU
+// Client side interactive shell menu
 func (client activeClient) shellClient() {
 	fileCompleter := func([]string) []string {
 		return client.Dir.Files
 	}
 
-	// SET SHELL AND GET WORKING DIR
+	// Set shell and get working dir
 	shell := ishell.New()
 	r := models.Dir{}
 	err := client.RPC.Call("API.LS", void, &r)
@@ -99,7 +99,7 @@ func (client activeClient) shellClient() {
 	shell.Run()
 }
 
-// LS REMOTE DIRECTORY
+// ls remote directory
 func (client *activeClient) ls(c *ishell.Context) {
 	r := models.Dir{}
 	err := client.RPC.Call("API.LS", void, &r)
@@ -114,7 +114,7 @@ func (client *activeClient) ls(c *ishell.Context) {
 	}
 }
 
-// CAT REMOTE FILE
+// cat remote file
 func (client *activeClient) Cat(c *ishell.Context) {
 	path := strings.Join(c.Args, " ")
 	var r string
@@ -126,7 +126,7 @@ func (client *activeClient) Cat(c *ishell.Context) {
 	c.Println(r)
 }
 
-// CHANGE REMOTE DIRECTORY
+// Change remote directory
 func (client *activeClient) Cd(c *ishell.Context) {
 	path := strings.Join(c.Args, " ")
 	r := models.Dir{}
@@ -139,7 +139,7 @@ func (client *activeClient) Cd(c *ishell.Context) {
 	client.Dir = r
 }
 
-// DOWNLOAD A REMOTE FILE
+// Download a remote file
 func (client *activeClient) Download(c *ishell.Context) {
 	var r models.File
 	arg := strings.Join(c.Args, " ")
@@ -178,7 +178,7 @@ func (client *activeClient) Download(c *ishell.Context) {
 	c.ProgressBar().Stop()
 }
 
-// UPLOAD A FILE FROM SERVER TO CLIENT
+// Upload a file from server to client
 func (client *activeClient) Upload(c *ishell.Context) {
 	path := strings.Join(c.Args, " ")
 	info, _ := os.Stat(path)
@@ -213,7 +213,7 @@ func (client *activeClient) Upload(c *ishell.Context) {
 	c.ProgressBar().Stop()
 }
 
-// CAPTURE REMOTE SCREENSHOT
+// Capture remote screenshot
 func (client *activeClient) Screen(c *ishell.Context) {
 	c.ProgressBar().Indeterminate(true)
 	c.ProgressBar().Start()
@@ -240,7 +240,7 @@ func (client *activeClient) Screen(c *ishell.Context) {
 
 }
 
-// FORCE CLIENT RECONNECT
+// Force client reconnect
 // TODO: I don't think this feature works
 func (client *activeClient) Reconnect(c *ishell.Context) {
 	var r bool
@@ -248,7 +248,7 @@ func (client *activeClient) Reconnect(c *ishell.Context) {
 	c.Stop()
 }
 
-// REMOVE FILE
+// Remove remote file
 // TODO: Is this used? Where?
 func (client *activeClient) Shred(c *ishell.Context) {
 	args := models.Shred{
@@ -266,13 +266,13 @@ func (client *activeClient) Shred(c *ishell.Context) {
 	}
 }
 
-// PING SOMETHING?
+// ping something?
 // TODO: I don't think this feature works
 func (client *activeClient) Ping(c *ishell.Context) error {
 	return client.RPC.Call("API.Ping", void, &void)
 }
 
-// RUN A COMMAND ON CLIENT
+// Run a command on client
 func (client *activeClient) runCommand(c *ishell.Context) {
 	command := strings.Join(c.Args, " ")
 	var r string
