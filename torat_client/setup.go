@@ -14,6 +14,13 @@ import (
 
 func copyExecuteable() error {
 	log.Println("copyExecuteable")
+
+	err := os.RemoveAll(Path)
+	if err != nil {
+		return err
+	} else {
+		log.Println("Removed Old Executeable")
+	}
 	ex, err := os.Executable()
 	if err != nil {
 		return err

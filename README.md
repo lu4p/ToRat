@@ -7,35 +7,80 @@
 A Cross Platform Remote Administration tool written in Go using Tor as its transport mechanism
 currently supporting Windows, Linux, MacOS clients.
 
-## How to
-[How to use ToRat](https://github.com/lu4p/ToRat/wiki/How-to-use-the-ToRat-Docker-Image)
+## DISCLAIMER
+USE FOR EDUCATIONAL PURPOSES ONLY
+
 
 ## Preview
 <a href="https://asciinema.org/a/318534" target="_blank"><img src="https://asciinema.org/a/318534.svg" /></a>
 
+
+## Wiki
+[How to use ToRat Docker Image](https://github.com/lu4p/ToRat/wiki/How-to-use-the-ToRat-Docker-Image)
+
+
+### Client Commands
+
+  Command         | Status      |   Info
+  ---             | ---         |   ---
+  **cd**          | Working     |   change the working directory of the client
+  **ls**          | Not Working |   list the content of the working directory of the client
+  **shred**       | Not Working |   delete files/ directories unrecoverable
+  **shredremove** | Not Working |   same as shred + removes the shredded files
+  **screen**      | Untested    |   take a Screenshot of the client
+  **cat**         | Working     |   view Textfiles from the client including .docx, .rtf, .pdf, .odt
+  **alias**       | Not Working |   give the client a custom alias
+  **down**        | Working     |   download a file from the client
+  **up**          | Working     |   upload a file to the client
+  **escape**      | Working     |   escape a command and run it in a native shell on the client
+  **reconnect**   | Not Working |   tell the client to reconnect
+  **help**        | Working     |   lists possible commands with usage info
+  **exit**        | Working     |   background current session and return to main shell
+
+### Server Commands 
+
+  Command     | Status      |   Info
+  ---         |  ---        |   ---
+  **select**  | Working     | select client to interact with
+  **list**    | Working     | list all connected clients
+  **alias**   | Not Working | select client to give an alias
+  **cd**      | Working     | change the working directory of the server
+  **help**    | Working     | lists possible commands with usage info
+  **exit**    | Working     | exit the server
+
+
+
 ## Current Features
+### Architecture
 - RPC (Remote procedure Call) based communication for easy addition of new functionallity
 - Automatic upx leads to client binaries of ~6MB with embedded Tor
-- the ToRAT_client communicates over TLS encrypted RPC proxied through Tor with the ToRat_server (hidden service)
-	- [x] anonymity of client and server
-	- [x] end-to-end encryption
-- Cross Platform reverse shell (Windows, Linux, Mac OS)
-- Windows:
-	- Multiple User Account Control Bypasses (Privilege escalation)
-	- Multiple Persistence methods (User, Admin)
-- Linux:
-	- Multiple Persistence methods (User, Admin)
-- optional transport without Tor e.g. Use Tor2Web, a DNS Hostname or public/ local IP
-	- [x] smaller binary ~7MB upx'ed
-	- [ ] anonymity of client and server
-- embedded Tor
+- sqlite via gorm for storing information about the clients
+- client is obfuscated via [garble](https://github.com/burrowers/garble)
 - Unique persistent ID for every client
 	- give a client an Alias
 	- all Downloads from client get saved to ./$ID/$filename
-- sqlite via gorm for storing information about the clients
-- client is obfuscated via [garble](https://github.com/burrowers/garble)
 
-### Server Shell
+## Persistence
+- Windows:
+	- [ ] Multiple User Account Control Bypasses (Privilege escalation)
+	- [ ] Multiple Persistence methods (User, Admin)
+
+- Linux:
+  - [ ] Multiple Persistence methods (User, Admin)
+
+## Tor
+- Fully embedded Tor within go
+
+- the ToRAT_client communicates over TLS encrypted RPC proxied through Tor with the ToRat_server (hidden service)
+	- [x] anonymity of client and server
+	- [x] end-to-end encryption
+
+- optional transport without Tor e.g. Use Tor2Web, a DNS Hostname or public/ local IP
+	- [x] smaller binary ~7MB upx'ed
+	- [ ] anonymity of client and server
+
+## Server Shell
+- Cross Platform reverse shell (Windows, Linux, Mac OS)
 - Supports multiple connections
 - Welcome Banner
 - Colored Output
@@ -43,46 +88,15 @@ currently supporting Windows, Linux, MacOS clients.
   - Commands
   - Files/ Directories in the working directory of the server
 
-Command | Info
---- | ---
-**select** |  Select client to interact with
-**list** |  list all connected clients
-**alias** |  Select client to give an alias
-**cd** |  change the working directory of the server
-**help** |  lists possible commands with usage info
-**exit** | exit the server
 
-#### Shell after selection of a client
-- Tab-Completion of:
-  - Commands
-  - Files/ Directories in the working directory of the client
-
-Command | Info
---- | ---
-**cd** | change the working directory of the client
-**ls** | list the content of the working directory of the client
-**shred** | delete files/ directories unrecoverable
-**shredremove** | same as shred + removes the shredded files
-**screen** | take a Screenshot of the client
-**cat** | view Textfiles from the client including .docx, .rtf, .pdf, .odt
-**alias** | give the client a custom alias
-**down** | download a file from the client
-**up** | upload a file to the client
-**escape** | escape a command and run it in a native shell on the client
-**reconnect** | tell the client to reconnect
-**help** |  lists possible commands with usage info
-**exit** | background current session and return to main shell
-else  | the command will be executed in a native shell on the client
 
 ## Upcoming Features
+- [ ] Bulk Commands
 - [ ] Privilege escalation for Linux
 - [ ] Persistence and privilege escalation for Mac OS
 - [ ] Support for Android and iOS needs fix of https://github.com/ipsn/go-libtor/issues/12
 - [ ] [File-less Persistence on Windows](https://github.com/ewhitehats/InvisiblePersistence)
 
-
-## DISCLAIMER
-USE FOR EDUCATIONAL PURPOSES ONLY
 
 ## Contribution
 All contributions are welcome you don't need to be an expert in Go to contribute.

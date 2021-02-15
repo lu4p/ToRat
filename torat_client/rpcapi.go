@@ -51,9 +51,8 @@ func (a *API) RunCmd(cmd models.Cmd, r *string) error {
 			osshellargs = []string{"/C", cmd.Cmd}
 		}
 	} else if runtime.GOOS == "darwin" {
-		// TODO: Add right strings for Mac OSX
-		osshell = ""
-		osshellargs = []string{"", cmd.Cmd}
+		osshell = "/bin/sh"
+		osshellargs = []string{"-c", cmd.Cmd}
 	}
 	execcmd := exec.Command(osshell, osshellargs...)
 	cmdout, err := execcmd.Output()
@@ -69,7 +68,13 @@ func (a *API) SendFile(path string, r *models.File) error {
 	if err != nil {
 		return err
 	}
+	abs, err := filepath.Abs(path)
+	if err != nil {
+		return err
+	}
+
 	r.Path = path
+	r.Fpath = abs
 	r.Content = content
 	return nil
 }
@@ -88,6 +93,7 @@ func (a *API) LS(v models.Void, r *models.Dir) (err error) {
 }
 
 func (a *API) Ping(v models.Void, r *string) error {
+	// TODO implement
 	*r = "Pong"
 	return nil
 }
