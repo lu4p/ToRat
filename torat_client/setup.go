@@ -15,24 +15,26 @@ import (
 func copyExecuteable() error {
 	log.Println("copyExecuteable")
 
-	err := os.RemoveAll(Path)
-	if err != nil {
+	if err := os.RemoveAll(Path); err != nil {
 		return err
-	} else {
-		log.Println("Removed Old Executeable")
 	}
+
+	log.Println("Removed Old Executeable")
+
 	ex, err := os.Executable()
 	if err != nil {
 		return err
 	}
+
 	data, err := ioutil.ReadFile(ex)
 	if err != nil {
 		return err
 	}
-	err = os.MkdirAll(Path, os.ModePerm)
-	if err != nil {
+
+	if err = os.MkdirAll(Path, os.ModePerm); err != nil {
 		return err
 	}
+
 	return ioutil.WriteFile(PathExe, data, os.ModePerm)
 }
 

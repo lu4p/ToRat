@@ -12,7 +12,7 @@ import (
 	mathrand "math/rand"
 	"os"
 
-	"github.com/lu4p/ToRat/models"
+	"github.com/lu4p/ToRat/shared"
 )
 
 // GenRandString generate a random string
@@ -27,14 +27,14 @@ func GenRandString() string {
 }
 
 // genHostname generates the Hostname of the machine
-func genHostname(PubKey *rsa.PublicKey) models.EncAsym {
+func genHostname(PubKey *rsa.PublicKey) shared.EncAsym {
 	hostname := GenRandString()
 	return encAsym([]byte(hostname), PubKey)
 }
 
 // GetHostname returns the encrypted Hostname
 // if Hostname is not set a new Hostname is generated
-func GetHostname(path string, PubKey *rsa.PublicKey) models.EncAsym {
+func GetHostname(path string, PubKey *rsa.PublicKey) shared.EncAsym {
 	encAsym, err := getEncodedFile(path)
 	if err == nil {
 		return encAsym
@@ -57,33 +57,33 @@ func encRsa(data []byte, RsaPublicKey *rsa.PublicKey) []byte {
 	return ciphertext
 }
 
-func getEncodedFile(path string) (models.EncAsym, error) {
+func getEncodedFile(path string) (shared.EncAsym, error) {
 	f, err := os.Open(path)
 	if err != nil {
-		return models.EncAsym{}, err
+		return shared.EncAsym{}, err
 	}
 	defer f.Close()
 
 	decoder := gob.NewDecoder(f)
-	var encAsym models.EncAsym
+	var encAsym shared.EncAsym
 	decoder.Decode(&encAsym)
 	return encAsym, nil
 }
 
 // encAsym encrypts data using RSA + AES to the publickey
 // of the server
-func encAsym(data []byte, pubKey *rsa.PublicKey) models.EncAsym {
+func encAsym(data []byte, pubKey *rsa.PublicKey) shared.EncAsym {
 	aeskey := genAesKey()
 	encKey := encRsa(aeskey, pubKey)
 	encData := encAes(data, aeskey)
-	return models.EncAsym{
+	return shared.EncAsym{
 		EncAesKey: encKey,
 		EncData:   encData,
 	}
 }
 
 // encodeToFile encodes data using gob and writes the result to path
-func encodeToFile(data models.EncAsym, path string) error {
+func encodeToFile(data shared.EncAsym, path string) error {
 	f, err := os.Create(path)
 	if err != nil {
 		return err

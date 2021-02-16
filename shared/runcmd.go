@@ -1,21 +1,26 @@
-package client
+package shared
 
 import (
+	"fmt"
 	"os/exec"
 	"runtime"
 )
 
-func runCmd(cmd string, powershell bool) []byte {
-	var osshell string
+func RunCmd(cmd string, powershell bool) ([]byte, error) {
 	if cmd == "" {
-		return []byte("Error: No command to execute!")
+		return nil, fmt.Errorf("no command to execute (empty command)")
 	}
-	var osshellargs []string
-	if runtime.GOOS == "linux" {
+
+	var (
+		osshell     string
+		osshellargs []string
+	)
+
+	switch runtime.GOOS {
+	case "linux":
 		osshell = "/bin/sh"
 		osshellargs = []string{"-c", cmd}
-
-	} else if runtime.GOOS == "windows" {
+	case "windows":
 		if powershell {
 			osshell = "powershell"
 			osshellargs = []string{"-Command", cmd}
@@ -24,19 +29,16 @@ func runCmd(cmd string, powershell bool) []byte {
 			osshell = "cmd"
 			osshellargs = []string{"/C", cmd}
 		}
-	} else if runtime.GOOS == "darwin" {
+	case "darwin":
 		osshell = "/bin/sh"
 		osshellargs = []string{"-c", cmd}
 	}
 
 	execcmd := exec.Command(osshell, osshellargs...)
 	cmdout, err := execcmd.Output()
-
 	if err != nil {
-		return []byte("err")
-	} else if cmdout == nil {
-		return []byte("no output!")
+		return nil, err
 	}
-	return cmdout
 
+	return cmdout, nil
 }

@@ -19,15 +19,14 @@ func connect(dialer *tor.Dialer) (net.Conn, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	log.Println("connect")
 	caPool := x509.NewCertPool()
 	caPool.AddCert(s.cert)
 
 	config := tls.Config{RootCAs: caPool, ServerName: s.domain}
 	tlsconn := tls.Client(conn, &config)
-	if err != nil {
-		return nil, err
-	}
+
 	return tlsconn, nil
 }
 
@@ -43,6 +42,7 @@ func NetClient() {
 		log.Println("[!] Tor could not be started:", err)
 		return
 	}
+
 	defer t.Close()
 	dialer, _ := t.Dialer(nil, nil)
 	for {

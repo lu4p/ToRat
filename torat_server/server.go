@@ -93,6 +93,7 @@ func accept(conn net.Conn) {
 	if c.Client.Name == "" {
 		c.Client.Name = c.Client.Hostname
 	}
+
 	db.Save(&c.Client)
 	activeClients = append(activeClients, c)
 	fmt.Println(green("[Server] [+] New Client: "), blue(c.Client.Name))
