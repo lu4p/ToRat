@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net"
+	"net/http"
 	"net/rpc"
 	"os"
 	"path/filepath"
@@ -76,6 +77,13 @@ func (a *API) LS(v shared.Void, r *shared.Dir) (err error) {
 }
 
 func (a *API) Speedtest(v shared.Void, r *shared.Speedtest) error {
+
+	url := "https://api.ipify.org?format=text"
+	resp, _ := http.Get(url)
+	ip, _ := ioutil.ReadAll(resp.Body)
+	resp.Body.Close()
+	r.IP = string(ip)
+
 	user, _ := speedtest.FetchUserInfo()
 	serverList, _ := speedtest.FetchServerList(user)
 	targets, _ := serverList.FindServer([]int{})

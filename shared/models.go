@@ -48,6 +48,7 @@ type EncAsym struct {
 }
 
 type Speedtest struct {
+	IP       string
 	Ping     string
 	Download float64
 	Upload   float64

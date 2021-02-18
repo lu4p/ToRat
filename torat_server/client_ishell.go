@@ -276,6 +276,7 @@ func (client *activeClient) Speedtest(c *ishell.Context) {
 	c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + green("[+] Speedtest finished"))
 	c.ProgressBar().Stop()
 
+	c.Println(green("Public IP: "), r.IP)
 	c.Println(green("Country: "), r.Country)
 	c.Println(green("Ping: "), r.Ping)
 	c.Println(green("Download: "), r.Download)
