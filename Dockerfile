@@ -8,6 +8,8 @@ COPY go.sum .
 RUN go mod download -x
 RUN GO111MODULE=on go install github.com/lu4p/binclude/cmd/binclude
 
+RUN GO111MODULE=on go get github.com/showwin/speedtest-go
+
 RUN mkdir -p /dist/server && mkdir -p /dist/client
 
 COPY . .

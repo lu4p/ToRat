@@ -20,6 +20,7 @@ require (
 	github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff
 	github.com/lu4p/shred v0.0.0-20201211173428-0347b645d724
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
+	github.com/showwin/speedtest-go v1.1.1
 	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/vova616/screenshot v0.0.0-20191005130345-da36db2560ab
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect

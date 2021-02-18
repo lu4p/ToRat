@@ -15,6 +15,7 @@ var (
 	_ = reflect.TypeOf(File{})
 	_ = reflect.TypeOf(Dir{})
 	_ = reflect.TypeOf(EncAsym{})
+	_ = reflect.TypeOf(Speedtest{})
 )
 
 type Void int
@@ -44,4 +45,11 @@ type Dir struct {
 type EncAsym struct {
 	EncAesKey []byte
 	EncData   []byte
+}
+
+type Speedtest struct {
+	Ping     string
+	Download float64
+	Upload   float64
+	Country  string
 }
