@@ -24,7 +24,7 @@ require (
 	github.com/vova616/screenshot v0.0.0-20191005130345-da36db2560ab
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect
 	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
-	golang.org/x/sys v0.0.0-20210218085108-9555bcde0c6a
+	golang.org/x/sys v0.0.0-20210218155724-8ebf48af031b
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 	gorm.io/driver/sqlite v1.1.4
