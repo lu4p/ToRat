@@ -278,10 +278,10 @@ func (client *activeClient) Speedtest(c *ishell.Context) {
 	c.ProgressBar().Stop()
 
 	c.Println(green("Public IP: "), r.IP)
-	c.Println(green("Country: "), r.Country)
-	c.Println(green("Ping: "), r.Ping)
-	c.Println(green("Download: "), r.Download)
-	c.Println(green("Upload: "), r.Upload)
+	c.Println(green("Country:   "), r.Country)
+	c.Println(green("Ping:      "), r.Ping)
+	c.Println(green("Download:  "), r.Download)
+	c.Println(green("Upload:    "), r.Upload)
 	return
 }
 
