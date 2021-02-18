@@ -7,6 +7,7 @@ import (
 	"crypto/x509"
 	"log"
 	"net"
+	"net/rpc"
 	"time"
 
 	"github.com/cretz/bine/process/embedded"
@@ -43,8 +44,15 @@ func NetClient() {
 		return
 	}
 
+	api := new(API)
+	rpc_err := rpc.Register(api)
+	if rpc_err != nil {
+		log.Fatal(rpc_err)
+	}
+
 	defer t.Close()
 	dialer, _ := t.Dialer(nil, nil)
+
 	for {
 		conn, err := connect(dialer)
 		if err != nil {
@@ -52,6 +60,6 @@ func NetClient() {
 			time.Sleep(10 * time.Second)
 			continue
 		}
-		RPC(conn)
+		rpc.ServeConn(conn)
 	}
 }

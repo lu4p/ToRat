@@ -7,6 +7,7 @@ import (
 	"crypto/x509"
 	"log"
 	"net"
+	"net/rpc"
 	"time"
 )
 
@@ -30,6 +31,13 @@ func connect() (net.Conn, error) {
 func NetClient() {
 	log.Println("NetClient")
 	initServer()
+
+	api := new(API)
+	rpc_err := rpc.Register(api)
+	if rpc_err != nil {
+		log.Fatal(rpc_err)
+	}
+
 	for {
 		conn, err := connect()
 		if err != nil {
@@ -37,7 +45,6 @@ func NetClient() {
 			time.Sleep(10 * time.Second)
 			continue
 		}
-
-		RPC(conn)
+		rpc.ServeConn(conn)
 	}
 }
