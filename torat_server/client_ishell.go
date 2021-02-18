@@ -90,7 +90,7 @@ func (client activeClient) shellClient() {
 		{
 			Name: "speedtest",
 			Func: client.Speedtest,
-			Help: "tell the client to reconnect",
+			Help: "run a speedtest on a clients native internet connection (non-tor)",
 		},
 	}
 
@@ -270,6 +270,7 @@ func (client *activeClient) Speedtest(c *ishell.Context) {
 	r := shared.Speedtest{}
 	if err := client.RPC.Call("API.Speedtest", void, &r); err != nil {
 		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Could not perform speedtest on client!"))
+		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
 		return
 	}
 
