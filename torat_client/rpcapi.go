@@ -148,12 +148,3 @@ func (a *API) Cd(path string, r *shared.Dir) (err error) {
 
 // Make sure API is never garbled.
 var _ = reflect.TypeOf(API(0))
-
-func RPC(c net.Conn) {
-	api := new(API)
-	err := rpc.Register(api)
-	if err != nil {
-		log.Fatal(err)
-	}
-	rpc.ServeConn(c)
-}
