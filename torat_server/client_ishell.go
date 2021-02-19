@@ -262,7 +262,7 @@ func (client *activeClient) Shred(c *ishell.Context) {
 	}
 }
 
-// Speedtest
+// Speedtest the clients internet connection
 func (client *activeClient) Speedtest(c *ishell.Context) {
 	c.ProgressBar().Indeterminate(true)
 	c.ProgressBar().Start()
@@ -282,7 +282,6 @@ func (client *activeClient) Speedtest(c *ishell.Context) {
 	c.Println(green("Ping:      "), r.Ping)
 	c.Println(green("Download:  "), r.Download)
 	c.Println(green("Upload:    "), r.Upload)
-	return
 }
 
 // Run a command on client

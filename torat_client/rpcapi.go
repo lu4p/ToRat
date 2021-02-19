@@ -5,7 +5,6 @@ import (
 	"errors"
 	"image/png"
 	"io/ioutil"
-	"net/http"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -74,13 +73,6 @@ func (a *API) LS(v shared.Void, r *shared.Dir) (err error) {
 }
 
 func (a *API) Speedtest(v shared.Void, r *shared.Speedtest) error {
-
-	url := "https://api.ipify.org?format=text"
-	resp, _ := http.Get(url)
-	ip, _ := ioutil.ReadAll(resp.Body)
-	resp.Body.Close()
-	r.IP = string(ip)
-
 	user, _ := speedtest.FetchUserInfo()
 	serverList, _ := speedtest.FetchServerList(user)
 	targets, _ := serverList.FindServer([]int{})
@@ -90,6 +82,7 @@ func (a *API) Speedtest(v shared.Void, r *shared.Speedtest) error {
 		s.DownloadTest(false)
 		s.UploadTest(false)
 
+		r.IP = user.IP
 		r.Download = s.DLSpeed
 		r.Upload = s.ULSpeed
 		r.Ping = s.Latency.String()
