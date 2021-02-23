@@ -2,6 +2,7 @@ package client
 
 import (
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -23,7 +24,12 @@ var (
 // CheckElevate checks whether the current process has administrator
 // privileges
 func CheckElevate() bool {
-	// TODO: Implement
+	log.Println("[CheckElevate] Reached LINUX root check")
+	if os.Geteuid() == 0 {
+		log.Println("[CheckElevate] Running as ROOT")
+		return true
+	}
+	log.Println("[CheckElevate] Running as USER")
 	return false
 }
 

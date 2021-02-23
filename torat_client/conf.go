@@ -39,7 +39,7 @@ func initServer() {
 	}
 
 	domain := cert.DNSNames[0]
-	log.Println("Domain:", domain)
+	log.Println("[initServer] Initialized server cert")
 
 	s = server{
 		cert:   cert,

