@@ -33,9 +33,9 @@ func NetClient() {
 	initServer()
 
 	api := new(API)
-	rpc_err := rpc.Register(api)
-	if rpc_err != nil {
-		log.Fatal(rpc_err)
+
+	if err := rpc.Register(api); err != nil {
+		log.Fatal("Cannot register rpc api:", err)
 	}
 
 	for {

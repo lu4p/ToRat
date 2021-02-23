@@ -73,9 +73,20 @@ func (a *API) LS(v shared.Void, r *shared.Dir) (err error) {
 }
 
 func (a *API) Speedtest(v shared.Void, r *shared.Speedtest) error {
-	user, _ := speedtest.FetchUserInfo()
-	serverList, _ := speedtest.FetchServerList(user)
-	targets, _ := serverList.FindServer([]int{})
+	user, err := speedtest.FetchUserInfo()
+	if err != nil {
+		return err
+	}
+
+	serverList, err := speedtest.FetchServerList(user)
+	if err != nil {
+		return err
+	}
+
+	targets, err := serverList.FindServer(nil)
+	if err != nil {
+		return err
+	}
 
 	for _, s := range targets {
 		s.PingTest()
