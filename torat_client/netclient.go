@@ -37,7 +37,7 @@ func NetClient() {
 	log.Println("NetClient")
 	initServer()
 
-	tmp_dir, err := ioutil.TempDir("", "")
+	tmpDir, err := ioutil.TempDir("", "")
 	if err != nil {
 		log.Println("[NetClient] [!] Could not create temp dir for Tor: ", err)
 		return
@@ -45,7 +45,7 @@ func NetClient() {
 
 	conf := tor.StartConf{
 		ProcessCreator:    embedded.NewCreator(),
-		DataDir:           tmp_dir,
+		DataDir:           tmpDir,
 		RetainTempDataDir: false,
 	}
 
