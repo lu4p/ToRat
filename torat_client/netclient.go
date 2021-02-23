@@ -36,7 +36,6 @@ func connect(dialer *tor.Dialer) (net.Conn, error) {
 func NetClient() {
 	log.Println("NetClient")
 	initServer()
-	var conf tor.StartConf
 
 	tmp_dir, err := ioutil.TempDir("", "")
 	if err != nil {
@@ -44,7 +43,7 @@ func NetClient() {
 		return
 	}
 
-	conf = tor.StartConf{
+	conf := tor.StartConf{
 		ProcessCreator:    embedded.NewCreator(),
 		DataDir:           tmp_dir,
 		RetainTempDataDir: false,
@@ -57,9 +56,9 @@ func NetClient() {
 	}
 
 	api := new(API)
-	rpc_err := rpc.Register(api)
-	if rpc_err != nil {
-		log.Fatal(rpc_err)
+	rpcErr := rpc.Register(api)
+	if rpcErr != nil {
+		log.Fatal(rpcErr)
 	}
 
 	defer t.Close()
