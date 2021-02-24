@@ -19,10 +19,15 @@ import (
 // API functions have this type
 type API int
 
+// Make sure API is never garbled.
+var _ = reflect.TypeOf(API(0))
+
+// Shred overwrites a path with zeros then deletes all contents
 func (a *API) Shred(s *shared.Shred, r *shared.Void) error {
 	return s.Conf.Path(s.Path)
 }
 
+// Hostname returns a unique reproducible client id
 func (a *API) Hostname(v shared.Void, r *shared.EncAsym) error {
 	hostname := crypto.GetHostname(HostnamePath, s.pubKey)
 	*r = hostname
@@ -146,6 +151,3 @@ func (a *API) Cd(path string, r *shared.Dir) (err error) {
 	r.Files, err = filepath.Glob("*")
 	return err
 }
-
-// Make sure API is never garbled.
-var _ = reflect.TypeOf(API(0))

