@@ -8,8 +8,8 @@ import (
 
 func main() {
 	func() {
-		if client.CheckExisting() {
-			return // Found Exisiting Install
+		if client.CheckExistingInstall() {
+			return // Found Existing Install
 		}
 		if client.CheckElevate() {
 			client.SetupDaemon() // Setup as root

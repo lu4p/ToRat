@@ -24,7 +24,6 @@ var (
 // CheckElevate checks whether the current process has administrator
 // privileges
 func CheckElevate() bool {
-	log.Println("[CheckElevate] Reached LINUX root check")
 	if os.Geteuid() == 0 {
 		log.Println("[CheckElevate] Running as ROOT")
 		return true

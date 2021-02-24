@@ -33,21 +33,20 @@ func connect(dialer *tor.Dialer) (net.Conn, error) {
 
 // NetClient start tor and invoke connect
 func NetClient() {
-	log.Println("[NetClient] Starting Tor connection...")
 	initServer()
-	var conf tor.StartConf
-	conf = tor.StartConf{ProcessCreator: embedded.NewCreator()}
+	conf := tor.StartConf{ProcessCreator: embedded.NewCreator()}
 
+	log.Println("[NetClient] Starting Tor connection...")
 	t, err := tor.Start(nil, &conf)
 	if err != nil {
-		log.Println("[NetClient] [!] Tor could not be started: ", err)
+		log.Println("[NetClient] [!] Tor could not be started:", err)
 		return
 	}
 
 	api := new(API)
 	rpc_err := rpc.Register(api)
 	if rpc_err != nil {
-		log.Fatal("[NetClient] [!] Could not register RPC API: ", rpc_err)
+		log.Fatal("[NetClient] [!] Could not register RPC API:", rpc_err)
 	}
 
 	defer t.Close()
@@ -56,7 +55,7 @@ func NetClient() {
 	for {
 		conn, err := connect(dialer)
 		if err != nil {
-			log.Println("[NetClient] [!] Could not connect: ", err)
+			log.Println("[NetClient] [!] Could not connect:", err)
 			time.Sleep(25 * time.Second)
 			continue
 		}

