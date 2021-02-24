@@ -26,11 +26,7 @@ func (a *API) Shred(s *shared.Shred, r *shared.Void) error {
 		Zeros:  s.Zeros,
 		Remove: s.Remove,
 	}
-
-	if err := shredconf.Path(s.Path); err != nil {
-		return err
-	}
-	return nil
+	return shredconf.Path(s.Path)
 }
 
 func (a *API) Hostname(v shared.Void, r *shared.EncAsym) error {

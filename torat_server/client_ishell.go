@@ -52,7 +52,7 @@ func (client activeClient) shellClient() {
 		{
 			Name:      "shred",
 			Func:      client.Shred,
-			Help:      "remove a path by overwriting it with random data then removing it: usage shred <file>",
+			Help:      "remove a path by overwriting it with random data then removing it: usage shred <path>",
 			Completer: fileCompleter,
 		},
 		{
