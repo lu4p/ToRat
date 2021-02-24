@@ -153,7 +153,7 @@ func (client *activeClient) Download(c *ishell.Context) {
 		return
 	}
 
-	dlPath := filepath.Join("/dist_ext/bots/", client.Client.Hostname, r.Fpath)
+	dlPath := filepath.Join(client.Client.Path, r.Fpath)
 	dlDir, _ := filepath.Split(dlPath)
 
 	if err := os.MkdirAll(dlDir, os.ModePerm); err != nil {
@@ -218,7 +218,7 @@ func (client *activeClient) Screen(c *ishell.Context) {
 		return
 	}
 
-	dlPath := filepath.Join("/dist_ext/bots/", client.Client.Hostname, "/screenshots/", filename)
+	dlPath := filepath.Join(client.Client.Path, "/screenshots/", filename)
 	dlDir, _ := filepath.Split(dlPath)
 
 	if err := os.MkdirAll(dlDir, os.ModePerm); err != nil {

