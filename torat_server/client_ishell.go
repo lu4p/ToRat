@@ -52,7 +52,7 @@ func (client activeClient) shellClient() {
 		{
 			Name:      "shred",
 			Func:      client.Shred,
-			Help:      "remove a remote file by shreding it: usage shred <file>",
+			Help:      "remove a path by overwriting it with random data then removing it: usage shred <file>",
 			Completer: fileCompleter,
 		},
 		{
@@ -243,18 +243,19 @@ func (client *activeClient) Reconnect(c *ishell.Context) {
 
 // Shred a remote file
 func (client *activeClient) Shred(c *ishell.Context) {
-	var s shared.Shred
-	s.Path = strings.Join(c.Args, " ")
-	s.Times = 3
-	s.Zeros = true
-	s.Remove = true
+	s := shared.Shred{
+		Path:   strings.Join(c.Args, " "),
+		Times:  3,
+		Zeros:  true,
+		Remove: true,
+	}
 
 	if err := client.RPC.Call("API.Shred", &s, &void); err != nil {
 		c.Println(red("[!] Could not shred path: ", s.Path))
 		c.Println(red("[!] ", err))
 		return
 	}
-	c.Println(green("[+] Finished"))
+	c.Println(green("[+] Sucessfully shred path"))
 }
 
 // Speedtest the clients internet connection

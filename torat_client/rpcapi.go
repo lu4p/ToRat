@@ -30,9 +30,6 @@ func (a *API) Shred(s *shared.Shred, r *shared.Void) error {
 	if err := shredconf.Path(s.Path); err != nil {
 		return err
 	}
-	if err := os.RemoveAll(s.Path); err != nil {
-		return err
-	}
 	return nil
 }
 
