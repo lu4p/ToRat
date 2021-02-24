@@ -3,8 +3,6 @@ package shared
 import (
 	"os"
 	"reflect"
-
-	"github.com/lu4p/shred"
 )
 
 // Make sure Models are never garbled.
@@ -26,8 +24,10 @@ type Cmd struct {
 }
 
 type Shred struct {
-	Conf shred.Conf
-	Path string
+	Path   string
+	Times  int
+	Zeros  bool
+	Remove bool
 }
 
 type File struct {

