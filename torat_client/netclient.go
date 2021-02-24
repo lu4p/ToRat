@@ -58,8 +58,7 @@ func NetClient() {
 	api := new(API)
 	rpcErr := rpc.Register(api)
 	if rpcErr != nil {
-		log.Fatal(rpcErr)
-    log.Fatal("[NetClient] [!] Could not register RPC API: ", rpcErr)
+    		log.Fatal("[NetClient] [!] Could not register RPC API: ", rpcErr)
 	}
 
 	defer t.Close()
