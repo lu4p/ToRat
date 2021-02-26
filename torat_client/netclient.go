@@ -15,7 +15,7 @@ import (
 	"github.com/cretz/bine/tor"
 )
 
-// connect dials a remote tor address and returns the tls.Client to NetClient
+// connect dials a remote tor address and returns the resulting connection
 func connect(dialer *tor.Dialer) (net.Conn, error) {
 	log.Println("[NetClient] Connecting to:", s.addr)
 	conn, err := dialer.Dial("tcp", s.addr)

