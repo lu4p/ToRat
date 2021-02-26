@@ -17,7 +17,7 @@ func Shell() {
 	shell := ishell.New()
 	cwd, err := os.Getwd()
 	if err != nil {
-		fmt.Println(green("[Server] ") + red("[!] ", err))
+		fmt.Println(green("[Server] ") + red("[!]", err))
 		panic(err)
 	}
 	shell.SetPrompt(green("[Server] ") + blue(cwd) + "$ ")
@@ -77,7 +77,7 @@ func Shell() {
 				err := os.Chdir(path)
 				if err != nil {
 					fmt.Println(green("[Server] ") + red("[!] Cannot navigate to that path!"))
-					fmt.Println(green("[Server] ") + red("[!] ", err))
+					fmt.Println(green("[Server] ") + red("[!]", err))
 				}
 				cwd, _ := os.Getwd()
 				shell.SetPrompt(green("[Server] ") + blue(cwd) + "$ ")
@@ -109,7 +109,7 @@ func runCommand(c *ishell.Context) {
 
 	out, err := shared.RunCmd(command, false)
 	if err != nil {
-		c.Println(green("[Server]"), red("[!] Bad or unknown command: ", err))
+		c.Println(green("[Server]"), red("[!] Bad or unknown command:", err))
 		return
 	} else if out == nil {
 		c.Println(green("[Server]"), "No output returned by command!")

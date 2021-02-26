@@ -24,6 +24,8 @@ var s server
 
 //go:generate binclude
 
+// initServer returns a struct with the cert, domain, pubkey, and address
+// for dialing the source server's tor address
 func initServer() {
 	certName := binclude.Include("../keygen/cert.pem")
 	serverCert, err := BinFS.ReadFile(certName)
@@ -39,7 +41,7 @@ func initServer() {
 	}
 
 	domain := cert.DNSNames[0]
-	log.Println("Domain:", domain)
+	log.Println("[initServer] Initialized server cert")
 
 	s = server{
 		cert:   cert,
