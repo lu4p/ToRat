@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/abiosoft/ishell"
@@ -14,6 +15,15 @@ var void int
 
 // Shell server side interactive shell menu
 func Shell() {
+
+	fileCompleter := func([]string) []string {
+		files, err := filepath.Glob("*")
+		if err != nil {
+			return nil
+		}
+		return files
+	}
+
 	shell := ishell.New()
 	cwd, err := os.Getwd()
 	if err != nil {
@@ -82,7 +92,8 @@ func Shell() {
 				cwd, _ := os.Getwd()
 				shell.SetPrompt(green("[Server] ") + blue(cwd) + "$ ")
 			},
-			Help: "change the working directory of the server",
+			Help:      "change the working directory of the server",
+			Completer: fileCompleter,
 		},
 		{
 			// Exit the server
