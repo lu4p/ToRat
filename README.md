@@ -21,17 +21,18 @@ USE FOR EDUCATIONAL PURPOSES ONLY
 
 ### Client Commands
 
-  Command         | Status      |   Info
-  ---             | ---         |   ---
+  Command     | Status      |   Info
+  ---         | ---         |   ---
   **cd**          | Working     |   change the working directory of the client
-  **ls**          | Not Working |   list the content of the working directory of the client
-  **shred**       | Not Working |   delete files/ directories unrecoverable
-  **shredremove** | Not Working |   same as shred + removes the shredded files
-  **screen**      | Untested    |   take a Screenshot of the client
+  **ls**          | Working     |   list the content of the working directory of the client
+  **shred**       | Working     |   delete files/ directories unrecoverable
+  **screen**      | Working     |   take a Screenshot of the client
   **cat**         | Working     |   view Textfiles from the client including .docx, .rtf, .pdf, .odt
   **alias**       | Not Working |   give the client a custom alias
   **down**        | Working     |   download a file from the client
   **up**          | Working     |   upload a file to the client
+  **speedtest**   | Working     |   speedtest a client's internet connection
+  **hardware**    | Not Working |   collects a varity of hardware specs from the client
   **escape**      | Working     |   escape a command and run it in a native shell on the client
   **reconnect**   | Not Working |   tell the client to reconnect
   **help**        | Working     |   lists possible commands with usage info
@@ -39,8 +40,8 @@ USE FOR EDUCATIONAL PURPOSES ONLY
 
 ### Server Commands 
 
-  Command     | Status      |   Info
-  ---         |  ---        |   ---
+  Command | Status      |   Info
+  ---     |  ---        |   ---
   **select**  | Working     | select client to interact with
   **list**    | Working     | list all connected clients
   **alias**   | Not Working | select client to give an alias
@@ -56,6 +57,16 @@ USE FOR EDUCATIONAL PURPOSES ONLY
 - Automatic upx leads to client binaries of ~6MB with embedded Tor
 - sqlite via gorm for storing information about the clients
 - client is obfuscated via [garble](https://github.com/burrowers/garble)
+
+## Server Shell
+- Cross Platform reverse shell (Windows, Linux, Mac OS)
+- Supports multiple connections
+- Welcome Banner
+- Colored Output
+- Tab-Completion of:
+  - Commands
+  - Files/ Directories in the working directory of the server
+
 - Unique persistent ID for every client
 	- give a client an Alias
 	- all Downloads from client get saved to ./$ID/$filename
@@ -79,22 +90,12 @@ USE FOR EDUCATIONAL PURPOSES ONLY
 	- [x] smaller binary ~7MB upx'ed
 	- [ ] anonymity of client and server
 
-## Server Shell
-- Cross Platform reverse shell (Windows, Linux, Mac OS)
-- Supports multiple connections
-- Welcome Banner
-- Colored Output
-- Tab-Completion of:
-  - Commands
-  - Files/ Directories in the working directory of the server
-
-
 
 ## Upcoming Features
 - [ ] Bulk Commands
-- [ ] Privilege escalation for Linux
+- [ ] Persistence and privilege escalation for Linux
 - [ ] Persistence and privilege escalation for Mac OS
-- [ ] Support for Android and iOS needs fix of https://github.com/ipsn/go-libtor/issues/12
+- [ ] Support for Android and iOS (needs fix of https://github.com/ipsn/go-libtor/issues/12)
 - [ ] [File-less Persistence on Windows](https://github.com/ewhitehats/InvisiblePersistence)
 
 
