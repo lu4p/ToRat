@@ -1,5 +1,5 @@
 FROM lu4p/tor-static:latest
-RUN GO111MODULE=on go get mvdan.cc/garble@c9deff810b6091955c5bd7f43cdd9dc7e4488426
+RUN GO111MODULE=on go get mvdan.cc/garble
 RUN mkdir /ToRat
 WORKDIR /ToRat
 COPY go.mod .
