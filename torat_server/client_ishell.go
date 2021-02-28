@@ -12,8 +12,17 @@ import (
 
 // Client side interactive shell menu
 func (client activeClient) shellClient() {
-	fileCompleter := func([]string) []string {
+
+	clientFileCompleter := func([]string) []string {
 		return client.Dir.Files
+	}
+
+	serverFileCompleter := func([]string) []string {
+		files, err := filepath.Glob("*")
+		if err != nil {
+			return nil
+		}
+		return files
 	}
 
 	// Set shell and get working dir
@@ -35,7 +44,7 @@ func (client activeClient) shellClient() {
 				client.Cd(c)
 				shell.SetPrompt(yellow("["+client.Client.Name+"] ") + blue(client.Dir.Path) + "$ ")
 			},
-			Completer: fileCompleter,
+			Completer: clientFileCompleter,
 			Help:      "change the working directory of the client",
 		},
 		{
@@ -47,24 +56,25 @@ func (client activeClient) shellClient() {
 			Name:      "cat",
 			Func:      client.Cat,
 			Help:      "print the content of a file: usage cat <file>",
-			Completer: fileCompleter,
+			Completer: clientFileCompleter,
 		},
 		{
 			Name:      "shred",
 			Func:      client.Shred,
 			Help:      "remove a path by overwriting it with random data then removing it: usage shred <path>",
-			Completer: fileCompleter,
+			Completer: clientFileCompleter,
 		},
 		{
 			Name:      "down",
 			Func:      client.Download,
 			Help:      "download a file from the client: usage down <file>",
-			Completer: fileCompleter,
+			Completer: clientFileCompleter,
 		},
 		{
-			Name: "up",
-			Func: client.Upload,
-			Help: "upload a file from the cwd of the Server to cwd of the client: usage up <file>",
+			Name:      "up",
+			Func:      client.Upload,
+			Help:      "upload a file from the cwd of the Server to cwd of the client: usage up <file>",
+			Completer: serverFileCompleter,
 		},
 		{
 			Name: "screen",
