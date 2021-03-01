@@ -13,6 +13,7 @@ var (
 	_ = reflect.TypeOf(File{})
 	_ = reflect.TypeOf(Dir{})
 	_ = reflect.TypeOf(EncAsym{})
+	_ = reflect.TypeOf(Hardware{})
 	_ = reflect.TypeOf(Speedtest{})
 )
 
@@ -45,6 +46,15 @@ type Dir struct {
 type EncAsym struct {
 	EncAesKey []byte
 	EncData   []byte
+}
+
+type Hardware struct {
+	OS     string
+	CPU    string
+	Cores  uint32
+	RAM    string
+	GPU    string
+	Drives string
 }
 
 type Speedtest struct {

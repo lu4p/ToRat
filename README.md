@@ -32,7 +32,7 @@ USE FOR EDUCATIONAL PURPOSES ONLY
   **down**        | Working     |   download a file from the client
   **up**          | Working     |   upload a file to the client
   **speedtest**   | Working     |   speedtest a client's internet connection
-  **hardware**    | Not Working |   collects a varity of hardware specs from the client
+  **hardware**    | Working     |   collects a varity of hardware specs from the client
   **escape**      | Working     |   escape a command and run it in a native shell on the client
   **reconnect**   | Not Working |   tell the client to reconnect
   **help**        | Working     |   lists possible commands with usage info
