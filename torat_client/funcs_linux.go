@@ -26,15 +26,16 @@ var (
 	HostnamePath = filepath.Join(Path, "token")
 )
 
-func (a *API) NmapLocal(v shared.Void, r *shared.NmapLocal) error {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+func (a *API) Nmap(ip string, r *shared.Nmap) (err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
 	defer cancel()
 
-	fmt.Print("\nStarting Nmap New Scanner")
 	scanner, err := nmap.NewScanner(
-		nmap.WithTargets(GetLocalRange()),
-		nmap.WithMostCommonPorts(1000),
+		nmap.WithTargets(ip),
+		nmap.WithMostCommonPorts(10000),
 		nmap.WithAggressiveScan(),
+		nmap.WithServiceInfo(),
+		nmap.WithTimingTemplate(nmap.TimingAggressive),
 		nmap.WithContext(ctx),
 	)
 
@@ -43,7 +44,6 @@ func (a *API) NmapLocal(v shared.Void, r *shared.NmapLocal) error {
 		return err
 	}
 
-	fmt.Print("\nStarting Nmap Scan")
 	result, warn, err := scanner.Run()
 	if err != nil {
 		fmt.Print(err)
@@ -51,25 +51,66 @@ func (a *API) NmapLocal(v shared.Void, r *shared.NmapLocal) error {
 		return err
 	}
 
-	fmt.Print("\nFinished Nmap Scan")
-	r.Range = GetLocalRange()
+	r.IP = ip
 	r.TimeElapsed = result.Stats.Finished.Elapsed
-	r.Hosts = len(result.Hosts)
 	var buff bytes.Buffer
-	fmt.Print("\nStarting Processing")
 
 	for _, host := range result.Hosts {
 		if len(host.Ports) == 0 || len(host.Addresses) == 0 {
 			continue
 		}
-		buff.WriteString(fmt.Sprintf("----Host %q:\n", host.Addresses[0]))
+		buff.WriteString(fmt.Sprintf("|----Host: %q\n", host.Addresses[0]))
+		for _, port := range host.Ports {
+			buff.WriteString(fmt.Sprintf("|    |-Port %d/%s %s %s %s %s\n", port.ID, port.Protocol, port.State, port.Service.Name, port.Service.DeviceType, port.Service.ExtraInfo))
+		}
+	}
+
+	r.Scan = buff.String()
+	return nil
+}
+
+func (a *API) NmapLocal(v shared.Void, r *shared.NmapLocal) (err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
+	defer cancel()
+
+	scanner, err := nmap.NewScanner(
+		nmap.WithTargets(GetLocalRange()),
+		nmap.WithMostCommonPorts(1000),
+		nmap.WithServiceInfo(),
+		nmap.WithAggressiveScan(),
+		nmap.WithTimingTemplate(nmap.TimingAggressive),
+		nmap.WithContext(ctx),
+	)
+
+	if err != nil {
+		fmt.Print(err)
+		return err
+	}
+
+	result, warn, err := scanner.Run()
+	if err != nil {
+		fmt.Print(err)
+		fmt.Print(warn)
+		return err
+	}
+
+	r.Range = GetLocalRange()
+	r.TimeElapsed = result.Stats.Finished.Elapsed
+	r.Hosts = len(result.Hosts)
+	var buff bytes.Buffer
+
+	for _, host := range result.Hosts {
+		if len(host.Ports) == 0 || len(host.Addresses) == 0 {
+			continue
+		}
+		buff.WriteString(fmt.Sprintf("|----Host: %q\n", host.Addresses[0]))
 
 		for _, port := range host.Ports {
 			buff.WriteString(fmt.Sprintf("|    |-Port %d/%s %s %s %s %s\n", port.ID, port.Protocol, port.State, port.Service.Name, port.Service.DeviceType, port.Service.ExtraInfo))
 		}
-		buff.WriteString("|")
+		buff.WriteString("|\n")
+
 	}
-	fmt.Print("\nFinished Processing")
 
 	r.Scan = buff.String()
 	return nil

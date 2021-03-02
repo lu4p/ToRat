@@ -14,11 +14,18 @@ var (
 	HostnamePath = filepath.Join(Path, "token")
 )
 
+func (a *API) Nmap(ip string, r *shared.Nmap) (err error) {
+	r.Scan = "Nmap on Mac is NOT supported yet!"
+	r.TimeElapsed = 0
+	r.IP = ip
+	return
+}
+
 func (a *API) NmapLocal(v shared.Void, r *shared.NmapLocal) {
 	r.Range = GetLocalRange()
 	r.TimeElapsed = 0
 	r.Hosts = 0
-	r.Scan = "Nmap on MAC is NOT supported yet!"
+	r.Scan = "Nmap on Mac is NOT supported yet!"
 	return
 }
 

@@ -102,8 +102,13 @@ func (client activeClient) shellClient() {
 		},
 		{
 			Name: "nmap",
+			Func: client.Nmap,
+			Help: "nmap an ip on the clients local network: usage nmap <ip>",
+		},
+		{
+			Name: "netscan",
 			Func: client.NmapLocal,
-			Help: "nmap a local clients subnet",
+			Help: "nmap a clients entire network for connected devices and open ports",
 		},
 		{
 			Name: "exit",
@@ -323,7 +328,34 @@ func (client *activeClient) runCommand(c *ishell.Context) {
 	c.Println(r)
 }
 
+func (client *activeClient) Nmap(c *ishell.Context) {
+	ip := strings.Join(c.Args, "")
+	if ip == "" {
+		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] No IP provided!"))
+		return
+	}
+
+	c.Println(yellow("["+client.Client.Name+"] ") + "This will take up to 10 minutes!")
+	c.ProgressBar().Indeterminate(true)
+	c.ProgressBar().Start()
+
+	r := shared.Nmap{}
+	if err := client.RPC.Call("API.Nmap", ip, &r); err != nil {
+		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Could not perform nmap on client"))
+		c.ProgressBar().Stop()
+		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
+		return
+	}
+	c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + green("[+] Nmap finished"))
+	c.ProgressBar().Stop()
+
+	// Use the results to print an example output
+	fmt.Printf("Nmap on %s took %3f seconds\n", r.IP, r.TimeElapsed)
+	fmt.Print(r.Scan)
+}
+
 func (client *activeClient) NmapLocal(c *ishell.Context) {
+	c.Println(yellow("["+client.Client.Name+"] ") + "This will take up to 10 minutes!")
 	c.ProgressBar().Indeterminate(true)
 	c.ProgressBar().Start()
 

@@ -33,6 +33,8 @@ USE FOR EDUCATIONAL PURPOSES ONLY
   **up**          | Working     |   upload a file to the client
   **speedtest**   | Working     |   speedtest a client's internet connection
   **hardware**    | Not Working |   collects a varity of hardware specs from the client
+  **netscan**     | Experimental|   scans a clients entire network for online devices and open ports
+  **nmap**        | Experimental|   nmap a local ip on a clients network for open ports and services 
   **escape**      | Working     |   escape a command and run it in a native shell on the client
   **reconnect**   | Not Working |   tell the client to reconnect
   **help**        | Working     |   lists possible commands with usage info
