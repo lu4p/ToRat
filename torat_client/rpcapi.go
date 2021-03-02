@@ -160,13 +160,27 @@ func (a *API) Cd(path string, r *shared.Dir) (err error) {
 	return err
 }
 
-// Hardware Survey Section
+// GetHardware information for a client
 func (a *API) GetHardware(v shared.Void, r *shared.Hardware) error {
-	// We don't care about errors (they won't panic)
-	cpu, _ := ghw.CPU()
-	memory, _ := ghw.Memory()
-	block, _ := ghw.Block()
-	gpu, _ := ghw.GPU()
+	cpu, err := ghw.CPU()
+	if err != nil {
+		return err
+	}
+
+	memory, err := ghw.Memory()
+	if err != nil {
+		return err
+	}
+
+	block, err := ghw.Block()
+	if err != nil {
+		return err
+	}
+
+	gpu, err := ghw.GPU()
+	if err != nil {
+		return err
+	}
 
 	r.OS = runtime.GOOS
 	r.Cores = cpu.TotalThreads
