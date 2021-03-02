@@ -14,6 +14,7 @@ var (
 	_ = reflect.TypeOf(Dir{})
 	_ = reflect.TypeOf(EncAsym{})
 	_ = reflect.TypeOf(Speedtest{})
+	_ = reflect.TypeOf(NmapLocal{})
 )
 
 type Void int
@@ -53,4 +54,11 @@ type Speedtest struct {
 	Download float64
 	Upload   float64
 	Country  string
+}
+
+type NmapLocal struct {
+	Range       string
+	TimeElapsed float32
+	Hosts       int
+	Scan        string
 }

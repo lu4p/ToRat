@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -98,6 +99,11 @@ func (client activeClient) shellClient() {
 			Name: "speedtest",
 			Func: client.Speedtest,
 			Help: "run a speedtest on a clients native internet connection (non-tor)",
+		},
+		{
+			Name: "nmap",
+			Func: client.NmapLocal,
+			Help: "nmap a local clients subnet",
 		},
 		{
 			Name: "exit",
@@ -315,4 +321,23 @@ func (client *activeClient) runCommand(c *ishell.Context) {
 	}
 
 	c.Println(r)
+}
+
+func (client *activeClient) NmapLocal(c *ishell.Context) {
+	c.ProgressBar().Indeterminate(true)
+	c.ProgressBar().Start()
+
+	r := shared.NmapLocal{}
+	if err := client.RPC.Call("API.NmapLocal", void, &r); err != nil {
+		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Could not perform nmap on client"))
+		c.ProgressBar().Stop()
+		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
+		return
+	}
+	c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + green("[+] Nmap finished"))
+	c.ProgressBar().Stop()
+
+	// Use the results to print an example output
+	fmt.Printf("Nmap on %s: %d hosts up scanned in %3f seconds\n", r.Range, r.Hosts, r.TimeElapsed)
+	fmt.Print(r.Scan)
 }
