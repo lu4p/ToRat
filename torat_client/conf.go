@@ -3,10 +3,9 @@ package client
 import (
 	"crypto/rsa"
 	"crypto/x509"
+	_ "embed" // used for embedding the cert
 	"encoding/pem"
 	"log"
-
-	"github.com/lu4p/binclude"
 )
 
 const (
@@ -22,17 +21,12 @@ type server struct {
 
 var s server
 
-//go:generate binclude
+//go:embed cert.pem
+var serverCert []byte
 
 // initServer returns a struct with the cert, domain, pubkey, and address
 // for dialing the source server's tor address
 func initServer() {
-	certName := binclude.Include("../keygen/cert.pem")
-	serverCert, err := BinFS.ReadFile(certName)
-	if err != nil {
-		panic(err)
-	}
-
 	serverBlock, _ := pem.Decode(serverCert)
 
 	cert, err := x509.ParseCertificate(serverBlock.Bytes)

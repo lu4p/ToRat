@@ -1,12 +1,12 @@
 FROM lu4p/tor-static:latest
-RUN GO111MODULE=on go get mvdan.cc/garble
+RUN go version
+RUN go install mvdan.cc/garble@latest
 RUN mkdir /ToRat
 WORKDIR /ToRat
 COPY go.mod .
 COPY go.sum .
 
 RUN go mod download -x
-RUN GO111MODULE=on go install github.com/lu4p/binclude/cmd/binclude
 
 RUN mkdir -p /dist/server && mkdir -p /dist/client
 
@@ -14,9 +14,6 @@ COPY . .
 
 # Generate keys and certificates
 RUN cd ./keygen && go run .
-
-# Include Certificate in the binary
-RUN cd ./torat_client && binclude
 
 # Build ToRat_server
 RUN cd ./cmd/server && go build -o /dist/server/ToRat_server

@@ -77,7 +77,7 @@ func mainErr() error {
 		return err
 	}
 
-	if err := writePemKey("cert.pem", "CERTIFICATE", cert); err != nil {
+	if err := writePemKey("../torat_client/cert.pem", "CERTIFICATE", cert); err != nil {
 		return err
 	}
 
