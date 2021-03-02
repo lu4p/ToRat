@@ -35,7 +35,7 @@ func Start() error {
 	// Migrate the schema
 	db.AutoMigrate(&Client{})
 
-	cert, err := tls.LoadX509KeyPair("../../keygen/cert.pem", "../../keygen/priv_key.pem")
+	cert, err := tls.LoadX509KeyPair("../../torat_client/cert.pem", "../../keygen/priv_key.pem")
 	if err != nil {
 		return fmt.Errorf("could not load cert: %v", err)
 	}
