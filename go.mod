@@ -28,5 +28,5 @@ require (
 	golang.org/x/sys v0.0.0-20210301091718-77cc2087c03b
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 	gorm.io/driver/sqlite v1.1.4
-	gorm.io/gorm v1.20.12
+	gorm.io/gorm v1.21.1
 )
