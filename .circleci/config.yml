@@ -11,6 +11,6 @@ jobs:
     steps:
       - run: git clone https://github.com/lu4p/ToRat.git .
       - run: go mod download -x
-      - run: cd ./keygen && go run .
+      - run: touch torat_client/cert.pem # create dummy cert
       - run: go build github.com/lu4p/ToRat/cmd/server
       - run: go build github.com/lu4p/ToRat/cmd/client
