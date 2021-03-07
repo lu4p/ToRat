@@ -87,7 +87,7 @@ USE FOR EDUCATIONAL PURPOSES ONLY
 	- [x] end-to-end encryption
 
 - optional transport without Tor e.g. Use Tor2Web, a DNS Hostname or public/ local IP
-	- [x] smaller binary ~7MB upx'ed
+	- [x] smaller binary ~3MB upx'ed
 	- [ ] anonymity of client and server
 
 
