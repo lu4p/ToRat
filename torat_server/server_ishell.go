@@ -15,7 +15,6 @@ var void int
 
 // Shell server side interactive shell menu
 func Shell() {
-
 	fileCompleter := func([]string) []string {
 		files, err := filepath.Glob("*")
 		if err != nil {
@@ -73,9 +72,8 @@ func Shell() {
 				name := c.ReadLine()
 				client := activeClients[choice]
 
-				// TODO: ISSUE #173
-				client.Client.Name = name
-				db.Save(&client.Client)
+				client.Data().Name = name
+				saveData()
 			},
 			Help: "give a client an alias",
 		},
@@ -130,10 +128,10 @@ func runCommand(c *ishell.Context) {
 }
 
 // Get hostname of client
-func (client *activeClient) GetHostname() error {
+func (ac *activeClient) GetHostname() error {
 	var encHostname shared.EncAsym
 
-	err := client.RPC.Call("API.Hostname", void, &encHostname)
+	err := ac.RPC.Call("API.Hostname", void, &encHostname)
 	if err != nil {
 		return err
 	}
@@ -143,6 +141,6 @@ func (client *activeClient) GetHostname() error {
 		return err
 	}
 
-	client.Hostname = string(byteHostname)
+	ac.Hostname = string(byteHostname)
 	return nil
 }

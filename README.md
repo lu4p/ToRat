@@ -28,7 +28,7 @@ USE FOR EDUCATIONAL PURPOSES ONLY
   **shred**       | Working     |   delete files/ directories unrecoverable
   **screen**      | Working     |   take a Screenshot of the client
   **cat**         | Working     |   view Textfiles from the client including .docx, .rtf, .pdf, .odt
-  **alias**       | Not Working |   give the client a custom alias
+  **alias**       | Working     |   give the client a custom alias
   **down**        | Working     |   download a file from the client
   **up**          | Working     |   upload a file to the client
   **speedtest**   | Working     |   speedtest a client's internet connection
@@ -44,7 +44,7 @@ USE FOR EDUCATIONAL PURPOSES ONLY
   ---     |  ---        |   ---
   **select**  | Working     | select client to interact with
   **list**    | Working     | list all connected clients
-  **alias**   | Not Working | select client to give an alias
+  **alias**   | Working     | select client to give an alias
   **cd**      | Working     | change the working directory of the server
   **help**    | Working     | lists possible commands with usage info
   **exit**    | Working     | exit the server

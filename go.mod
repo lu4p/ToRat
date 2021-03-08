@@ -20,7 +20,6 @@ require (
 	github.com/lu4p/cat v0.1.5
 	github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff
 	github.com/lu4p/shred v0.0.0-20201211173428-0347b645d724
-	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/showwin/speedtest-go v1.1.1
 	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/vova616/screenshot v0.0.0-20191005130345-da36db2560ab
@@ -28,6 +27,4 @@ require (
 	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
 	golang.org/x/sys v0.0.0-20210305230114-8fe3ee5dd75b
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
-	gorm.io/driver/sqlite v1.1.4
-	gorm.io/gorm v1.21.3
 )

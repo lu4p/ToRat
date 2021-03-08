@@ -8,3 +8,4 @@ keygen/hs_private
 data-dir-*
 .vscode
 *.pem
+test/
