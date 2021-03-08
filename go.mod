@@ -23,8 +23,8 @@ require (
 	github.com/showwin/speedtest-go v1.1.1
 	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/vova616/screenshot v0.0.0-20191005130345-da36db2560ab
-	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect
-	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
-	golang.org/x/sys v0.0.0-20210305230114-8fe3ee5dd75b
+	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 // indirect
+	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 // indirect
+	golang.org/x/sys v0.0.0-20210308170721-88b6017d0656
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
