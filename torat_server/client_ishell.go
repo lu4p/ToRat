@@ -280,12 +280,15 @@ func (client *activeClient) Hardware(c *ishell.Context) {
 	c.ProgressBar().Final(yellow("["+client.Client.Name+"] ") + green("[+] Hardware collection finished"))
 	c.ProgressBar().Stop()
 
-	c.Println(green("OS:     "), r.OS)
-	c.Println(green("CPU:    "), r.CPU)
-	c.Println(green("CORES:  "), r.Cores)
-	c.Println(green("RAM:    "), r.RAM)
-	c.Println(green("GPU:    "), r.GPU)
-	c.Println(green("Drives: "), r.Drives)
+	c.Println(green("Runtime:     "), r.Runtime)
+	c.Println(green("Arch:        "), r.OSArch)
+	c.Println(green("OS:          "), r.OSName)
+	c.Println(green("OS Version:  "), r.OSVersion)
+	c.Println(green("CPU:         "), r.CPU)
+	c.Println(green("CORES:       "), r.Cores)
+	c.Println(green("RAM:         "), r.RAM)
+	c.Println(green("GPU:         "), r.GPU)
+	c.Println(green("Drives:      "), r.Drives)
 }
 
 // Shred a remote file

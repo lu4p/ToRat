@@ -49,12 +49,15 @@ type EncAsym struct {
 }
 
 type Hardware struct {
-	OS     string
-	CPU    string
-	Cores  uint32
-	RAM    string
-	GPU    string
-	Drives string
+	Runtime   string
+	OSArch    string
+	OSName    string
+	OSVersion string
+	CPU       string
+	Cores     uint32
+	RAM       string
+	GPU       string
+	Drives    string
 }
 
 type Speedtest struct {
