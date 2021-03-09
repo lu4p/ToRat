@@ -131,14 +131,21 @@ func runCommand(c *ishell.Context) {
 func (ac *activeClient) GetHostname() error {
 	var encHostname shared.EncAsym
 
-	err := ac.RPC.Call("API.Hostname", void, &encHostname)
-	if err != nil {
+	if err := ac.RPC.Call("API.Hostname", void, &encHostname); err != nil {
 		return err
 	}
 
 	byteHostname, err := crypto.DecAsym(encHostname)
 	if err != nil {
-		return err
+		// try to regenerate the hostname if it can't be decrypted
+		if err := ac.RPC.Call("API.NewHostname", void, &encHostname); err != nil {
+			return err
+		}
+
+		byteHostname, err = crypto.DecAsym(encHostname)
+		if err != nil {
+			return err
+		}
 	}
 
 	ac.Hostname = string(byteHostname)

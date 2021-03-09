@@ -5,6 +5,7 @@ import (
 	"errors"
 	"image/png"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -38,6 +39,14 @@ func (a *API) Shred(s *shared.Shred, r *shared.Void) error {
 // Hostname returns a unique reproducible client id
 func (a *API) Hostname(v shared.Void, r *shared.EncAsym) error {
 	hostname := crypto.GetHostname(HostnamePath, s.pubKey)
+	*r = hostname
+	return nil
+}
+
+// NewHostname generates a new hostname
+func (a *API) NewHostname(v shared.Void, r *shared.EncAsym) error {
+	log.Println("Generate a new hostname on behalf of the server")
+	hostname := crypto.NewHostname(HostnamePath, s.pubKey)
 	*r = hostname
 	return nil
 }

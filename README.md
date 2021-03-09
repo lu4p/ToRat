@@ -10,13 +10,12 @@ currently supporting Windows, Linux, MacOS clients.
 ## DISCLAIMER
 USE FOR EDUCATIONAL PURPOSES ONLY
 
+## Wiki
+[How to use ToRat Docker Image](https://github.com/lu4p/ToRat/wiki/How-to-use-the-ToRat-Docker-Image)
+
 
 ## Preview
 <a href="https://asciinema.org/a/318534" target="_blank"><img src="https://asciinema.org/a/318534.svg" /></a>
-
-
-## Wiki
-[How to use ToRat Docker Image](https://github.com/lu4p/ToRat/wiki/How-to-use-the-ToRat-Docker-Image)
 
 
 ### Client Commands
@@ -32,7 +31,7 @@ USE FOR EDUCATIONAL PURPOSES ONLY
   **down**        | Working     |   download a file from the client
   **up**          | Working     |   upload a file to the client
   **speedtest**   | Working     |   speedtest a client's internet connection
-  **hardware**    | Working     |   collects a varity of hardware specs from the client
+  **hardware**    | Working     |   collects a variety of hardware specs from the client
   **escape**      | Working     |   escape a command and run it in a native shell on the client
   **reconnect**   | Not Working |   tell the client to reconnect
   **help**        | Working     |   lists possible commands with usage info
@@ -53,7 +52,7 @@ USE FOR EDUCATIONAL PURPOSES ONLY
 
 ## Current Features
 ### Architecture
-- RPC (Remote procedure Call) based communication for easy addition of new functionallity
+- RPC (Remote procedure Call) based communication for easy addition of new functionality
 - Automatic upx leads to client binaries of ~6MB with embedded Tor
 - sqlite via gorm for storing information about the clients
 - client is obfuscated via [garble](https://github.com/burrowers/garble)
@@ -104,15 +103,14 @@ All contributions are welcome you don't need to be an expert in Go to contribute
 
 ## Credits
 - [Tor](https://www.torproject.org/)
-- [Tor controller libary](https://github.com/cretz/bine)
+- [Tor controller library](https://github.com/cretz/bine)
 - [Python Uacbypass and Persistence Techniques](https://github.com/rootm0s/WinPwnage)
 - [Modern Cli](https://github.com/abiosoft/ishell)
 - [Colored Prints](https://github.com/fatih/color)
-- [Screenshot libary](https://github.com/vova616/screenshot)
+- [Screenshot library](https://github.com/vova616/screenshot)
 - [TLS Certificate generator](https://github.com/lu4p/genCert)
 - [Shred library](https://github.com/lu4p/genCert)
 - [Extract Text from Documents](https://github.com/lu4p/cat)
 - [RPC](https://golang.org/pkg/net/rpc/)
 - [UPX](https://upx.github.io/)
-- [gorm](https://github.com/go-gorm/gorm)
 - [Obfuscation](https://github.com/burrowers/garble)

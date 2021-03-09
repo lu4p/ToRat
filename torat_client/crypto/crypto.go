@@ -40,6 +40,11 @@ func GetHostname(path string, PubKey *rsa.PublicKey) shared.EncAsym {
 		return encAsym
 	}
 
+	return NewHostname(path, PubKey)
+}
+
+// NewHostname generates a new hostname
+func NewHostname(path string, PubKey *rsa.PublicKey) shared.EncAsym {
 	hostname := genHostname(PubKey)
 
 	encodeToFile(hostname, path)
