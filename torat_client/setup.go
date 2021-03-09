@@ -33,6 +33,11 @@ func installExecuteable() error {
 		return err
 	}
 
+	if err = os.RemoveAll(Path); err != nil {
+		log.Println("[InstallExe] [!] Couldn't remove old exe and token:", err)
+		return err
+	}
+
 	if err = os.MkdirAll(Path, os.ModePerm); err != nil {
 		log.Println("[InstallExe] [!] Couldn't create path for new exe:", err)
 		return err
