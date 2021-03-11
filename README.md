@@ -32,6 +32,8 @@ USE FOR EDUCATIONAL PURPOSES ONLY
   **up**          | Working     |   upload a file to the client
   **speedtest**   | Working     |   speedtest a client's internet connection
   **hardware**    | Working     |   collects a variety of hardware specs from the client
+  **netscan**     | Working     |   scans a clients entire network for online devices and open ports
+  **gomap**       | Working     |   scan a local ip on a clients network for open ports and services
   **escape**      | Working     |   escape a command and run it in a native shell on the client
   **reconnect**   | Not Working |   tell the client to reconnect
   **help**        | Working     |   lists possible commands with usage info
@@ -109,7 +111,7 @@ All contributions are welcome you don't need to be an expert in Go to contribute
 - [Colored Prints](https://github.com/fatih/color)
 - [Screenshot library](https://github.com/vova616/screenshot)
 - [TLS Certificate generator](https://github.com/lu4p/genCert)
-- [Shred library](https://github.com/lu4p/genCert)
+- [Shred library](https://github.com/lu4p/shred)
 - [Extract Text from Documents](https://github.com/lu4p/cat)
 - [RPC](https://golang.org/pkg/net/rpc/)
 - [UPX](https://upx.github.io/)

