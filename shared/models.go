@@ -15,6 +15,7 @@ var (
 	_ = reflect.TypeOf(EncAsym{})
 	_ = reflect.TypeOf(Hardware{})
 	_ = reflect.TypeOf(Speedtest{})
+	_ = reflect.TypeOf(Gomap{})
 )
 
 type Void int
@@ -66,4 +67,8 @@ type Speedtest struct {
 	Download float64
 	Upload   float64
 	Country  string
+}
+
+type Gomap struct {
+	Scan string
 }

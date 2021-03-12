@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -103,6 +104,16 @@ func (ac activeClient) shellClient() {
 			Name: "speedtest",
 			Func: ac.Speedtest,
 			Help: "run a speedtest on a clients native internet connection (non-tor)",
+		},
+		{
+			Name: "gomap",
+			Func: ac.Gomap,
+			Help: "gomap an ip on the clients local network: usage nmap <ip>",
+		},
+		{
+			Name: "netscan",
+			Func: ac.GomapLocal,
+			Help: "gomap ans entire network for connected devices and known open ports",
 		},
 		{
 			Name: "exit",
@@ -344,4 +355,48 @@ func (ac *activeClient) runCommand(c *ishell.Context) {
 	}
 
 	c.Println(r)
+}
+
+func (ac *activeClient) Gomap(c *ishell.Context) {
+	ip := strings.Join(c.Args, "")
+	if ip == "" {
+		c.Println(yellow("["+ac.Data().Name+"] ") + red("[!] No IP provided!"))
+		return
+	}
+
+	c.Println(yellow("["+ac.Data().Name+"] ") + "This will take up to 1 minute!")
+	c.ProgressBar().Indeterminate(true)
+	c.ProgressBar().Start()
+
+	r := shared.Gomap{}
+	if err := ac.RPC.Call("API.Gomap", ip, &r); err != nil {
+		c.ProgressBar().Final(yellow("["+ac.Data().Name+"] ") + red("[!] Could not perform gomap on client"))
+		c.ProgressBar().Stop()
+		c.Println(yellow("["+ac.Data().Name+"] ") + red("[!] ", err))
+		return
+	}
+	c.ProgressBar().Final(yellow("["+ac.Data().Name+"] ") + green("[+] Gomap finished"))
+	c.ProgressBar().Stop()
+
+	// Use the results to print an example output
+	fmt.Print(r.Scan)
+}
+
+func (ac *activeClient) GomapLocal(c *ishell.Context) {
+	c.Println(yellow("["+ac.Data().Name+"] ") + "This will take up to 5 minutes!")
+	c.ProgressBar().Indeterminate(true)
+	c.ProgressBar().Start()
+
+	r := shared.Gomap{}
+	if err := ac.RPC.Call("API.GomapLocal", void, &r); err != nil {
+		c.ProgressBar().Final(yellow("["+ac.Data().Name+"] ") + red("[!] Could not perform gomap on client"))
+		c.ProgressBar().Stop()
+		c.Println(yellow("["+ac.Data().Name+"] ") + red("[!] ", err))
+		return
+	}
+	c.ProgressBar().Final(yellow("["+ac.Data().Name+"] ") + green("[+] Gomap finished"))
+	c.ProgressBar().Stop()
+
+	// Use the results to print an example output
+	fmt.Print(r.Scan)
 }

@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/BurntSushi/xgb v0.0.0-20210121224620-deaf085860bc // indirect
+	github.com/JustinTimperio/gomap v0.0.0-20210311183127-b4beba1c5710
 	github.com/JustinTimperio/osinfo v0.0.0-20210307040040-1316be5f0aa1
 	github.com/abiosoft/ishell v2.0.0+incompatible
 	github.com/abiosoft/readline v0.0.0-20180607040430-155bce2042db // indirect

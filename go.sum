@@ -2,6 +2,8 @@ github.com/BurntSushi/xgb v0.0.0-20210121224620-deaf085860bc h1:7D+Bh06CRPCJO3gr
 github.com/BurntSushi/xgb v0.0.0-20210121224620-deaf085860bc/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/EndFirstCorp/peekingReader v0.0.0-20171012052444-257fb6f1a1a6 h1:t27CGFMv8DwGwqRPEa2VNof5I/aZwO6q2gfJhN8q0U4=
 github.com/EndFirstCorp/peekingReader v0.0.0-20171012052444-257fb6f1a1a6/go.mod h1:zpqkXxDsVfEIUZEWvT9yAo8OmRvSlRrcYQ3Zs8sSubA=
+github.com/JustinTimperio/gomap v0.0.0-20210311183127-b4beba1c5710 h1:GJDowopnOgl/I3xfZJudrKCmLyujK0pOadWH6C9sB3I=
+github.com/JustinTimperio/gomap v0.0.0-20210311183127-b4beba1c5710/go.mod h1:VBqui7Nb9LVK7v2aBtl8JjhNbc+67NnUjpvTqdgfAUw=
 github.com/JustinTimperio/osinfo v0.0.0-20210307040040-1316be5f0aa1 h1:NY2G+SGSJfbm82IuG6zFU1rU5Duo+CM7PLAxsViIUig=
 github.com/JustinTimperio/osinfo v0.0.0-20210307040040-1316be5f0aa1/go.mod h1:XzwetahnRWkdgdIQgXyahEaEvLDncafoTQE+2DeL9H0=
 github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d h1:G0m3OIz70MZUWq3EgK3CesDbo8upS2Vm9/P3FtgI+Jk=
