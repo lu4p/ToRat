@@ -15,8 +15,6 @@ var void int
 
 // Shell server side interactive shell menu
 func Shell() {
-	go APIServer()
-
 	fileCompleter := func([]string) []string {
 		files, err := filepath.Glob("*")
 		if err != nil {

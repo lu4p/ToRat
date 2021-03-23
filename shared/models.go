@@ -61,6 +61,7 @@ type Hardware struct {
 	GPU       string
 	Drives    string
 }
+
 type OSInfo struct {
 	Runtime   string
 	OSArch    string

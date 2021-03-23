@@ -222,17 +222,26 @@ func (a *API) GetOSInfo(v shared.Void, r *shared.OSInfo) error {
 	return nil
 }
 
-
 func (a *API) Gomap(ip string, r *shared.Gomap) (err error) {
 	fastscan := true
-	scan := gomap.ScanIP(ip, fastscan)
+
+	scan, err := gomap.ScanIP(ip, "tcp", fastscan, false)
+	if err != nil {
+		return err
+	}
+
 	r.Scan = scan.String()
 	return nil
 }
 
 func (a *API) GomapLocal(v shared.Void, r *shared.Gomap) (err error) {
 	fastscan := true
-	scan := gomap.ScanRange(fastscan)
+
+	scan, err := gomap.ScanRange("tcp", fastscan, false)
+	if err != nil {
+		return err
+	}
+
 	r.Scan = scan.String()
 	return nil
 }

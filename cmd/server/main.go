@@ -14,5 +14,7 @@ func main() {
 		}
 	}()
 
+	go server.APIServer()
+
 	server.Shell()
 }
