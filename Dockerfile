@@ -29,4 +29,5 @@ RUN cd /go/pkg/mod/github.com/cretz/tor-static && unzip -o tor-static-windows-am
 RUN cd ./cmd/client && GOOS=windows GOARCH=amd64 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ garble -literals -tiny -seed=random build -tags "osusergo,netgo,tor" --ldflags "-H windowsgui" -o /dist/client/client_windows.exe
 RUN upx /dist/client/client_windows.exe --force
 
+EXPOSE 8000
 CMD cp /dist/* /dist_ext -rf && ls /dist_ext && cd ./cmd/server/ && /dist_ext/server/ToRat_server
