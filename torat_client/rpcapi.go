@@ -211,6 +211,18 @@ func (a *API) GetHardware(v shared.Void, r *shared.Hardware) error {
 
 	return nil
 }
+
+// GetOSInfo information for a client
+func (a *API) GetOSInfo(v shared.Void, r *shared.OSInfo) error {
+	release := osinfo.GetVersion()
+	r.Runtime = release.Runtime
+	r.OSArch = release.Arch
+	r.OSName = release.Name
+	r.OSVersion = release.Version
+	return nil
+}
+
+
 func (a *API) Gomap(ip string, r *shared.Gomap) (err error) {
 	fastscan := true
 	scan := gomap.ScanIP(ip, fastscan)

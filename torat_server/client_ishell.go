@@ -93,6 +93,11 @@ func (ac activeClient) shellClient() {
 			Help: "collect a systems hardware specs",
 		},
 		{
+			Name: "osinfo",
+			Func: ac.OSInfo,
+			Help: "collect a systems operating-system specs",
+		},
+		{
 			Name: "reconnect",
 			Func: func(c *ishell.Context) {
 				ac.Reconnect(c)
@@ -275,6 +280,27 @@ func (ac *activeClient) Reconnect(c *ishell.Context) {
 	var r bool
 	ac.RPC.Call("API.Reconnect", void, &r)
 	c.Stop()
+}
+
+// Hardware print clients Operating-system info
+func (ac *activeClient) OSInfo(c *ishell.Context) {
+	c.ProgressBar().Indeterminate(true)
+	c.ProgressBar().Start()
+	r := shared.OSInfo{}
+
+	if err := ac.RPC.Call("API.GetOSInfo", void, &r); err != nil {
+		c.ProgressBar().Final(yellow("["+ac.Data().Name+"] ") + red("[!] Could not collect information on client OSInfo:", err))
+		c.ProgressBar().Stop()
+		return
+	}
+
+	c.ProgressBar().Final(yellow("["+ac.Data().Name+"] ") + green("[+] OSInfo collection finished"))
+	c.ProgressBar().Stop()
+
+	c.Println(green("Runtime:     "), r.Runtime)
+	c.Println(green("Arch:        "), r.OSArch)
+	c.Println(green("OS:          "), r.OSName)
+	c.Println(green("OS Version:  "), r.OSVersion)
 }
 
 // Hardware print clients hardware info

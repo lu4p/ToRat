@@ -14,6 +14,7 @@ func APIServer() {
 	router := mux.NewRouter().StrictSlash(true)
 
 	router.HandleFunc("/clients", getClients).Methods("GET")
+	router.HandleFunc("/clients/{id}/osinfo", getClientOSInfo).Methods("GET")
 	router.HandleFunc("/clients/{id}/hardware", getClientHardware).Methods("GET")
 	router.HandleFunc("/clients/{id}/speedtest", getClientSpeedtest).Methods("GET")
 	router.HandleFunc("/clients/{id}/netscan", getClientNetscan).Methods("GET")
@@ -58,6 +59,24 @@ func getClientHardware(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	json.NewEncoder(w).Encode(hardware)
+}
+func getClientOSInfo(w http.ResponseWriter, r *http.Request) {
+	var (
+		ac  *activeClient
+		err error
+	)
+	if ac, err = getActiveClientByID(mux.Vars(r)["id"]); err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, err.Error())
+		return
+	}
+	osinfo := shared.OSInfo{}
+	if err = ac.RPC.Call("API.GetOSInfo", void, &osinfo); err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, "null")
+		return
+	}
+	json.NewEncoder(w).Encode(osinfo)
 }
 func getClientSpeedtest(w http.ResponseWriter, r *http.Request) {
 	var (
