@@ -62,13 +62,13 @@ type Hardware struct {
 }
 
 type Speedtest struct {
-	IP       string
-	Ping     string
-	Download float64
-	Upload   float64
-	Country  string
+	IP       string `json:"IP"`
+	Ping     string `json:"Ping"`
+	Download float64 `json:"Download"`
+	Upload   float64 `json:"Upload"`
+	Country  string `json:"Country"`
 }
 
 type Gomap struct {
-	Scan string
+	Scan string `json:"Scan"`
 }

@@ -12,9 +12,12 @@ import (
 
 func APIServer() {
 	router := mux.NewRouter().StrictSlash(true)
+
 	router.HandleFunc("/clients", getClients).Methods("GET")
 	router.HandleFunc("/clients/{id}/hardware", getClientHardware).Methods("GET")
-	router.HandleFunc("/clients/{id}/reconnect", reconnectClient).Methods("GET")
+	router.HandleFunc("/clients/{id}/speedtest", getClientSpeedtest).Methods("GET")
+	router.HandleFunc("/clients/{id}/netscan", getClientNetscan).Methods("GET")
+
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
 
@@ -56,7 +59,7 @@ func getClientHardware(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(hardware)
 }
-func reconnectClient(w http.ResponseWriter, r *http.Request) {
+func getClientSpeedtest(w http.ResponseWriter, r *http.Request) {
 	var (
 		ac  *activeClient
 		err error
@@ -66,13 +69,31 @@ func reconnectClient(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, err.Error())
 		return
 	}
-	hardware := shared.Hardware{}
-	if err = ac.RPC.Call("API.GetHardware", void, &hardware); err != nil {
+	speedtest := shared.Speedtest{}
+	if err = ac.RPC.Call("API.Speedtest", void, &speedtest); err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		fmt.Fprintf(w, "null")
 		return
 	}
-	json.NewEncoder(w).Encode(hardware)
+	json.NewEncoder(w).Encode(speedtest)
+}
+func getClientNetscan(w http.ResponseWriter, r *http.Request) {
+	var (
+		ac  *activeClient
+		err error
+	)
+	if ac, err = getActiveClientByID(mux.Vars(r)["id"]); err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, err.Error())
+		return
+	}
+	gomap := shared.Gomap{}
+	if err = ac.RPC.Call("API.GomapLocal", void, &gomap); err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, "null")
+		return
+	}
+	json.NewEncoder(w).Encode(gomap)
 }
 func getClients(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(getClientIDs())
