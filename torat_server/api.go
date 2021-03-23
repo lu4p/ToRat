@@ -26,15 +26,14 @@ func APIServer() {
 func getClientIDs() []string {
 	var clients []string
 	for _, c := range activeClients {
-		clients = append(clients, data.Clients[c.Hostname].Hostname)
+		clients = append(clients, c.Hostname)
 	}
 	return clients
 }
 
 func getActiveClientByID(id string) (*activeClient, error) {
 	for _, c := range activeClients {
-		client := data.Clients[c.Hostname]
-		if client.Hostname == id {
+		if c.Hostname == id {
 			return &c, nil
 		}
 	}

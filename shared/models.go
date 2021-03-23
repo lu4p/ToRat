@@ -51,32 +51,31 @@ type EncAsym struct {
 }
 
 type Hardware struct {
-	Runtime   string `json:"Runtime"`
-	OSArch    string `json:"OSArch"`
-	OSName    string `json:"OSName"`
-	OSVersion string `json:"OSVersion"`
-	CPU       string `json:"CPU"`
-	Cores     uint32 `json:"Cores"`
-	RAM       string `json:"RAM"`
-	GPU       string `json:"GPU"`
-	Drives    string `json:"Drives"`
+	Runtime   string
+	OSArch    string
+	OSName    string
+	OSVersion string
+	CPU       string
+	Cores     uint32
+	RAM       string
+	GPU       string
+	Drives    string
 }
-
 type OSInfo struct {
-	Runtime   string `json:"Runtime"`
-	OSArch    string `json:"OSArch"`
-	OSName    string `json:"OSName"`
-	OSVersion string `json:"OSVersion"`
+	Runtime   string
+	OSArch    string
+	OSName    string
+	OSVersion string
 }
 
 type Speedtest struct {
-	IP       string `json:"IP"`
-	Ping     string `json:"Ping"`
-	Download float64 `json:"Download"`
-	Upload   float64 `json:"Upload"`
-	Country  string `json:"Country"`
+	IP       string
+	Ping     string
+	Download float64
+	Upload   float64
+	Country  string
 }
 
 type Gomap struct {
-	Scan string `json:"Scan"`
+	Scan string
 }
