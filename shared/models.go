@@ -50,15 +50,15 @@ type EncAsym struct {
 }
 
 type Hardware struct {
-	Runtime   string
-	OSArch    string
-	OSName    string
-	OSVersion string
-	CPU       string
-	Cores     uint32
-	RAM       string
-	GPU       string
-	Drives    string
+	Runtime   string `json:"Runtime"`
+	OSArch    string `json:"OSArch"`
+	OSName    string `json:"OSName"`
+	OSVersion string `json:"OSVersion"`
+	CPU       string `json:"CPU"`
+	Cores     uint32 `json:"Cores"`
+	RAM       string `json:"RAM"`
+	GPU       string `json:"GPU"`
+	Drives    string `json:"Drives"`
 }
 
 type Speedtest struct {

@@ -9,12 +9,15 @@ import (
 	"github.com/abiosoft/ishell"
 	"github.com/lu4p/ToRat/shared"
 	"github.com/lu4p/ToRat/torat_server/crypto"
+	//"github.com/lu4p/ToRat/torat_server/api"
 )
 
 var void int
 
 // Shell server side interactive shell menu
 func Shell() {
+	go APIServer()
+
 	fileCompleter := func([]string) []string {
 		files, err := filepath.Glob("*")
 		if err != nil {
