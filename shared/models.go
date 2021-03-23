@@ -14,6 +14,7 @@ var (
 	_ = reflect.TypeOf(Dir{})
 	_ = reflect.TypeOf(EncAsym{})
 	_ = reflect.TypeOf(Hardware{})
+	_ = reflect.TypeOf(OSInfo{})
 	_ = reflect.TypeOf(Speedtest{})
 	_ = reflect.TypeOf(Gomap{})
 )
@@ -59,6 +60,13 @@ type Hardware struct {
 	RAM       string
 	GPU       string
 	Drives    string
+}
+
+type OSInfo struct {
+	Runtime   string
+	OSArch    string
+	OSName    string
+	OSVersion string
 }
 
 type Speedtest struct {
