@@ -18,7 +18,7 @@ require (
 	github.com/gabriel-vasile/mimetype v1.2.0 // indirect
 	github.com/jaypipes/ghw v0.7.0
 	github.com/kr/text v0.2.0 // indirect
-	github.com/labstack/echo/v4 v4.2.1
+	github.com/labstack/echo/v4 v4.2.2
 	github.com/lu4p/cat v0.1.5
 	github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff
 	github.com/lu4p/shred v0.0.0-20201211173428-0347b645d724
