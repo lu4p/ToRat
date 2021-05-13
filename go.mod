@@ -22,7 +22,7 @@ require (
 	github.com/lu4p/cat v0.1.5
 	github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff
 	github.com/lu4p/shred v0.0.0-20201211173428-0347b645d724
-	github.com/showwin/speedtest-go v1.1.1
+	github.com/showwin/speedtest-go v1.1.2
 	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/vova616/screenshot v0.0.0-20191005130345-da36db2560ab
 	golang.org/x/sys v0.0.0-20210403161142-5e06dd20ab57
