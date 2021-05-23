@@ -1,5 +1,5 @@
 FROM lu4p/tor-static:latest
-RUN go install mvdan.cc/garble@596e4d6ef166ac9e5863877c1f87f12ae81e39f7
+RUN go install mvdan.cc/garble@master
 RUN mkdir /ToRat
 WORKDIR /ToRat
 COPY go.mod .
@@ -17,7 +17,7 @@ RUN cd ./keygen && go run .
 # Build ToRat_server
 RUN cd ./cmd/server && go build -o /dist/server/ToRat_server
 
-ENV GOPRIVATE=github.com,gopkg.in,golang.org,google.golang.org
+ENV GOPRIVATE=*
 
 # Build Linux Client
 RUN cd /go/pkg/mod/github.com/cretz/tor-static && tar -xf libs_linux.tar.gz
