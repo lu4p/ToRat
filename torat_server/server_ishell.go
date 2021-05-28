@@ -51,7 +51,7 @@ func Shell() {
 			Name: "broadcast",
 			Func: func(c *ishell.Context) {
 				if len(activeClients) == 0 {
-					fmt.Println(green("[Server] ") + red("[!] No clients to select!"))
+					fmt.Println(green("[Server] ") + red("[!] No clients connected!"))
 					return
 				}
 				fmt.Println("Clients that will accept your commands")
