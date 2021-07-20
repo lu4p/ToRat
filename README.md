@@ -20,35 +20,35 @@ USE FOR EDUCATIONAL PURPOSES ONLY
 
 ### Client Commands
 
-  Command     | Status      |   Info
-  ---         | ---         |   ---
-  **cd**          | Working     |   change the working directory of the client
-  **ls**          | Working     |   list the content of the working directory of the client
-  **shred**       | Working     |   delete files/ directories unrecoverable
-  **screen**      | Working     |   take a Screenshot of the client
-  **cat**         | Working     |   view Textfiles from the client including .docx, .rtf, .pdf, .odt
-  **alias**       | Working     |   give the client a custom alias
-  **down**        | Working     |   download a file from the client
-  **up**          | Working     |   upload a file to the client
-  **speedtest**   | Working     |   speedtest a client's internet connection
-  **hardware**    | Working     |   collects a variety of hardware specs from the client
-  **netscan**     | Working     |   scans a clients entire network for online devices and open ports
-  **gomap**       | Working     |   scan a local ip on a clients network for open ports and services
-  **escape**      | Working     |   escape a command and run it in a native shell on the client
-  **reconnect**   | Not Working |   tell the client to reconnect
-  **help**        | Working     |   lists possible commands with usage info
-  **exit**        | Working     |   background current session and return to main shell
+  Command         |    Info
+  ---             |    ---
+  **cd**          |    change the working directory of the client
+  **ls**          |    list the content of the working directory of the client
+  **shred**       |    delete files/ directories unrecoverable
+  **screen**      |    take a Screenshot of the client
+  **cat**         |    view Textfiles from the client including .docx, .rtf, .pdf, .odt
+  **alias**       |    give the client a custom alias
+  **down**        |    download a file from the client
+  **up**          |    upload a file to the client
+  **speedtest**   |    speedtest a client's internet connection
+  **hardware**    |    collects a variety of hardware specs from the client
+  **netscan**     |    scans a clients entire network for online devices and open ports
+  **gomap**       |    scan a local ip on a clients network for open ports and services
+  **escape**      |    escape a command and run it in a native shell on the client
+  **reconnect**   |    tell the client to reconnect
+  **help**        |    lists possible commands with usage info
+  **exit**        |    background current session and return to main shell
 
 ### Server Commands 
 
-  Command | Status      |   Info
-  ---     |  ---        |   ---
-  **select**  | Working     | select client to interact with
-  **list**    | Working     | list all connected clients
-  **alias**   | Working     | select client to give an alias
-  **cd**      | Working     | change the working directory of the server
-  **help**    | Working     | lists possible commands with usage info
-  **exit**    | Working     | exit the server
+  Command     |  Info
+  ---         |  ---
+  **select**  | select client to interact with
+  **list**    | list all connected clients
+  **alias**   | select client to give an alias
+  **cd**      | change the working directory of the server
+  **help**    | lists possible commands with usage info
+  **exit**    | exit the server
 
 
 
