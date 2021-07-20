@@ -5,10 +5,10 @@ package client
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/rpc"
-	"os"
 	"time"
 
 	"github.com/cretz/bine/process/embedded"
@@ -37,8 +37,9 @@ func connect(dialer *tor.Dialer) (net.Conn, error) {
 // in a loop that redials on disconnect
 func NetClient() {
 	initServer()
+	log.Println("[NetClient] Starting connection")
 
-	tmpDir, err := os.TempDir("", "")
+	tmpDir, err := ioutil.TempDir("", "")
 	if err != nil {
 		log.Println("[NetClient] [!] Could not create temp dir for Tor:", err)
 		return

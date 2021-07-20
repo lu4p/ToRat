@@ -76,12 +76,12 @@ func mainErr() error {
 		return err
 	}
 
-	if err := writePemKey("../torat_client/cert.pem", "CERTIFICATE", cert); err != nil {
+	if err := writePemKey("../../cert.pem", "CERTIFICATE", cert); err != nil {
 		return err
 	}
 
 	return writePemKey(
-		"priv_key.pem",
+		"../../priv_key.pem",
 		"RSA PRIVATE KEY",
 		x509.MarshalPKCS1PrivateKey(rsaKey),
 	)

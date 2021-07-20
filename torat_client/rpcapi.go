@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"reflect"
+	"time"
 
 	"github.com/JustinTimperio/gomap"
 	"github.com/JustinTimperio/osinfo"
@@ -153,7 +154,11 @@ func (a *API) Reconnect(v shared.Void, r *shared.Void) error {
 		return err
 	}
 
-	os.Exit(0)
+	go func() {
+		// delay to respond before the client is closed
+		time.Sleep(time.Second * 5)
+		os.Exit(0)
+	}()
 
 	return nil
 }
