@@ -26,12 +26,11 @@ require (
 	github.com/lu4p/shred v0.0.0-20201211173428-0347b645d724
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/showwin/speedtest-go v1.1.2
+	github.com/showwin/speedtest-go v1.1.3
 	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/vova616/screenshot v0.0.0-20191005130345-da36db2560ab
 	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a // indirect
 	golang.org/x/net v0.0.0-20210521195947-fe42d452be8f // indirect
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.0.0-20210521203332-0cec03c779c1
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
