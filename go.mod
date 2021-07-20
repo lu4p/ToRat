@@ -14,7 +14,7 @@ require (
 	github.com/cretz/bine v0.1.1-0.20200124154328-f9f678b84cca
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dimiro1/banner v1.1.0
-	github.com/fatih/color v1.11.0
+	github.com/fatih/color v1.12.0
 	github.com/flynn-archive/go-shlex v0.0.0-20150515145356-3f9db97f8568 // indirect
 	github.com/gabriel-vasile/mimetype v1.3.0 // indirect
 	github.com/go-ole/go-ole v1.2.5 // indirect
