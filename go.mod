@@ -20,7 +20,7 @@ require (
 	github.com/go-ole/go-ole v1.2.5 // indirect
 	github.com/jaypipes/ghw v0.8.0
 	github.com/kr/text v0.2.0 // indirect
-	github.com/labstack/echo/v4 v4.3.0
+	github.com/labstack/echo/v4 v4.4.0
 	github.com/lu4p/cat v0.1.5
 	github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff
 	github.com/lu4p/shred v0.0.0-20201211173428-0347b645d724
