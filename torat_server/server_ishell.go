@@ -127,8 +127,8 @@ func runCommand(c *ishell.Context) {
 	c.Println(string(out))
 }
 
-// Get hostname of client
-func (ac *activeClient) GetHostname() error {
+// getHostname of a client
+func (ac *activeClient) getHostname() error {
 	var encHostname shared.EncAsym
 
 	if err := ac.RPC.Call("API.Hostname", void, &encHostname); err != nil {

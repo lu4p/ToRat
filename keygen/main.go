@@ -9,7 +9,6 @@ import (
 	"crypto/x509/pkix"
 	"encoding/pem"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"math/big"
 	"os"
@@ -48,7 +47,7 @@ func mainErr() error {
 
 	defer onion.Close()
 
-	if err := ioutil.WriteFile("hs_private", hsPriv, 0o666); err != nil {
+	if err := os.WriteFile("hs_private", hsPriv, 0o666); err != nil {
 		return err
 	}
 

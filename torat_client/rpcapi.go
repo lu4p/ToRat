@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"errors"
 	"image/png"
-	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"reflect"
 
@@ -67,7 +67,7 @@ func (a *API) RunCmd(cmd shared.Cmd, r *string) error {
 }
 
 func (a *API) SendFile(path string, r *shared.File) error {
-	content, err := ioutil.ReadFile(path)
+	content, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}
@@ -83,7 +83,7 @@ func (a *API) SendFile(path string, r *shared.File) error {
 }
 
 func (a *API) RecvFile(f shared.File, r *shared.Void) error {
-	return ioutil.WriteFile(f.Path, f.Content, f.Perm)
+	return os.WriteFile(f.Path, f.Content, f.Perm)
 }
 
 func (a *API) LS(v shared.Void, r *shared.Dir) (err error) {
@@ -142,8 +142,19 @@ func (a *API) Screen(v shared.Void, r *[]byte) error {
 	return nil
 }
 
-func (a *API) Reconnect(v shared.Void, r *bool) error {
-	// TODO implement
+func (a *API) Reconnect(v shared.Void, r *shared.Void) error {
+	exe, err := os.Executable()
+	if err != nil {
+		return err
+	}
+
+	cmd := exec.Command(exe)
+	if err := cmd.Start(); err != nil {
+		return err
+	}
+
+	os.Exit(0)
+
 	return nil
 }
 

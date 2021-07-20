@@ -10,7 +10,7 @@ import (
 func main() {
 	go func() {
 		if err := server.Start(); err != nil {
-			log.Println(err)
+			log.Fatal("Error starting server:", err)
 		}
 	}()
 

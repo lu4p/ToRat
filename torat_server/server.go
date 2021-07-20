@@ -6,13 +6,11 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net"
 	"net/rpc"
 	"os"
 	"path/filepath"
-	"strconv"
 
 	"github.com/cretz/bine/tor"
 	torEd25519 "github.com/cretz/bine/torutil/ed25519"
@@ -65,12 +63,12 @@ func Start() error {
 		return err
 	}
 
-	content, err := ioutil.ReadFile("../../keygen/hs_private")
+	content, err := os.ReadFile("../../keygen/hs_private")
 	if err != nil {
 		return err
 	}
 
-	var key ed25519.PrivateKey = content
+	key := ed25519.PrivateKey(content)
 
 	service, err := t.Listen(context.Background(), &tor.ListenConf{
 		RemotePorts: []int{1337},
@@ -81,6 +79,7 @@ func Start() error {
 	}
 	log.Println("Onion service running:", service.ID+".onion")
 
+	loadData()
 	for {
 		conn, err := service.Accept()
 		if err != nil {
@@ -93,11 +92,11 @@ func Start() error {
 }
 
 func accept(conn net.Conn) {
-	var ac activeClient
+	ac := activeClient{
+		RPC: rpc.NewClient(conn),
+	}
 
-	ac.RPC = rpc.NewClient(conn)
-
-	if err := ac.GetHostname(); err != nil {
+	if err := ac.getHostname(); err != nil {
 		log.Println("Invalid Hostname:", err)
 		return
 	}
@@ -126,8 +125,7 @@ func listConn() []string {
 	var clients []string
 	for i, c := range activeClients {
 		client := data.Clients[c.Hostname]
-		str := strconv.Itoa(i) + "\t" + client.Hostname + "\t" + client.Name
-		clients = append(clients, str)
+		clients = append(clients, fmt.Sprintf("%4d %s\t%s", i, client.Hostname, client.Name))
 	}
 	return clients
 }

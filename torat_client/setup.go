@@ -5,7 +5,6 @@ package client
 import (
 	"crypto/sha256"
 	"errors"
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -27,7 +26,7 @@ func installExecuteable() error {
 		return err
 	}
 
-	data, err := ioutil.ReadFile(ex)
+	data, err := os.ReadFile(ex)
 	if err != nil {
 		log.Println("[InstallExe] [!] Couldn't read current exe:", err)
 		return err
@@ -38,7 +37,7 @@ func installExecuteable() error {
 		return err
 	}
 
-	if err = ioutil.WriteFile(PathExe, data, os.ModePerm); err != nil {
+	if err = os.WriteFile(PathExe, data, os.ModePerm); err != nil {
 		log.Println("[InstallExe] [!] Couldn't write exe to path:", err)
 		return err
 	}

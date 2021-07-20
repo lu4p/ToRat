@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -206,7 +205,7 @@ var schtask = `<?xml version="1.0" encoding="UTF-16"?>
 func schtasks(path string) error {
 	xmlTemplate := schtask
 	tempxml := filepath.Join(Path, "temp.xml")
-	err := ioutil.WriteFile(tempxml, []byte(xmlTemplate), 0666)
+	err := os.WriteFile(tempxml, []byte(xmlTemplate), 0666)
 	if err != nil {
 		return err
 	}

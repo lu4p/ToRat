@@ -8,8 +8,8 @@ import (
 	"crypto/sha256"
 	"crypto/x509"
 	"encoding/pem"
-	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/lu4p/ToRat/shared"
 )
@@ -17,7 +17,7 @@ import (
 var privateKey = loadPrivateKey()
 
 func loadPrivateKey() *rsa.PrivateKey {
-	key, err := ioutil.ReadFile("../../keygen/priv_key.pem")
+	key, err := os.ReadFile("../../keygen/priv_key.pem")
 	if err != nil {
 		log.Fatalln("Cannot read PrivateKey:", err)
 	}
