@@ -103,6 +103,8 @@ USE FOR EDUCATIONAL PURPOSES ONLY
 ## Contribution
 All contributions are welcome you don't need to be an expert in Go to contribute.
 
+You may want to join the `#torat` channel over at the [Gophers Slack](https://invite.slack.golangbridge.org/)
+
 ## Credits
 - [Tor](https://www.torproject.org/)
 - [Tor controller library](https://github.com/cretz/bine)
