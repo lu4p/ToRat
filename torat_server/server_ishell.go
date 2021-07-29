@@ -46,7 +46,22 @@ func Shell() {
 			},
 			Help: "interact with a client",
 		},
+		{
+			// Select client
+			Name: "broadcast",
+			Func: func(c *ishell.Context) {
+				if len(activeClients) == 0 {
+					fmt.Println(green("[Server] ") + red("[!] No clients connected!"))
+					return
+				}
+				fmt.Println("Clients that will accept your commands")
+				fmt.Println(green(listConn()))
 
+				broadcast := broadcast{cwd}
+				broadcast.BroadcastShell()
+			},
+			Help: "go to the broadcast shell",
+		},
 		{
 			// List clients
 			Name: "list",

@@ -22,6 +22,10 @@ type Client struct {
 	Drives   string
 }
 
+type broadcast struct {
+	cwd string
+}
+
 type activeClient struct {
 	Hostname string
 	Wd       shared.Dir
