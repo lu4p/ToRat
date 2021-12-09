@@ -1,5 +1,5 @@
 FROM lu4p/tor-static:latest
-RUN go install mvdan.cc/garble@master
+RUN go install mvdan.cc/garble@v0.3.0
 RUN mkdir /ToRat
 WORKDIR /ToRat
 COPY go.mod .
