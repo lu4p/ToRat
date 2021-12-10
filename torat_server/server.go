@@ -11,6 +11,7 @@ import (
 	"net/rpc"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/cretz/bine/tor"
 	torEd25519 "github.com/cretz/bine/torutil/ed25519"
@@ -80,6 +81,23 @@ func Start() error {
 	log.Println("Onion service running:", service.ID+".onion")
 
 	loadData()
+
+	// Spawn timer to clean dead connections every 5 mins
+	timer := time.NewTicker(5 * time.Minute)
+	go func() {
+		for {
+			select {
+			case <-timer.C:
+				for i, _ := range activeClients {
+					ac := getClient(i)
+					if err := ac.getHostname(); err != nil {
+						activeClients = append(activeClients[:i], activeClients[i+1:]...)
+					}
+				}
+			}
+		}
+	}()
+
 	for {
 		conn, err := service.Accept()
 		if err != nil {
@@ -116,6 +134,13 @@ func accept(conn net.Conn) {
 	}
 
 	saveData()
+
+	// Remove previous dead entry if it exists
+	for i, c := range activeClients {
+		if c.Hostname == ac.Hostname {
+			activeClients = append(activeClients[:i], activeClients[i+1:]...)
+		}
+	}
 
 	activeClients = append(activeClients, ac)
 	fmt.Println(green("[Server] [+] New Client: "), blue(ac.Data().Name))
