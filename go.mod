@@ -15,7 +15,7 @@ require (
 	github.com/cretz/bine v0.2.0
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dimiro1/banner v1.1.0
-	github.com/fatih/color v1.12.0
+	github.com/fatih/color v1.13.0
 	github.com/flynn-archive/go-shlex v0.0.0-20150515145356-3f9db97f8568 // indirect
 	github.com/gabriel-vasile/mimetype v1.3.1 // indirect
 	github.com/go-ole/go-ole v1.2.5 // indirect
@@ -25,7 +25,6 @@ require (
 	github.com/lu4p/cat v0.1.5
 	github.com/lu4p/go-escalate v0.0.0-20200507153608-2d90c2953bff
 	github.com/lu4p/shred v0.0.0-20201211173428-0347b645d724
-	github.com/mattn/go-isatty v0.0.13 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/showwin/speedtest-go v1.1.3
