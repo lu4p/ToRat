@@ -28,7 +28,7 @@ require (
 	github.com/mattn/go-isatty v0.0.13 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/showwin/speedtest-go v1.1.3
+	github.com/showwin/speedtest-go v1.2.0
 	github.com/vova616/screenshot v0.0.0-20191005130345-da36db2560ab
 	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
 	golang.org/x/net v0.0.0-20210716203947-853a461950ff // indirect
